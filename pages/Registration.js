@@ -25,7 +25,7 @@ const Registrations = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');  
 
     const handleSubmit = async (e) => {
         e.preventDefault();
