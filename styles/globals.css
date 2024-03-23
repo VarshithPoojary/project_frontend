@@ -475,23 +475,20 @@ body {
 	/* background-image: url('/images/PROJECT.jpg'); */
 	background-size: cover;
 	background-position: center;
+	overflow: hidden;
 	background-repeat: no-repeat; 
 	z-index: -1;
 }
 
 .login-form {
-    margin-top: 1px;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-	padding-top: 0.1px;
-    height: 800px;
-    background: #ecf0f3;
-    background-image: url('/images/PROJECT.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -5;
+    height: 100%;
+    background: #ecf0f3 url('/images/login.jpg') center/cover no-repeat;
+    z-index: -5; 
 }
-
 .fa-eye {
 	margin-right: 20px;
 	size: 50px;
@@ -501,12 +498,12 @@ body {
 .wrapper {
     max-width: 400px;
     min-height: 500px;
-    margin: 80px auto;
+    margin: 50px auto;
     padding: 40px 30px 50px 30px;
     background-color:rgba(208, 211, 212, 0.0);
     border-radius: 15px;
     /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff; */
-	margin-left: 800px;
+	margin-left: 1015px;
 }
 
 
@@ -548,6 +545,7 @@ body {
 
 .wrapper .form-field input {
     width: 100%;
+	
    
     border: none;
     outline: none;
@@ -557,7 +555,7 @@ body {
 }
 
 .wrapper .form-field {
-    padding-left: 10px;
+    padding-left: 30px;
     margin-bottom: 35px;
     border-radius: 20px;
     box-shadow: inset 4px 3px 3px #129ead, inset -4px -3px 3px #94ffff;
@@ -649,7 +647,7 @@ body {
 
 .registration-form {
     max-width: 600px;
-	height: 650px;
+	height: 700px;
     margin: 30px auto 0;
 	margin-top: 2px;
 	margin-left: 30px;
@@ -658,6 +656,7 @@ body {
     border-radius: 5px;
     background-color:rgba(255,255,255,0.5);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	overflow-y: auto; /*undhu onji tojare mlthini avu already a member */
 }
 
 
@@ -667,7 +666,7 @@ body {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
@@ -684,6 +683,11 @@ select {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+input[type='file'] {
+    margin-top: 10px;
+	margin-left: 4px;
+	text-align: center;
 }
 
 button {
@@ -706,3 +710,9 @@ button:hover {
     font-size: 14px;
     margin-top: 10px;
 }
+
+
+
+
+  
+  

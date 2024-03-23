@@ -11,8 +11,10 @@ const Registrations = () => {
     const [email, setEmail] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [values,setValues]=useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [userType, setUserType] = useState('Select type');
+    const [profileImage, setProfileImage] = useState(null); 
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
@@ -27,6 +29,9 @@ const Registrations = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');  
 
+    const onFileChange = (e) => {
+        setProfileImage(e.target.files[0]);
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -81,30 +86,30 @@ const Registrations = () => {
             
         }
         try {
-            const admin_data =  {
-                admin_name: firstName,
-                //admin_last_name: lastName,
-                // demoimg:'',
-                admin_password: password,
-                admin_mobile_no: mobileNumber,
-                admin_email: email,
-                admin_username: username,
-                admin_type: userType,
-            };
+            const formData = new FormData();
+            formData.append('admin_firstname', firstName);
+            formData.append('admin_lastname', lastName);
+            formData.append('demoimg', profileImage);
+            formData.append('admin_password', password);
+            formData.append('admin_mobile_no', mobileNumber);
+            formData.append('admin_email', email);
+            formData.append('admin_username', username);
+            formData.append('admin_type', userType);
             
-             Registration(admin_data).then(response => {
+
+            
+            Registration(formData).then(response => {
                 if (response.error) {
-                            setValues({ ...values });
-                        } else {
-                            setTimeout(() => {
-                                Router.push(`/login`);
-                                console.log('Response from backend:', response.data);
-                            }, 1000);
-            
-                        }
-                    });
-            setIsSuccess(true);
-            setSuccessMessage('Saved successfully!');
+                    setValues({ ...values });
+                } else {
+                    setIsSuccess(true);
+                    setSuccessMessage('Saved successfully!');
+                    setTimeout(() => {
+                        Router.push(`/login`);
+                        console.log('Response from backend:', response.data);
+                    }, 1000);
+                }
+            });
         } catch (error) {
             console.error('Error:', error);
             setErrorMessage('Error saving data. Please try again.');
@@ -112,21 +117,6 @@ const Registrations = () => {
 
         
 
-            // var admin_data={firstName,lastName,password,mobileNumber,email,username,userType}
-            // Registration(admin_data).then(data => {
-            //     if (data.error) {
-            //         setValues({ ...values });
-            //     } else {
-            //         setTimeout(() => {
-            //             setValues({ ...values, loading: true })
-            //         });
-            //         setTimeout(() => {
-            //             setValues({ ...values, loading: false })
-            //             Router.push(`/login`);
-            //         }, 1000);
-    
-            //     }
-            // });
             
             
     
@@ -142,6 +132,7 @@ const Registrations = () => {
             mobileNumber,
             password,
             confirmPassword,
+            profileImage,
             userType,
         });
 
@@ -152,12 +143,16 @@ const Registrations = () => {
         setMobileNumber('');
         setPassword('');
         setConfirmPassword('');
+        setProfileImage(null);
         setUserType('Select type');
         setIsSuccess(false);
 
         setIsLoading(false);
     };
-
+    const togglePasswordVisibility = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
+    
     return (
         <div className="registration-container">
             <div className="registration-form">
@@ -229,12 +224,20 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="password">Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
-                                    type="password"
+                                    type={values.showPassword ? 'text' : 'password'}
                                     id="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
+
                                 {errors.password && <div className="error-message">{errors.password}</div>}
+                                <span
+                                    className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                    onClick={togglePasswordVisibility}
+                                    style={{ cursor: 'pointer' }}
+                                ></span>
+
+
                             </div>
                         </div>
                     </div>
@@ -243,15 +246,26 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="confirmPassword">Confirm Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
-                                    type="password"
+                                    type={values.showPassword ? 'text' : 'password'}
                                     id="confirmPassword"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    />
+                                />
+
                                     {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
+                                    <span
+                                    className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                    onClick={togglePasswordVisibility}
+                                    style={{ cursor: 'pointer' }}
+                                ></span>
                                 </div>
+                                <div className="form-group">
+                        <label htmlFor="image">Profile Image<span style={{ color: 'red' }}>*</span>:</label>
+                        <input type="file" onChange={onFileChange} class="form-control"  required  />
+                    </div>
+                    <div className="form-group">
                                 <div className="col">
-                                    <label htmlFor="userType">User Type:</label>
+                                <label htmlFor="userType">User Type<span style={{ color: 'red' }}>*</span>:</label>
                                     <select
                                         id="userType"
                                         value={userType}
@@ -264,6 +278,7 @@ const Registrations = () => {
                                     </select>
                                 </div>
                             </div>
+                        </div>
                         </div>
                         <div className="form-group">
                             <div className="row justify-content-center">

@@ -88,7 +88,9 @@ const AdminSignin = () => {
                         ></span>
                     </div>
                     <div className="text-center fs-6 mt-2">
-                        <a href="#">Forget password?</a>
+                    <Link href="/Forgotpassword">
+                        <a>Forgot Password</a>
+                    </Link>
                     </div>
                     <button type="submit" className="btn mt-3">
                         Login
