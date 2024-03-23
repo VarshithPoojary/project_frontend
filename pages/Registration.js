@@ -237,13 +237,14 @@ const Registrations = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-
-                                {errors.password && <div className="error-message">{errors.password}</div>}
                                 <span
                                     className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
                                     onClick={togglePasswordVisibility}
                                     style={{ cursor: 'pointer' }}
                                 ></span>
+
+                                {errors.password && <div className="error-message">{errors.password}</div>}
+                                
 
 
                             </div>
@@ -257,23 +258,23 @@ const Registrations = () => {
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
-
-                                    {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
-                                    <span
+                                  <span
                                     className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
                                     onClick={togglePasswordVisibility}
                                     style={{ cursor: 'pointer' }}
                                 ></span>
+
+                                    {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
+                                  
                                 </div>
                         </div>
                     </div>
                     <div className="form-group">
                         <div className="row">
-                           
-                                <div className="form-group">
-                        <label htmlFor="image">Profile Image<span style={{ color: 'red' }}>*</span>:</label>
-                        <input type="file" onChange={onFileChange}  className='registration-input'  required  />
-                    </div>
+                            <div className="col">
+                                <label htmlFor="image">Profile Image<span style={{ color: 'red' }}>*</span>:</label>
+                                <input type="file" onChange={onFileChange}  className='registration-input'  required  />
+                            </div>
                     
                                 <div className="col">
                                 <label htmlFor="userType">User Type<span style={{ color: 'red' }}>*</span>:</label>
