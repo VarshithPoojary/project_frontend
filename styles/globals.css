@@ -174,11 +174,6 @@ TH {
 		min-width: 120px !important;
 		margin: 20px;
 	}
-
-	.side-bar__segment>label>input[type='number'],
-	.side-bar__segment>label>input[type='text'] {
-		width: 180px !important;
-	}
 }
 
 @media only screen and (max-width: 470px) {
@@ -320,7 +315,7 @@ TH {
 	border-radius: 50%;
 	font-weight: bold;
 	font-size: 22px;
-	top: 55px;
+	top: 50px;
 	cursor: pointer;
 }
 
@@ -480,62 +475,57 @@ body {
 }
 
 .login-form {
-    margin-top: 1px;
-    width: 100%;
-	padding-top: 0.1px;
-    height: 800px;
-    background: #ecf0f3;
-    background-image: url('/images/PROJECT.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -5;
+    position: static; 
+    top: 0;
+    left: 0;
+    width: 100vw; 
+    height: 100vh; 
+    margin-top: 0px;
+    background: #46baf5 url('/images/login_page.jpg') center/cover no-repeat;
 }
 
+
+
+
 .fa-eye {
-	margin-right: 20px;
+	margin-right: 10px;
 	size: 50px;
 }
 
 
-.wrapper {
-    max-width: 400px;
-    min-height: 500px;
-    margin: 80px auto;
-    padding: 40px 30px 50px 30px;
-    background-color:rgba(208, 211, 212, 0.0);
-    border-radius: 15px;
-    /* box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #fff; */
-	margin-left: 800px;
+.login_wrapper {
+    max-width: 300px;
+    height: 500px;
+    margin-top: 0px; 
+    margin-left: 780px; 
+    padding: 5px 5px 5px 10px;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 1px;
+    
 }
 
-
-
-
 .logo {
-    width: 80px;
+    width: 20px;
+	/* align-content: center; */
     margin: auto;
-	margin-top: 10px;
+	margin-top: 2px;
 }
 
 .logo img {
-    width: 100%;
-    height: 80px;
+    width: 30%;
+    height: 30px;
     object-fit: cover;
     border-radius: 50%;
-    box-shadow: 0px 0px 3px #5f5f5f,
-        0px 0px 0px 5px #ecf0f3,
-        8px 8px 15px #a7aaa7,
-        -8px -8px 15px #fff;
+	filter: drop-shadow(5px 5px 5px #000000);
 }
 
-.wrapper .name {
-	margin-top: 10px;
-	margin-bottom: 10px;
+.login_wrapper .name {
+	/* margin-top: 0.1px; */
+	/* margin-bottom: 10px; */
     font-weight: bold;
-    font-size: 2.5rem; 
-    letter-spacing: 1.3px;
-    padding-left: 10px;
+    font-size: 2rem; 
+    letter-spacing: 1.7px;
+   align-content: center;
     color: #027b89;
     font-family: "popins";
 }
@@ -546,31 +536,40 @@ body {
 }
 
 
-.wrapper .form-field input {
+
+.login_wrapper .form-field input {
     width: 100%;
-   
+   height: 40px;
     border: none;
     outline: none;
     background: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
     padding: 10px 15px 10px 10px;
 }
 
-.wrapper .form-field {
-    padding-left: 10px;
-    margin-bottom: 35px;
-    border-radius: 20px;
-    box-shadow: inset 4px 3px 3px #129ead, inset -4px -3px 3px #94ffff;
+.login_wrapper .form-field {
+    /* padding-left: 10px;
+    margin-top: 5px;
+    border-radius: 50px;
+    box-shadow: inset 4px 3px 3px #129ead, inset -4px -3px 3px #94ffff; */
+	width: 100%;
+	height: 45px;
+    padding: 10px;
+	background-color: rgb(242, 248, 255);
+	box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff;
+    border: 1px solid #1bcbe3;
+    border-radius: 5px;
+	margin-top: 1px;
 }
 
-.wrapper .form-field .fas {
+.login_wrapper .form-field .fas {
     color: #555;
 }
 
-.wrapper .btn {
+.login_wrapper .btn {
     box-shadow: none;
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1rem;
     background-color: #027b89;
     color: #fff;
     border-radius: 25px;
@@ -579,20 +578,20 @@ body {
     letter-spacing: 1.3px;
 }
 
-.wrapper .btn:hover {
+.login_wrapper .btn:hover {
     background-color: #53d5ec;
 }
 
-.wrapper a {
+.login_wrapper a {
     text-decoration: none;
     font-size: 1rem;
     color: #424242;
 }
 
-.wrapper a:hover {
+.login_wrapper a:hover {
     color: #ffffff;
 }
-.background-image {
+/* .background-image {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -603,12 +602,12 @@ body {
 	background-position: center;
 	background-repeat: no-repeat; 
 	z-index: -1;
-  }
+  } */
 
 @media(max-width: 380px) {
-    .wrapper {
-        margin: 30px 20px;
-        padding: 40px 15px 15px 15px;
+    .login_wrapper {
+        margin: 10px 10px;
+        padding: 10px 15px 15px 15px;
     }
 }
 
@@ -616,23 +615,24 @@ body {
 
 .registration-container {
     width: 100%;
-    height: 730px;
+    height: 100%;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-image: url('/images/pic3.jpg');
+    background-image: url('/images/registration_page.jpg');
     background-color: #66b1e0;
     background-size: cover; 
     background-repeat: no-repeat; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.0);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .logo {
     width: 80px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .logo img {
@@ -652,18 +652,24 @@ body {
 	height: 650px;
     margin: 30px auto 0;
 	margin-top: 2px;
-	margin-left: 30px;
+	margin-left: 190px;
     padding: 20px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 5px;
-    background-color:rgba(255,255,255,0.5);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color:rgba(255,255,255,0.0);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.0); */
 }
 
 
 .registration-form h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+	font-weight: bold;
+    font-size: 2rem; 
+    letter-spacing: 1.3px;
+    color: #027b89;
+    font-family: "popins";
+
 }
 
 .form-group {
@@ -673,7 +679,7 @@ body {
 label {
     display: block;
     font-weight: bold;
-    color: #000;
+    color: #352c2c;
 }
 
 input[type="text"],
@@ -682,27 +688,113 @@ input[type="password"],
 select {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+	/* box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff; */
+    /* border: 1px solid #1bcbe3; */
     border-radius: 5px;
 }
+
+.registration-input{
+	width: 100%;
+    padding: 10px;
+	box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff;
+    border: 1px solid #1bcbe3;
+    border-radius: 5px;
+}
+
 
 button {
     width: 50%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #006779;
     color: #fff;
     border: none;
     border-radius: 10px;
     cursor: pointer;
+	font-size: 2rem;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #41a0bd;
 }
 
 .error-message {
     color: red;
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 1px;
 }
+
+
+
+#header {
+    position: absolute;
+    width: 220px;
+  }
+  #header .pro-sidebar {
+    height: 100vh;
+  }
+  #header .closemenu {
+    color: #000;
+    position: absolute;
+    right: 0;
+    z-index: 9999;
+    line-height: 20px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 22px;
+    top: 55px;
+    cursor: pointer;
+  }
+  #header .pro-sidebar {
+    width: 100%;
+    min-width: 100%;
+  }
+  #header .pro-sidebar.collapsed {
+    width: 80px;
+    min-width: 80px;
+  }
+  #header .pro-sidebar-inner {
+    background-color: #5fdcea;
+    box-shadow: 2px 2px 2px 5px rgba(24, 172, 226, 0.15);
+  }
+  #header .pro-sidebar-inner .pro-sidebar-layout {
+    overflow-y: hidden;
+  }
+  #header .pro-sidebar-inner .pro-sidebar-layout .logotext p {
+    font-size: 20px;
+    padding: 0 20px;
+    color: #000;
+    font-weight: bold;
+  }
+  #header .pro-sidebar-inner .pro-sidebar-layout ul {
+    padding: 0 5px;
+  }
+  #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
+    color: #000;
+    margin: 10px 0px;
+    font-weight: bold;
+  }
+  #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
+    background-color: #befafd;
+    color: #000;
+    border-radius: 3px;
+  }
+  #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper .pro-item-content {
+    color: #000;
+  }
+  #header .pro-sidebar-inner .pro-sidebar-layout .active {
+    background-image: linear-gradient(0deg, #29d7ee 0%, #1fc2eb 100%);
+  }
+  #header .logo {
+    padding: 20px;
+  }
+  
+  @media only screen and (max-width: 720px) {
+    html {
+      overflow: hidden;
+    }
+  }
+
+  .menu{
+	background-color: #09d3ac;
+  }

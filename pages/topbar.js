@@ -93,7 +93,7 @@ const Topbar = () => {
         <div className="navbar-custom" >
           <ul className="list-unstyled topnav-menu float-right mb-0">
             
-            <li className="dropdown notification-list">
+            {/* <li className="dropdown notification-list">
             <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                 <span className="ml-1" style={{color:"black"}} ><i class="fa fa-envelope"></i></span>
               </a>
@@ -107,7 +107,7 @@ const Topbar = () => {
             <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                 <span className="ml-1" style={{color:"black"}} ><i class="fe-settings"></i></span>
               </a>
-            </li>
+            </li> */}
             <li className="dropdown notification-list">
               <a href='/admin-profile' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                 <span className="ml-1" style={{color:"black"}} >
@@ -125,21 +125,21 @@ const Topbar = () => {
             </li> */}
           </ul>
 
-          <div className="logo-box" style={{ backgroundColor: '#1891e0' }} >
+          {/* <div className="logo-box" style={{ backgroundColor: '#1891e0' }} >
             <a href="#" className="logo1 text-center">
               <span className="logo-lg" style={{marginLeft:'30px'}}>
-                {/* <Image src="/icons/app_logo.jpeg" width="181" height="50" alt=""/>
-                <!-- <span className="logo-lg-text-light">UBold</span> --> */}
-                {/* <img src="/images/logo.png" alt="" style={{marginTop:'15px'}} height="48"/> */}
-                <h1><label style={{color:"white",fontSize:"25px"}}>EMPLOYEE</label></h1>
+                <Image src="/icons/app_logo.jpeg" width="181" height="50" alt=""/>
+                <!-- <span className="logo-lg-text-light">UBold</span> --> 
+                <img src="/images/logo.png" alt="" style={{marginTop:'15px'}} height="48"/>
+                <h1><label style={{color:"white",fontSize:"25px"}}>Admin</label></h1>
               </span>
               <span className="logo-sm">
-                {/* <!-- <span className="logo-sm-text-dark">U</span> --> */}
-                {/* <img src="images/logo.png" alt="" height="28"/> */}
-                {/* <Image src="/icons/app_logo.jpeg" width="28" height="28" alt="" />                            <!-- <span className="logo-lg-text-light">UBold</span> --> */}
+                <!-- <span className="logo-sm-text-dark">U</span> -->
+                <img src="images/logo.png" alt="" height="28"/>
+                <Image src="/icons/app_logo.jpeg" width="28" height="28" alt="" />                            <!-- <span className="logo-lg-text-light">UBold</span> -->
               </span>
             </a>
-          </div>
+          </div> */}
 
           <ul className="list-unstyled topnav-menu topnav-menu-left m-0">
             <li>

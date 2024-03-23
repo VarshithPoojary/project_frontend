@@ -171,6 +171,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="firstName">First Name<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="firstName"
                                     value={firstName}
@@ -181,6 +182,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="lastName">Last Name<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="lastName"
                                     value={lastName}
@@ -195,6 +197,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="username">Username<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="username"
                                     value={username}
@@ -205,6 +208,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="email">Email<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="email"
                                     id="email"
                                     value={email}
@@ -219,6 +223,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="mobileNumber">Mobile Number<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="mobileNumber"
                                     value={mobileNumber}
@@ -229,6 +234,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="password">Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="password"
                                     id="password"
                                     value={password}
@@ -243,6 +249,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="confirmPassword">Confirm Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="password"
                                     id="confirmPassword"
                                     value={confirmPassword}
@@ -253,6 +260,7 @@ const Registrations = () => {
                                 <div className="col">
                                     <label htmlFor="userType">User Type:</label>
                                     <select
+                                    className='registration-input'
                                         id="userType"
                                         value={userType}
                                         onChange={(e) => setUserType(e.target.value)}
@@ -277,7 +285,7 @@ const Registrations = () => {
                             </div>
                         </div>
                     </form>
-                    <div className="text-center mt-3">
+                    <div className="text-center mt-3 login-link">
                         Already a member?{' '}
                         <Link href="/login">
                             <a>Login</a>

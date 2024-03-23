@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Sidebar from './sidebar';
 import Head  from 'next/head';
 import Content from './content';
+import Header from './Header';
 
 
 
@@ -16,7 +17,7 @@ const Signup = () => {
 <meta name="title" content='Dashboard' />
             </Head>
         <Topbar/>
-        <Sidebar/>
+        <Header/>
         <Content/>
         </div> 
     );
