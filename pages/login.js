@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { Adminsignin } from '../actions/loginAction';
 
+
 const AdminSignin = () => {
     const [values, setValues] = useState({
         username: '',
@@ -30,6 +31,9 @@ const AdminSignin = () => {
                 setValues({ ...values, error: 'Incorrect username or password', loading: false });
             } else {
                 localStorage.setItem('id', response.userId);
+               // console.log('id:', response.userId);
+                // console.log('Username:', username);
+                // console.log('Password:', password);
                 setValues({ ...values, username: '', password: '', loading: false });
                 Router.push('/Adminprofileui'); 
             }
@@ -53,13 +57,15 @@ const AdminSignin = () => {
                 <title>Login</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
+           
 
             <div className="login_wrapper">
-                <div className="logo">
+                {/* <div className="logo">
                     <img src="/icons/img1.png" alt="" />
-                </div>
+                </div> */}
               
                 <div className="text-center mt-4 name">Login</div>
+                
                 <form onSubmit={handleSubmit} className="p-3 mt-3">
                     
                     <div className="form-field d-flex align-items-center">

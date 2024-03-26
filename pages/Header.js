@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Link from 'next/link'
+import { Scrollbars } from 'react-custom-scrollbars';
+import Link from 'next/link';
 import {
   ProSidebar,
   Menu,
@@ -9,14 +10,13 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
-import { FaList, FaRegHeart } from "react-icons/fa";
-import { FiHome, FiLogOut, FiArrowLeftCircle, FiUser, FiArrowRightCircle, FiMapPin} from "react-icons/fi";
+import { FiHome, FiLogOut, FiMenu, FiUser, FiMapPin, FiSettings } from "react-icons/fi";
 import { RiPencilLine } from "react-icons/ri";
-import { BiCog } from "react-icons/bi";
+import { BiCog, BiUser, BiBook, BiCalendar, BiMap, BiListCheck, BiClinic, BiUserPlus, BiBriefcase, BiCalendarPlus } from "react-icons/bi";
 import "react-pro-sidebar/dist/css/styles.css";
 
 const Header = () => {
-  const [menuCollapse, setMenuCollapse] = useState(false)
+  const [menuCollapse, setMenuCollapse] = useState(true);
 
   const menuIconClick = () => {
     setMenuCollapse(!menuCollapse);
@@ -28,34 +28,36 @@ const Header = () => {
         <ProSidebar collapsed={menuCollapse}>
           <SidebarHeader>
             <div className="logotext">
-              <p>{menuCollapse ? "Admin" : "Admin Name"}</p>
+              <p>{menuCollapse ? "" : ""}</p>
             </div>
             <div className="closemenu" onClick={menuIconClick}>
-              {menuCollapse ? (
-                <FiArrowRightCircle/>
-              ) : (
-                <FiArrowLeftCircle/>
-              )}
+              <FiMenu />
             </div>
           </SidebarHeader>
           <SidebarContent>
-            <Menu iconShape="square">
-              <MenuItem icon={<FiHome />}>
-                <Link href='/dashboard'><span>Dashboard</span></Link>
-              </MenuItem>
-              <MenuItem icon={<FiUser />}>Profile</MenuItem>
-              <SubMenu   title="Locations" icon={<FiMapPin />}>
-                <MenuItem>Country</MenuItem>
-                <MenuItem>State</MenuItem>
-                <MenuItem>City</MenuItem>
-              </SubMenu>
-              <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
-              <MenuItem icon={<BiCog />}>Settings</MenuItem>
-            </Menu>
+            <Scrollbars style={{ width: '100%', height: '100%' }}>
+              <Menu iconShape="square">
+                <MenuItem icon={<FiHome />} title="Dashboard">
+                  <Link href='/dashboard'><span>Dashboard</span></Link>
+                </MenuItem>
+                <MenuItem icon={<BiUser />} title="Admin">Admin</MenuItem>
+                <MenuItem icon={<BiClinic />} title="Doctor">Doctor</MenuItem>
+                <MenuItem icon={<BiUserPlus />} title="Patient">Patient</MenuItem>
+                <MenuItem icon={<BiBriefcase />} title="Department">Department</MenuItem>
+                <MenuItem icon={<BiCalendarPlus />} title="Appointment">Appointment</MenuItem>
+                <SubMenu title="Locations" icon={<FiMapPin />} >
+                  <MenuItem title="Country" icon={<BiMap />}>Country</MenuItem>
+                  <MenuItem title="State" icon={<BiMap />}>State</MenuItem>
+                  <MenuItem title="City" icon={<BiMap />}>City</MenuItem>
+                </SubMenu>
+              </Menu>
+            </Scrollbars>
           </SidebarContent>
           <SidebarFooter>
             <Menu iconShape="square">
-              <MenuItem icon={<FiLogOut />}><Link href='/login'><span>Logout</span></Link></MenuItem>
+              <MenuItem icon={<FiLogOut />} title="Logout">
+                <Link href='/login'><span>Logout</span></Link>
+              </MenuItem>
             </Menu>
           </SidebarFooter>
         </ProSidebar>

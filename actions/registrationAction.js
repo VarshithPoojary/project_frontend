@@ -19,3 +19,19 @@ export const Registration = formData => {
             throw err; 
         });
 };
+
+export const admin_details_by_id = adminData => {
+    var id={"_id":adminData};
+    return fetch(`${API}/admin_list_by_id`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
