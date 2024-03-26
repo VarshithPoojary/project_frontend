@@ -31,7 +31,7 @@ const AdminSignin = () => {
             } else {
                 localStorage.setItem('id', response.userId);
                 setValues({ ...values, username: '', password: '', loading: false });
-                Router.push('/dashboard'); 
+                Router.push('/Adminprofileui'); 
             }
         } catch (error) {
             console.error('Signin Error:', error);

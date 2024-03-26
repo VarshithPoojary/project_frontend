@@ -27,6 +27,10 @@ class MyDocument extends Document {
           <link href="/plugins/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
           <link rel="stylesheet" href="/css/select2/select2.min.css" />
           <link href="/plugins/bootstrap-fileupload/bootstrap-fileupload.css" rel="stylesheet" />
+
+          
+          
+
           
         </Head>
         <body>
@@ -46,7 +50,7 @@ class MyDocument extends Document {
           <Script src="/js/jquery.slimscroll.js"></Script>
           <Script src="/js/select2/select2.min.js"></Script>
           <Script src="/pages/jquery.dashboard.init.js"></Script>
-
+          
           {/* <Script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></Script> */}
 
           {/* <Script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></Script> */}
