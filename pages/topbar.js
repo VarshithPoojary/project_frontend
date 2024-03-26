@@ -9,63 +9,76 @@ import { admin_details_by_id } from '../actions/registrationAction';
 const Topbar = () => {
   const [values, setValues] = useState({
     admin_list:[],
-    name: '',
-    dname: '',
+    // admin_firstname: '',
+    // admin_lastname: '',
     admin_profile_image: '',
-    image: '',
+    // admin_password: '',
+    // admin_mobile_no: '',
+    // admin_email:'',
+    // admin_username: '',
+    // admin_type: '',
+    // admin_created_by_id: '',
+    // admin_updated_by_id: '',
+    // admin_deleted_by_id: '',
+    // admin_created_date: '',
+    // admin_updated_date: '',
     error: '',
     loading: false,
     message: '',
     showForm: true
   });
 
-  const { name, dname, dimage, image, admin, error, loading, message, showForm } = values;
+  const {admin_list,admin_profile_image, error, loading, message, showForm } = values;
 
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        const user_id = localStorage.getItem('id');
+        if (user_id === "" || user_id === null || user_id === undefined) {
+          Router.push('/login');
+        } else {
+          loadUserDetails(user_id);
+        }
+      
+   
 
-  useEffect(() => {
-    var user_id= localStorage.getItem('id');
-    if(user_id==""||user_id==null||user_id==undefined)
-    {
-      Router.push('/login');
-    }
-    else{
-      loadUserDetails();
-    }
+    // $('.button-menu-mobile').on('click', function (event) {
+    //   event.preventDefault();
+    //   $('body').toggleClass('sidebar-enable');
+    //   if ($(window).width() >= 768) {
+    //     console.log("enlarge")
+    //     $('body').toggleClass('enlarged');
 
-    $('.button-menu-mobile').on('click', function (event) {
-      event.preventDefault();
-      $('body').toggleClass('sidebar-enable');
-      if ($(window).width() >= 768) {
-        console.log("enlarge")
-        $('body').toggleClass('enlarged');
-
-      } else {
-        $('body').removeClass('enlarged');
+    //   } else {
+    //     $('body').removeClass('enlarged');
+    //   }
+    // });
+    // // Topbar - main menu
+    // $('.navbar-toggle').on('click', function (event) {
+    //   console.log("mobile")
+    //   $(this).toggleClass('open');
+    //   $('#navigation').slideToggle(400);
+    // });
       }
-    });
-    // Topbar - main menu
-    $('.navbar-toggle').on('click', function (event) {
-      console.log("mobile")
-      $(this).toggleClass('open');
-      $('#navigation').slideToggle(400);
-    });
 
   }, []);
-
-  const loadUserDetails = () => {
-    var user_id= localStorage.getItem('id');
-    admin_details_by_id(user_id).then(data => {
-          //alert(JSON.stringify(data));
-        if (data.error) {
-            console.log(data.error);
-        } else {
-            alert(JSON.stringify(data));
-             console.log(data);
-            setValues({ ...values, admin_list: data.admin_list });
-            alert(JSON.stringify(admin_list._id));
-        }
-    })
+  
+const loadUserDetails = (user_id) => {
+  admin_details_by_id(user_id).then(data => {
+    if (data.error) {
+      console.log(data.error);
+      setValues({ ...values, error: data.error, loading: false });
+    } else {
+      alert(JSON.stringify(data))
+      setValues({ ...values,
+        admin_profile_image: data.admin_list[0].admin_profile_image,
+         admin_list: data.admin_list, loading: false });
+    }
+  }).catch(error => {
+    console.error('Error:', error);
+    setValues({ ...values, error: 'Error: Network request failed', loading: false });
+  });
 }
+
 
   const handleChange = name => e => {
     setValues({ ...values, error: false, [name]: e.target.value });
@@ -101,11 +114,13 @@ const Topbar = () => {
               </a>
             </li>
             <li className="dropdown notification-list">
+           
               <a href='/admin-profile' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" role="button" aria-haspopup="false" >
                 <span className="ml-1" style={{ color: "black" }}>
-                  <img src="/images/login_page.jpg" alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+                  <img src={admin_profile_image} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
                 </span>
               </a>
+           
             </li>
           </ul>
 
