@@ -81,7 +81,7 @@ const Registrations = () => {
             setIsLoading(false);
             setTimeout(() => {
                 setErrors({});
-            }, 2000);
+            }, 5000);
             return;
             
         }
@@ -114,14 +114,7 @@ const Registrations = () => {
             console.error('Error:', error);
             setErrorMessage('Error saving data. Please try again.');
         }
-
         
-
-            
-            
-    
-            
-
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
         console.log('Form submitted:', {
@@ -152,13 +145,16 @@ const Registrations = () => {
     const togglePasswordVisibility = () => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
+    const toggleConfirmPasswordVisibility  = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
     
     return (
         <div className="registration-container">
             <div className="registration-form">
-                <div className="logo">
+                {/* <div className="logo">
                     <img src="/icons/img1.png" alt="Logo" />
-                </div>
+                </div> */}
                 <h2>Registration</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -185,7 +181,12 @@ const Registrations = () => {
                                 />
                                 {errors.lastName && <div className="error-message">{errors.lastName}</div>}
                             </div>
-                            <div className="col">
+                           
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="row">
+                        <div className="col">
                                 <label htmlFor="username">Username<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
                                 className='registration-input'
@@ -196,11 +197,6 @@ const Registrations = () => {
                                 />
                                 {errors.username && <div className="error-message">{errors.username}</div>}
                             </div>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <div className="row">
-                           
                             <div className="col">
                                 <label htmlFor="email">Email<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
@@ -212,7 +208,12 @@ const Registrations = () => {
                                 />
                                 {errors.email && <div className="error-message">{errors.email}</div>}
                             </div>
-                            <div className="col">
+                            
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="row">
+                        <div className="col">
                                 <label htmlFor="mobileNumber">Mobile Number<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
                                 className='registration-input'
@@ -223,12 +224,26 @@ const Registrations = () => {
                                 />
                                 {errors.mobileNumber && <div className="error-message">{errors.mobileNumber}</div>}
                             </div>
+                            <div className="col">
+                                <label htmlFor="userType">User Type<span style={{ color: 'red' }}>*</span>:</label>
+                                    <select
+                                    className='registration-input'
+                                        id="userType"
+                                        value={userType}
+                                        onChange={(e) => setUserType(e.target.value)}
+                                    >
+                                        <option value="Select type">Select type</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="doctor">Doctor</option>
+                                        <option value="patient">Patient</option>
+                                    </select>
+                               
+                            </div>
                         </div>
                     </div>
                     <div className="form-group">
                         <div className="row">
-                            
-                            <div className="col">
+                        <div className="col">
                                 <label htmlFor="password">Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
                                     type={values.showPassword ? 'text' : 'password'}
@@ -249,7 +264,7 @@ const Registrations = () => {
 
                             </div>
 
-                            <div className="col">
+                        <div className="col">
                                 <label htmlFor="confirmPassword">Confirm Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
                                     type={values.showPassword ? 'text' : 'password'}
@@ -260,38 +275,26 @@ const Registrations = () => {
                                 />
                                   <span
                                     className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
-                                    onClick={togglePasswordVisibility}
+                                    onClick={toggleConfirmPasswordVisibility}
                                     style={{ cursor: 'pointer' }}
                                 ></span>
 
                                     {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
                                   
                                 </div>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <div className="row">
-                            <div className="col">
-                                <label htmlFor="image">Profile Image<span style={{ color: 'red' }}>*</span>:</label>
-                                <input type="file" onChange={onFileChange}  className='registration-input'  required  />
-                            </div>
+                           
                     
-                                <div className="col">
-                                <label htmlFor="userType">User Type<span style={{ color: 'red' }}>*</span>:</label>
-                                    <select
-                                    className='registration-input'
-                                        id="userType"
-                                        value={userType}
-                                        onChange={(e) => setUserType(e.target.value)}
-                                    >
-                                        <option value="Select type">Select type</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="doctor">Doctor</option>
-                                        <option value="patient">Patient</option>
-                                    </select>
                                
-                            </div>
                         </div>
+                        <div className="form-group">
+                        <div className="row">
+                        <div className="col">
+                                <label htmlFor="image">Profile Image<span style={{ color: 'red' }}>*</span>:</label>
+                                <input type="file" onChange={onFileChange}  style={{ width:'50%'}} className='registration-input'   />
+                            </div>
+
+                            </div>
+                            </div>
                         </div>
                         <div className="form-group">
                             <div className="row justify-content-center">

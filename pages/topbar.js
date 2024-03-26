@@ -1,21 +1,17 @@
-import React from 'react';
-import Link from 'next/link'
-import { useEffect, useState } from 'react';
-
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import $ from 'jquery';
-// import { adminProfile } from '../actions/profileAction';
 import Router from 'next/router';
-// import { getCookie } from '../actions/adminAction';
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
+import { FiHome, FiBell, FiSettings, FiUser } from 'react-icons/fi'; 
+import { admin_details_by_id } from '../actions/registrationAction';
+
 
 const Topbar = () => {
   const [values, setValues] = useState({
-    admin: [],
+    admin_list:[],
     name: '',
     dname: '',
-    dimage: '',
+    admin_profile_image: '',
     image: '',
     error: '',
     loading: false,
@@ -23,21 +19,25 @@ const Topbar = () => {
     showForm: true
   });
 
-
-  //var admin_image = localStorage.getItem("admin_image");
-  //var admin_image = getCookie("admin_image");
-
   const { name, dname, dimage, image, admin, error, loading, message, showForm } = values;
 
+
   useEffect(() => {
+    var user_id= localStorage.getItem('id');
+    if(user_id==""||user_id==null||user_id==undefined)
+    {
+      Router.push('/login');
+    }
+    else{
+      loadUserDetails();
+    }
+
     $('.button-menu-mobile').on('click', function (event) {
       event.preventDefault();
       $('body').toggleClass('sidebar-enable');
       if ($(window).width() >= 768) {
         console.log("enlarge")
-
         $('body').toggleClass('enlarged');
-        //  $('body').removeClass('enlarged');
 
       } else {
         $('body').removeClass('enlarged');
@@ -52,7 +52,20 @@ const Topbar = () => {
 
   }, []);
 
-
+  const loadUserDetails = () => {
+    var user_id= localStorage.getItem('id');
+    admin_details_by_id(user_id).then(data => {
+          //alert(JSON.stringify(data));
+        if (data.error) {
+            console.log(data.error);
+        } else {
+            alert(JSON.stringify(data));
+             console.log(data);
+            setValues({ ...values, admin_list: data.admin_list });
+            alert(JSON.stringify(admin_list._id));
+        }
+    })
+}
 
   const handleChange = name => e => {
     setValues({ ...values, error: false, [name]: e.target.value });
@@ -62,88 +75,43 @@ const Topbar = () => {
   const showError = () => (error ? <div className="alert alert-danger">{error}</div> : '');
   const showMessage = () => (message ? <div className="alert alert-info">{message}</div> : '');
 
-  const [adminName, setAdminName] = useState();
-
-  // useEffect(() => {
-  //   loadAdminProfile()
-  // }, [admin_image]);
-
-  // var admin_image=cookies.get("admin_image");
-
-  // const loadAdminProfile = () => {
-  //   adminProfile().then(data => {
-  //     if (data.error) {
-  //       console.log(data.error);
-  //     } else {
-  //       setAdminName(data.name);
-  //       //setAdminImage(data.);
-  //     }
-  //   });
-  // };
-
-  // const logout = () => {
-  //   localStorage.removeItem('id');
-  //   Router.push(`/login`);
-  // }
-
   const signupForm = () => {
     return (
-
       <div id="wrapper">
-        <div className="navbar-custom" >
+        <div className="navbar-custom">
           <ul className="list-unstyled topnav-menu float-right mb-0">
-            
-            {/* <li className="dropdown notification-list">
-            <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{color:"black"}} ><i class="fa fa-envelope"></i></span>
-              </a>
-            </li>
             <li className="dropdown notification-list">
-            <a href="#" className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{color:"black"}} ><i class="fe-bell"></i></span>
-              </a>
-            </li>
-            <li className="dropdown notification-list">
-            <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{color:"black"}} ><i class="fe-settings"></i></span>
-              </a>
-            </li> */}
-            <li className="dropdown notification-list">
-              <a href='/admin-profile' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{color:"black"}} >
-                  {/* {admin_image?<img src={"http://103.233.2.138/public/images/admin/"+admin_image} alt="Image not found" height="100px" width="100px" style={{borderRadius:"50%"}}></img>:null} */}
-                  </span>
-              </a>
-              {/* <ul>
-                <li className='notify-item'>profile</li>
-              </ul> */}
-            </li>
-            {/* <li className="dropdown notification-list">
               <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" onClick={logout} style={{color:"black"}} >Logout  <i className="fe-log-out"></i></span>
+                <span className="ml-1" style={{ color: "black" }}><FiHome /> Dashboard</span>
               </a>
-            </li> */}
+            </li>
+            <li className="dropdown notification-list">
+              <a href="#" className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+                <span className="ml-1" style={{ color: "black" }}><FiBell /> Notification</span>
+              </a>
+            </li>
+            <li className="dropdown notification-list">
+              <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+                <span className="ml-1" style={{ color: "black" }}><FiSettings /> Settings</span>
+              </a>
+            </li>
+            <li className="dropdown notification-list">
+              <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+                <span className="ml-1" style={{ color: "black" }}><FiUser /> Profile</span>
+              </a>
+            </li>
+            <li className="dropdown notification-list">
+              <a href='/admin-profile' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" role="button" aria-haspopup="false" >
+                <span className="ml-1" style={{ color: "black" }}>
+                  <img src="/images/login_page.jpg" alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+                </span>
+              </a>
+            </li>
           </ul>
-
-          {/* <div className="logo-box" style={{ backgroundColor: '#1891e0' }} >
-            <a href="#" className="logo1 text-center">
-              <span className="logo-lg" style={{marginLeft:'30px'}}>
-                <Image src="/icons/app_logo.jpeg" width="181" height="50" alt=""/>
-                <!-- <span className="logo-lg-text-light">UBold</span> --> 
-                <img src="/images/logo.png" alt="" style={{marginTop:'15px'}} height="48"/>
-                <h1><label style={{color:"white",fontSize:"25px"}}>Admin</label></h1>
-              </span>
-              <span className="logo-sm">
-                <!-- <span className="logo-sm-text-dark">U</span> -->
-                <img src="images/logo.png" alt="" height="28"/>
-                <Image src="/icons/app_logo.jpeg" width="28" height="28" alt="" />                            <!-- <span className="logo-lg-text-light">UBold</span> -->
-              </span>
-            </a>
-          </div> */}
 
           <ul className="list-unstyled topnav-menu topnav-menu-left m-0">
             <li>
-              <button className="button-menu-mobile waves-effect waves-light">
+              <button className="button-menu-mobile waves-effect waves-light" >
                 <i className="fe-menu"></i>
               </button>
             </li>
@@ -152,14 +120,12 @@ const Topbar = () => {
       </div>
     );
   };
-  return <React.Fragment>
-    {signupForm()}
-  </React.Fragment>
+
+  return (
+    <React.Fragment>
+      {signupForm()}
+    </React.Fragment>
+  );
 };
 
-
-
-
-
 export default Topbar;
-

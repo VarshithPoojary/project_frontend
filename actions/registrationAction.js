@@ -19,3 +19,37 @@ export const Registration = formData => {
             throw err; 
         });
 };
+
+export const admin_details_by_id = adminData => {
+    var _id={"_id":adminData};
+    return fetch(`${API}/admin_list_by_id`, {
+        method: 'POST',
+        body: JSON.stringify(_id)
+    })
+        .then(response => {
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
+            return response.json();
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            throw err; 
+        });
+};
+
+// export const  admin_details = admin => {
+//     var id={"_id":admin};
+//     return fetch(`${API}/admin_list_by_id`, {
+//         method: 'POST',
+//         headers: {
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(id)
+//     })
+//         .then(response => {
+//             return response.json();
+//         })
+//         .catch(err => console.log(err));
+// };
