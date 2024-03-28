@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import axios from 'axios';
 import Router from 'next/router';
 import { Registration } from '../actions/registrationAction';
@@ -11,8 +12,10 @@ const Registrations = () => {
     const [email, setEmail] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
     const [password, setPassword] = useState('');
+    const [values,setValues]=useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [userType, setUserType] = useState('Select type');
+    const [profileImage, setProfileImage] = useState(null); 
     const [errors, setErrors] = useState({
         firstName: '',
         lastName: '',
@@ -27,6 +30,9 @@ const Registrations = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');  
 
+    const onFileChange = (e) => {
+        setProfileImage(e.target.files[0]);
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -76,62 +82,40 @@ const Registrations = () => {
             setIsLoading(false);
             setTimeout(() => {
                 setErrors({});
-            }, 2000);
+            }, 5000);
             return;
             
         }
         try {
-            const admin_data =  {
-                admin_name: firstName,
-                //admin_last_name: lastName,
-                // demoimg:'',
-                admin_password: password,
-                admin_mobile_no: mobileNumber,
-                admin_email: email,
-                admin_username: username,
-                admin_type: userType,
-            };
+            const formData = new FormData();
+            formData.append('admin_firstname', firstName);
+            formData.append('admin_lastname', lastName);
+            formData.append('demoimg', profileImage);
+            formData.append('admin_password', password);
+            formData.append('admin_mobile_no', mobileNumber);
+            formData.append('admin_email', email);
+            formData.append('admin_username', username);
+            formData.append('admin_type', userType);
             
-             Registration(admin_data).then(response => {
+
+            
+            Registration(formData).then(response => {
                 if (response.error) {
-                            setValues({ ...values });
-                        } else {
-                            setTimeout(() => {
-                                Router.push(`/login`);
-                                console.log('Response from backend:', response.data);
-                            }, 1000);
-            
-                        }
-                    });
-            setIsSuccess(true);
-            setSuccessMessage('Saved successfully!');
+                    setValues({ ...values });
+                } else {
+                    setIsSuccess(true);
+                    setSuccessMessage('Saved successfully!');
+                    setTimeout(() => {
+                        Router.push(`/login`);
+                        console.log('Response from backend:', response.data);
+                    }, 1000);
+                }
+            });
         } catch (error) {
             console.error('Error:', error);
             setErrorMessage('Error saving data. Please try again.');
         }
-
         
-
-            // var admin_data={firstName,lastName,password,mobileNumber,email,username,userType}
-            // Registration(admin_data).then(data => {
-            //     if (data.error) {
-            //         setValues({ ...values });
-            //     } else {
-            //         setTimeout(() => {
-            //             setValues({ ...values, loading: true })
-            //         });
-            //         setTimeout(() => {
-            //             setValues({ ...values, loading: false })
-            //             Router.push(`/login`);
-            //         }, 1000);
-    
-            //     }
-            // });
-            
-            
-    
-            
-
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
         console.log('Form submitted:', {
@@ -142,6 +126,7 @@ const Registrations = () => {
             mobileNumber,
             password,
             confirmPassword,
+            profileImage,
             userType,
         });
 
@@ -152,18 +137,31 @@ const Registrations = () => {
         setMobileNumber('');
         setPassword('');
         setConfirmPassword('');
+        setProfileImage(null);
         setUserType('Select type');
         setIsSuccess(false);
 
         setIsLoading(false);
     };
-
+    const togglePasswordVisibility = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
+    const toggleConfirmPasswordVisibility  = () => {
+        setValues({ ...values, showPassword: !values.showPassword });
+    };
+    
     return (
+        <>
+             <Head>
+      <title>Registration</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Admin_Profile' />
+    </Head>
         <div className="registration-container">
             <div className="registration-form">
-                <div className="logo">
+                {/* <div className="logo">
                     <img src="/icons/img1.png" alt="Logo" />
-                </div>
+                </div> */}
                 <h2>Registration</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -171,6 +169,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="firstName">First Name<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="firstName"
                                     value={firstName}
@@ -181,6 +180,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="lastName">Last Name<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="lastName"
                                     value={lastName}
@@ -188,13 +188,15 @@ const Registrations = () => {
                                 />
                                 {errors.lastName && <div className="error-message">{errors.lastName}</div>}
                             </div>
+                           
                         </div>
                     </div>
                     <div className="form-group">
                         <div className="row">
-                            <div className="col">
+                        <div className="col">
                                 <label htmlFor="username">Username<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="username"
                                     value={username}
@@ -205,6 +207,7 @@ const Registrations = () => {
                             <div className="col">
                                 <label htmlFor="email">Email<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="email"
                                     id="email"
                                     value={email}
@@ -212,13 +215,15 @@ const Registrations = () => {
                                 />
                                 {errors.email && <div className="error-message">{errors.email}</div>}
                             </div>
+                            
                         </div>
                     </div>
                     <div className="form-group">
                         <div className="row">
-                            <div className="col">
+                        <div className="col">
                                 <label htmlFor="mobileNumber">Mobile Number<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
+                                className='registration-input'
                                     type="text"
                                     id="mobileNumber"
                                     value={mobileNumber}
@@ -227,32 +232,9 @@ const Registrations = () => {
                                 {errors.mobileNumber && <div className="error-message">{errors.mobileNumber}</div>}
                             </div>
                             <div className="col">
-                                <label htmlFor="password">Password<span style={{ color: 'red' }}>*</span>:</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                {errors.password && <div className="error-message">{errors.password}</div>}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <div className="row">
-                            <div className="col">
-                                <label htmlFor="confirmPassword">Confirm Password<span style={{ color: 'red' }}>*</span>:</label>
-                                <input
-                                    type="password"
-                                    id="confirmPassword"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    />
-                                    {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
-                                </div>
-                                <div className="col">
-                                    <label htmlFor="userType">User Type:</label>
+                                <label htmlFor="userType">User Type<span style={{ color: 'red' }}>*</span>:</label>
                                     <select
+                                    className='registration-input'
                                         id="userType"
                                         value={userType}
                                         onChange={(e) => setUserType(e.target.value)}
@@ -262,7 +244,63 @@ const Registrations = () => {
                                         <option value="doctor">Doctor</option>
                                         <option value="patient">Patient</option>
                                     </select>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <div className="row">
+                        <div className="col">
+                                <label htmlFor="password">Password<span style={{ color: 'red' }}>*</span>:</label>
+                                <input
+                                    type={values.showPassword ? 'text' : 'password'}
+                                className='registration-input'
+                                    id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <span
+                                    className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                    onClick={togglePasswordVisibility}
+                                    style={{ cursor: 'pointer' }}
+                                ></span>
+
+                                {errors.password && <div className="error-message">{errors.password}</div>}
+                                
+
+
+                            </div>
+
+                        <div className="col">
+                                <label htmlFor="confirmPassword">Confirm Password<span style={{ color: 'red' }}>*</span>:</label>
+                                <input
+                                    type={values.showPassword ? 'text' : 'password'}
+                                className='registration-input'
+                                    id="confirmPassword"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                  <span
+                                    className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                    onClick={toggleConfirmPasswordVisibility}
+                                    style={{ cursor: 'pointer' }}
+                                ></span>
+
+                                    {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
+                                  
                                 </div>
+                           
+                    
+                               
+                        </div>
+                        <div className="form-group">
+                        <div className="row">
+                        <div className="col">
+                                <label htmlFor="image">Profile Image<span style={{ color: 'red' }}>*</span>:</label>
+                                <input type="file" onChange={onFileChange}  style={{ width:'50%'}} className='registration-input'   />
+                            </div>
+
+                            </div>
                             </div>
                         </div>
                         <div className="form-group">
@@ -277,7 +315,7 @@ const Registrations = () => {
                             </div>
                         </div>
                     </form>
-                    <div className="text-center mt-3">
+                    <div className="text-center mt-3 login-link">
                         Already a member?{' '}
                         <Link href="/login">
                             <a>Login</a>
@@ -285,6 +323,7 @@ const Registrations = () => {
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 

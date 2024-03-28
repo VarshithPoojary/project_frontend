@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { Adminsignin } from '../actions/loginAction';
 
+
 const AdminSignin = () => {
     const [values, setValues] = useState({
         username: '',
@@ -53,17 +54,22 @@ const AdminSignin = () => {
                 <title>Login</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
+           
 
-            <div className="wrapper">
-                <div className="logo">
+            <div className="login_wrapper">
+                {/* <div className="logo">
                     <img src="/icons/img1.png" alt="" />
-                </div>
+                </div> */}
+              
                 <div className="text-center mt-4 name">Login</div>
+                
                 <form onSubmit={handleSubmit} className="p-3 mt-3">
                     
                     <div className="form-field d-flex align-items-center">
                         <span className="far fa-user"></span>
                         <input
+                            className='login_input'
+                            id='login_username'
                             type="text"
                             name="username"
                             placeholder="Username"
@@ -74,6 +80,8 @@ const AdminSignin = () => {
                     <div className="form-field d-flex align-items-center">
                         <span className="fas fa-key"></span>
                         <input
+                             className='login_input'
+                            id='login_password'
                             type={showPassword ? 'text' : 'password'}
                             name="password"
                             placeholder="Password"
@@ -88,18 +96,21 @@ const AdminSignin = () => {
                         ></span>
                     </div>
                     <div className="text-center fs-6 mt-2">
-                        <a href="#">Forget password?</a>
+                    <Link href="/Forgotpassword">
+                        <a>Forgot Password</a>
+                    </Link>
                     </div>
                     <button type="submit" className="btn mt-3">
                         Login
                     </button>
                 </form>   
                 {error && <div className="alert alert-danger mt-3">{error}</div>}
+                {/* {loading ? (<div class="alert alert-success margin-top-10">Login Successfull</div>) : null} */}
                 {loading && <div className="alert alert-info">Loading...</div>}
                 <div className="text-center fs-6 login-link">
                     Don't have an account?{' '}
                     <Link href="/Registration">
-                        <a>Sign up</a>
+                        <a>create an account</a>
                     </Link>
                 </div>
             </div>

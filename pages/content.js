@@ -52,14 +52,14 @@ const Users = () => {
                             <div className="row">
                                 <div className="col-12">
                                     <div className="page-title-box">
-                                        <div className="page-title-right">
+                                        {/* <div className="page-title-right">
 
                                             <ol className="breadcrumb m-0">
                                                 <li className="breadcrumb-item">Employee</li>
                                                 <li className="breadcrumb-item active">Dashboard</li>
                                             </ol>
                                         </div>
-                                        <h4 className="page-title">Dashboard</h4>
+                                        <h4 className="page-title">Dashboard</h4> */}
 
                                         <div className="clearfix"></div>
                                     </div>
