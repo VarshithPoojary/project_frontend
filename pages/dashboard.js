@@ -4,6 +4,7 @@ import Sidebar from './sidebar';
 import Head  from 'next/head';
 import Content from './content';
 import Header from './Header';
+import React, { useEffect, useState } from 'react';
 
 
 

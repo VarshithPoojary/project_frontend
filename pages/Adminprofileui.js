@@ -1,33 +1,84 @@
 import React, { useState,useEffect } from 'react';
 import Link from 'next/link';
+import Head  from 'next/head';
 import { getAdminById } from '../actions/adminprofileAction';
+import Header from './Header';
+import Topbar from './topbar';
+import Router from 'next/router';
+import { admin_details_by_id } from '../actions/adminprofileAction';
+
 
  const AdminProfile = () => {
+  const defaultProfileImage = '/images/userLogo.jpeg';
+  const [values, setValues] = useState({
+    admin_list:[],
+    // admin_firstname: '',
+    // admin_lastname: '',
+    admin_profile_image:  '',
+    // admin_password: '',
+    // admin_mobile_no: '',
+    // admin_email:'',
+    // admin_username: '',
+    admin_type: '',
+    // admin_created_by_id: '',
+    // admin_updated_by_id: '',
+    // admin_deleted_by_id: '',
+    // admin_created_date: '',
+    // admin_updated_date: '',
+    error: '',
+    loading: false,
+    message: '',
+    showForm: true
+  });
     const [bio, setBio] = useState('');
-    const [adminData, setAdminData] = useState('');
+    const {admin_list,admin_profile_image, error, loading, message, showForm } = values;
+
   
     useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const adminId = localStorage.getItem('adminId');
-              console.log('Admin ID:', adminId);
-              if (adminId) {
-                  const data = await getAdminById(adminId);
-                  if (data && data.admin_list && data.admin_list.length > 0) {
-                      setAdminData(data.admin_list); 
-                  }
-              }
-          } catch (error) {
-              console.error('Error fetching admin data:', error);
+      if (typeof window !== 'undefined') {
+        const user_id = localStorage.getItem('id');
+        if (user_id === "" || user_id === null || user_id === undefined) {
+          Router.push('/login');
+        } else {
+          loadUserDetails(user_id);
+        }
+      }
+
+    }, []);
+
+    const loadUserDetails = (user_id) => {
+      admin_details_by_id(user_id)
+        .then(data => {
+          if (data.error) {
+            console.log(data.error);
+            setValues({ ...values, error: data.error, loading: false });
+          } else {
+            const adminData = data.admin_list[0];
+            setValues({ ...values,
+              admin_firstname: adminData.admin_firstname,
+              admin_lastname: adminData.admin_lastname,
+              admin_username: adminData.admin_username,
+              admin_type:adminData.admin_type,
+              admin_email: adminData.admin_email,
+              admin_mobile_no: adminData.admin_mobile_no,
+              admin_profile_image: adminData.admin_profile_image || defaultProfileImage,
+              loading: false 
+            });
           }
-      };
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          setValues({ ...values, error: 'Error: Network request failed', loading: false });
+        });
+    };
 
-      fetchData();
 
-
-      const savedBio = localStorage.getItem('adminBio');
-      if (savedBio) {
-        setBio(savedBio);
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        const savedBio = localStorage.getItem('adminBio');
+        if (savedBio) {
+          setBio(savedBio);
+        }
       }
     }, []);
 
@@ -38,33 +89,41 @@ import { getAdminById } from '../actions/adminprofileAction';
       localStorage.setItem('adminBio', newBio); 
     };
 
-    const handleProfilePhotoChange = (e) => {
-      const file = e.target.files[0];
+    // const handleProfilePhotoChange = (e) => {
+    //   const file = e.target.files[0];
       
-    };
+    // };
   
 
   return (
-    <div className="container emp-profile">
+    <div>
+       <Head>
+      <title>Admin Profile</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Admin_Profile' />
+    </Head>
+    
+    <Topbar/>
+    <Header/>
+   
+    <div className=" emp-profile" >
+     
       <form method="post">
         <div className="row">
           <div className="col-md-4">
             <div className="profile-img" style={{ width: '150px', height: '150px', borderRadius: '50%', overflow: 'hidden' }}>
             <label  htmlFor="fileInput">
-            {adminData && adminData.admin_profile_image ? (
-                  <img src={adminData.admin_profile_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }} />
-                ) : (
-                  <div>No Profile Photo</div>
-                )}
+            
+                  <img src={admin_profile_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}></img>
               </label>
-              <input id="fileInput" type="file" name="file" style={{ display: 'none' }} onChange={handleProfilePhotoChange} />
+              <input id="fileInput"  name="file" style={{ display: 'none' }}  />
               
             </div>
           </div>
           <div className="col-md-6">
           <div className="profile-head">
-              <h4>{adminData ? `${adminData.admin_firstname} ${adminData.admin_lastname}` : 'Admin Name'}</h4>
-              <h5>{adminData ? adminData.admin_type : 'Admin'}</h5>
+              <h4>{admin_list ? `${values.admin_firstname} ${values.admin_lastname}` : 'Admin Name'}</h4>
+              <h5>{admin_list ? `${values.admin_type}` : 'Admin'}</h5>
               <ul className="nav nav-tabs" id="myTab" role="tablist">
                 <li className="nav-item">
                   <a className="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
@@ -98,7 +157,7 @@ import { getAdminById } from '../actions/adminprofileAction';
                     <label>First Name</label>
                   </div>
                   <div className="col-md-6 small-width-input">
-                    <input type="text" className="form-control" value={adminData.admin_firstname || ''} readOnly />
+                  <input type="text" className="form-control" value={values.admin_firstname} readOnly />
                   </div>
                 </div>
                 <div className="row">
@@ -106,7 +165,7 @@ import { getAdminById } from '../actions/adminprofileAction';
                     <label>Last Name</label>
                   </div>
                   <div className="col-md-6" style={{ marginTop: '10px'}}>
-                    <input type="text" className="form-control" value={adminData.admin_lastname || ''} readOnly />
+                  <input type="text" className="form-control" value={values.admin_lastname} readOnly />
                   </div>
                 </div>
                 <div className="row">
@@ -114,7 +173,7 @@ import { getAdminById } from '../actions/adminprofileAction';
                     <label>Username</label>
                   </div>
                   <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <input type="text" className="form-control" value={adminData.admin_username || ''} readOnly />
+                  <input type="text" className="form-control" value={values.admin_username} readOnly />
                   </div>
                 </div>
                 <div className="row">
@@ -122,7 +181,7 @@ import { getAdminById } from '../actions/adminprofileAction';
                     <label>Email</label>
                   </div>
                   <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <input type="text" className="form-control" value={adminData.admin_email || ''} readOnly />
+                  <input type="text" className="form-control" value={values.admin_email} readOnly />
                   </div>
                 </div>
                 <div className="row">
@@ -130,7 +189,7 @@ import { getAdminById } from '../actions/adminprofileAction';
                     <label>Mobile Number</label>
                   </div>
                   <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <input type="text" className="form-control" value={adminData.admin_mobile_no || ''} readOnly />
+                  <input type="text" className="form-control" value={values.admin_mobile_no} readOnly />
                   </div>
                 </div>
               </div>
@@ -138,6 +197,7 @@ import { getAdminById } from '../actions/adminprofileAction';
           </div>
         </div>
       </form>
+    </div>
     </div>
   );
 };
