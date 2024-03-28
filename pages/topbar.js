@@ -3,20 +3,20 @@ import Link from 'next/link';
 import $ from 'jquery';
 import Router from 'next/router';
 import { FiHome, FiBell, FiSettings, FiUser } from 'react-icons/fi'; 
-import { admin_details_by_id } from '../actions/registrationAction';
-
+import { admin_details_by_id } from '../actions/adminprofileAction';
 
 const Topbar = () => {
+  const defaultProfileImage = '/images/userLogo.jpeg';
   const [values, setValues] = useState({
     admin_list:[],
-    // admin_firstname: '',
-    // admin_lastname: '',
+     admin_firstname: '',
+    admin_lastname: '',
     admin_profile_image: '',
-    // admin_password: '',
-    // admin_mobile_no: '',
-    // admin_email:'',
-    // admin_username: '',
-    // admin_type: '',
+    admin_password: '',
+    admin_mobile_no: '',
+    admin_email:'',
+    admin_username: '',
+    admin_type: '',
     // admin_created_by_id: '',
     // admin_updated_by_id: '',
     // admin_deleted_by_id: '',
@@ -68,10 +68,11 @@ const loadUserDetails = (user_id) => {
       console.log(data.error);
       setValues({ ...values, error: data.error, loading: false });
     } else {
-      alert(JSON.stringify(data))
+      // alert(JSON.stringify(data))
+      const adminData = data.admin_list[0];
       setValues({ ...values,
-        admin_profile_image: data.admin_list[0].admin_profile_image,
-         admin_list: data.admin_list, loading: false });
+        admin_profile_image: adminData.admin_profile_image || defaultProfileImage,     
+         loading: false });
     }
   }).catch(error => {
     console.error('Error:', error);
@@ -94,11 +95,14 @@ const loadUserDetails = (user_id) => {
         <div className="navbar-custom">
           <ul className="list-unstyled topnav-menu float-right mb-0">
             <li className="dropdown notification-list">
-              <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+            <Link href="/dashboard">
+              <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown"  role="button" aria-haspopup="false" aria-expanded="false">
                 <span className="ml-1" style={{ color: "black" }}><FiHome /> Dashboard</span>
               </a>
+              </Link>
             </li>
             <li className="dropdown notification-list">
+              
               <a href="#" className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                 <span className="ml-1" style={{ color: "black" }}><FiBell /> Notification</span>
               </a>
@@ -109,28 +113,31 @@ const loadUserDetails = (user_id) => {
               </a>
             </li>
             <li className="dropdown notification-list">
-              <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+            <Link href="/Adminprofileui">
+              <a  className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                 <span className="ml-1" style={{ color: "black" }}><FiUser /> Profile</span>
               </a>
+              </Link>
             </li>
             <li className="dropdown notification-list">
-           
-              <a href='/admin-profile' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" role="button" aria-haspopup="false" >
+              <Link href='/Adminprofileui'>
+              <a  className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" role="button" aria-haspopup="false" >
                 <span className="ml-1" style={{ color: "black" }}>
                   <img src={admin_profile_image} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
                 </span>
               </a>
+              </Link>
            
             </li>
           </ul>
 
-          <ul className="list-unstyled topnav-menu topnav-menu-left m-0">
+          {/* <ul className="list-unstyled topnav-menu topnav-menu-left m-0">
             <li>
               <button className="button-menu-mobile waves-effect waves-light" >
                 <i className="fe-menu"></i>
               </button>
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     );

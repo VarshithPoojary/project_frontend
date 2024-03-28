@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Head from 'next/head';
 import Link from 'next/link';
 
 const ForgotPasswordPage = () => {
@@ -15,6 +16,12 @@ const ForgotPasswordPage = () => {
   };
 
   return (
+    <>
+    <Head>
+    <title>Forgot Password</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta name="title" content='Admin_Profile' />
+  </Head>
     <div className="d-flex justify-content-center">
     
     <div className="card text-center" style={{ width: '600px' }}>
@@ -35,6 +42,7 @@ const ForgotPasswordPage = () => {
       </div>
     </div>
     </div>
+    </>
   );
 };
 

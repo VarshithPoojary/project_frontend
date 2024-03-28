@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Scrollbars } from 'react-custom-scrollbars';
 import Link from 'next/link';
+import Router from 'next/router';
+ // Import Router
 import {
   ProSidebar,
   Menu,
@@ -11,15 +13,61 @@ import {
   SidebarContent,
 } from "react-pro-sidebar";
 import { FiHome, FiLogOut, FiMenu, FiUser, FiMapPin, FiSettings } from "react-icons/fi";
-import { RiPencilLine } from "react-icons/ri";
 import { BiCog, BiUser, BiBook, BiCalendar, BiMap, BiListCheck, BiClinic, BiUserPlus, BiBriefcase, BiCalendarPlus } from "react-icons/bi";
 import "react-pro-sidebar/dist/css/styles.css";
+import { admin_details_by_id } from "../actions/adminprofileAction";
 
 const Header = () => {
   const [menuCollapse, setMenuCollapse] = useState(true);
+  const [values, setValues] = useState({
+    admin_list:[],
+    admin_profile_image: '',
+    admin_username:'',
+    error: '',
+    loading: false,
+    message: '',
+    showForm: true
+  });
+
+  const {admin_list, admin_profile_image, error, loading, message, showForm } = values;
 
   const menuIconClick = () => {
     setMenuCollapse(!menuCollapse);
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const user_id = localStorage.getItem('id');
+      if (!user_id) { 
+        Router.push('/login');
+      } else {
+        loadUserDetails(user_id);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('id');
+    Router.push('/login');
+  };
+
+  const loadUserDetails = (user_id) => {
+    admin_details_by_id(user_id)
+      .then(data => {
+        if (data.error) {
+          console.log(data.error);
+          setValues({ ...values, error: data.error, loading: false });
+        } else {
+          setValues({ ...values, 
+            admin_profile_image: data.admin_list[0].admin_profile_image, 
+            admin_username: data.admin_list[0].admin_username,
+            admin_list: data.admin_list, loading: false });
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        setValues({ ...values, error: 'Error: Network request failed', loading: false });
+      });
   };
 
   return (
@@ -55,8 +103,8 @@ const Header = () => {
           </SidebarContent>
           <SidebarFooter>
             <Menu iconShape="square">
-              <MenuItem icon={<FiLogOut />} title="Logout">
-                <Link href='/login'><span>Logout</span></Link>
+              <MenuItem icon={<FiLogOut />} title="Logout" onClick={handleLogout}> {/* Call handleLogout on click */}
+                <span>Logout</span>
               </MenuItem>
             </Menu>
           </SidebarFooter>
