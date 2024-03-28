@@ -489,6 +489,7 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+	background-attachment: fixed;
     z-index: -5;
 }
 
@@ -502,6 +503,7 @@ body {
     max-width: 400px;
     min-height: 500px;
     margin: 80px auto;
+	
     padding: 40px 30px 50px 30px;
     background-color:rgba(208, 211, 212, 0.0);
     border-radius: 15px;
@@ -705,4 +707,37 @@ button:hover {
     color: red;
     font-size: 14px;
     margin-top: 10px;
+}
+
+
+
+
+/* Custom CSS */
+
+
+
+.icons-edit{
+	width:50px;
+	color: #02b7e4;
+}
+
+.icons-delete{
+	width: 50px;
+	color: red;
+	fill: red;
+
+}
+
+.icons-update{
+	width: 50px;
+	color: #efc20e;
+}
+        
+.container-fluid-demo{
+	width: auto;
+}
+
+.h2{
+	background-color: #02b7e4;
+	padding: 15px 0px 20px 0px;
 }
