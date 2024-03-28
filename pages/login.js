@@ -35,7 +35,7 @@ const AdminSignin = () => {
                 // console.log('Username:', username);
                 // console.log('Password:', password);
                 setValues({ ...values, username: '', password: '', loading: false });
-                Router.push('/Adminprofileui'); 
+                Router.push('/dashboard'); 
             }
         } catch (error) {
             console.error('Signin Error:', error);
