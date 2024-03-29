@@ -961,12 +961,13 @@ button:hover {
 }
 .profile-edit-btn{
     border: none;
-    border-radius: 1.5rem;
-    width: 70%;
+    border-radius: 1rem;
+    width: 100%;
     padding: 2%;
     font-weight: 600;
-    color: #6c757d;
+    color: #576065;
     cursor: pointer;
+    margin-top: 10px;
 }
 .proile-rating{
     font-size: 12px;
@@ -1014,6 +1015,21 @@ button:hover {
 .small-width-input {
     width: 150px; 
   }
+
+  .center-table {
+    width: 60%;
+    top:50%;
+    left: 50%;
+    align-content: center;
+    justify-content: center;
+}
+
+.container-viewLocation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
   
 

@@ -15,7 +15,7 @@ import { admin_details_by_id } from '../actions/adminprofileAction';
     // admin_firstname: '',
     // admin_lastname: '',
     admin_profile_image:  '',
-    // admin_password: '',
+    admin_password: '',
     // admin_mobile_no: '',
     // admin_email:'',
     // admin_username: '',
@@ -31,7 +31,7 @@ import { admin_details_by_id } from '../actions/adminprofileAction';
     showForm: true
   });
     const [bio, setBio] = useState('');
-    const {admin_list,admin_profile_image, error, loading, message, showForm } = values;
+    const {admin_list,admin_profile_image, admin_password, error, loading, message, showForm } = values;
 
   
     useEffect(() => {
@@ -43,7 +43,6 @@ import { admin_details_by_id } from '../actions/adminprofileAction';
           loadUserDetails(user_id);
         }
       }
-
     }, []);
 
     const loadUserDetails = (user_id) => {
@@ -54,6 +53,7 @@ import { admin_details_by_id } from '../actions/adminprofileAction';
             setValues({ ...values, error: data.error, loading: false });
           } else {
             const adminData = data.admin_list[0];
+            localStorage.setItem('current_password', adminData.admin_password);
             setValues({ ...values,
               admin_firstname: adminData.admin_firstname,
               admin_lastname: adminData.admin_lastname,
@@ -135,7 +135,11 @@ import { admin_details_by_id } from '../actions/adminprofileAction';
             <Link href="/Adminprofileupdate">
               <input type="button" className="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
             </Link>
+            <Link href="/Adminprofilepasswordupdate">
+              <input type="button" className="profile-edit-btn" name="btnAddMore" value="Edit Password" />
+            </Link>
           </div>
+          
         </div>
         <div className="row">
           <div className="col-md-4">
