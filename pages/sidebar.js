@@ -206,6 +206,8 @@ class Sidebar extends Component {
               <Menu className='hideScrollbar'>
                 <MenuItem icon={<GrDashboard />}><Link href='/dashboard'><a><span>Dashboard</span></a></Link></MenuItem>
                 <MenuItem icon={<BiUser />}><Link href="/employee/viewEmployee"><a><span>Employee</span></a></Link></MenuItem>
+
+                <MenuItem icon={<BiUser />}><Link href="/country/viewCountry"><a><span>Country</span></a></Link></MenuItem>
               </Menu>
             </ProSidebar>
           </Scrollbars>
