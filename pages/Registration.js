@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import axios from 'axios';
 import Router from 'next/router';
 import { Registration } from '../actions/registrationAction';
@@ -150,6 +151,12 @@ const Registrations = () => {
     };
     
     return (
+        <>
+             <Head>
+      <title>Registration</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Admin_Profile' />
+    </Head>
         <div className="registration-container">
             <div className="registration-form">
                 {/* <div className="logo">
@@ -316,6 +323,7 @@ const Registrations = () => {
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 

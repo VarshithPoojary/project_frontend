@@ -31,11 +31,8 @@ const AdminSignin = () => {
                 setValues({ ...values, error: 'Incorrect username or password', loading: false });
             } else {
                 localStorage.setItem('id', response.userId);
-               // console.log('id:', response.userId);
-                // console.log('Username:', username);
-                // console.log('Password:', password);
                 setValues({ ...values, username: '', password: '', loading: false });
-                Router.push('/Adminprofileui'); 
+                Router.push('/dashboard'); 
             }
         } catch (error) {
             console.error('Signin Error:', error);
@@ -108,6 +105,7 @@ const AdminSignin = () => {
                     </button>
                 </form>   
                 {error && <div className="alert alert-danger mt-3">{error}</div>}
+                {/* {loading ? (<div class="alert alert-success margin-top-10">Login Successfull</div>) : null} */}
                 {loading && <div className="alert alert-info">Loading...</div>}
                 <div className="text-center fs-6 login-link">
                     Don't have an account?{' '}

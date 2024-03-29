@@ -90,15 +90,15 @@ const CityAdd = () => {
                                         </div>
                                         <div className="row gx-3 mb-3">
                                         <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="country_id">City Name</label>
-                                            <select className="form-control" id="country_id" name="country_id" onChange={handleChange('country_id')} required style={{ width: "105%" }}>
+                                            <label className="small mb-1" htmlFor="city_id">City Name</label>
+                                            <select className="form-control" id="city_id" name="city_id" onChange={handleChange('city_id')} required style={{ width: "105%" }}>
                                                 <option value="">Select City</option>
                                                 
                                             </select>
                                         </div>
                                     </div>
                                     <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
+                                       <div className="col-md-6">  
                                                 <label className="small mb-1" htmlFor="number">Pincode</label>
                                                 <input className="form-control" id="pincode" type="number" placeholder="Enter Pincode" name="pincode" onChange={handleChange('pincode')} required style={{ width: "105%" }} />
                                             </div>

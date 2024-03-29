@@ -85,8 +85,8 @@ const StateEdit = () => {
                                         
                                         <div className="row gx-3 mb-3">
                                         <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="country_id">State Name</label>
-                                            <select className="form-control" id="country_id" name="country_id"  onChange={handleChange('country_id')} required style={{ width: "105%" }}>
+                                            <label className="small mb-1" htmlFor="state_id">State Name</label>
+                                            <select className="form-control" id="state_id" name="state_id"  onChange={handleChange('state_id')} required style={{ width: "105%" }}>
                                                 <option value="">Select State</option>
                                                 
                                             </select>

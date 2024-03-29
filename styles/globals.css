@@ -730,10 +730,12 @@ button:hover {
 }
 
 
-
+/* Header css */
 #header {
     position: absolute;
     width: 220px;
+	top:0px;
+	bottom: opx;
   }
   #header .pro-sidebar {
     height: 100vh;
@@ -792,8 +794,7 @@ button:hover {
     border-radius: 3px;
   }
 
-  /* Add this CSS to your existing stylesheet */
-/* Display title text on hover */
+ 
 .pro-sidebar-menu .pro-inner-item:hover .pro-icon-wrapper:after {
   content: attr(title);
   position: absolute;
@@ -831,25 +832,27 @@ button:hover {
 
   
  
-.account-settings .user-profile {
-    
-    margin: 0 0 1rem 0;
+  .account-settings .user-profile {
+    margin: 0 0 0.5rem 0;
     padding-bottom: 1rem;
     text-align: center;
+    background-color: #000;
 }
+
 .account-settings .user-profile .user-avatar {
     margin: 0 0 1rem 0;
 }
+
 .account-settings .user-profile .user-avatar img {
-    width: 90px;
-    height: 90px;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
+    width: 90px; /* Fixed width for user avatar */
+    height: 90px; /* Fixed height for user avatar */
     border-radius: 100px;
 }
+
 .account-settings .user-profile h5.user-name {
     margin: 0 0 0.5rem 0;
 }
+
 .account-settings .user-profile h6.user-email {
     margin: 0;
     font-size: 0.8rem;
@@ -858,23 +861,30 @@ button:hover {
 }
 
 .form-control {
-   
+	/* position: fixed; */
     border: 1px solid #cfd1d8;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
     border-radius: 2px;
     font-size: .825rem;
     background: #ffffff;
     color: #2e323c;
+	padding-top: 25px;
+    width: 100%; 
 }
+
+/* .admin-profile-form-group{
+	padding: 25px;
+	width: 50%;
+} */
 
 .card {
     background: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
     border-radius: 5px;
     border: 0;
     margin-bottom: 1rem;
+    margin-top: 50%;
+	padding-top: 20px;
+    position: fixed;
+    max-width: 600px;
 }
 
 .btn {
@@ -882,34 +892,43 @@ button:hover {
     font-size: 0.875rem;
     border-radius: 0.25rem;
     cursor: pointer;
-    width: 80px; /* Adjust the width as needed */
+    width: 80px; /* Fixed width for buttons */
 }
 
 .btn-secondary {
     color: #ffffff;
     background-color: #6c757d;
-    color: #6c757d;
-	margin-right: 10px;
 }
 
 .btn-primary {
     color: #ffffff;
     background-color: #0c9da5;
-    color: #0c9da5;
 }
+
 
 /* AdminProfileUI*/
 
-.emp-profile{
-    
+.emp-profile {
+    position: absolute;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     padding: 3%;
-    margin-top: 7%;
-    margin-bottom: 2%;
     border-radius: 0rem;
-    background: #fff;
-    background: rgba(255, 255, 255, 1.9);
-    
+    background-color:#ffffff;
+    width: 70%;
+	max-height: 500px;
+    justify-content: center;
 }
+
+
+/* @media screen and (max-width: 768px) {
+    .emp-profile {
+        max-width: calc(100% - 20px);
+        margin-top: 50px; 
+    }
+} */
+
 .profile-img{
     text-align: center;
 }
@@ -995,6 +1014,8 @@ button:hover {
 .small-width-input {
     width: 150px; 
   }
+
+  
 
 
 

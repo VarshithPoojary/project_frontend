@@ -79,8 +79,11 @@ const CountryAdd = () => {
                                         
                                         <div className="row gx-3 mb-3">
                                             <div className="col-md-6">
-                                                <label className="small mb-1" htmlFor="text">Country Name</label>
-                                                <input className="form-control" id="country_name" type="text" placeholder="Enter Country Name" name="country_name" onChange={handleChange('country_name')} required style={{ width: "105%" }} />
+                                            <label className="small mb-1" htmlFor="country_id">Country Name</label>
+                                            <select className="form-control" id="country_id" name="country_id" onChange={handleChange('country_id')} required style={{ width: "105%" }}>
+                                                <option value="">Select Country</option>
+                                                
+                                            </select>
                                             </div>
                                         </div>
                                         <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Submit</button>
