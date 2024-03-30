@@ -1017,7 +1017,7 @@ button:hover {
     width: 150px; 
   }
 
-
+ HEAD
   .center-table {
     width: 60%;
     top:50%;
@@ -1031,13 +1031,11 @@ button:hover {
     top: 12%;
     left: 50%;
     transform: translateX(-50%);
-    width: 100%;
+    width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
-
   /*OTPform*/
   .otp-container {
     display: flex;
@@ -1087,7 +1085,6 @@ button:hover {
   
   
   
-
 
 
   
