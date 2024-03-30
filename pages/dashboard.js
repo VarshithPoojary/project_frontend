@@ -1,9 +1,9 @@
-import Topbar from './topbar';
 import Link from 'next/link';
 import Sidebar from './sidebar';
 import Head  from 'next/head';
 import Content from './content';
 import Header from './Header';
+import Topbar from './topbar';
 import React, { useEffect, useState } from 'react';
 
 
@@ -22,8 +22,9 @@ const Signup = () => {
             </Head>
         
 
-        <Topbar/>
+        
         <Header/>
+        <Topbar/>
         <Content/>
         </div> 
     );

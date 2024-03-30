@@ -7,7 +7,7 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import Router from 'next/router';
 import Header from '../Header';
 import Topbar from '../topbar';
-import { city_list , DeleteCityDetails } from '../../actions/locationAction';
+import { city_list , DeleteCityDetails } from '../../actions/cityAction';
 
 const CityView = () => {
     const [cityDetail, setCityDetail] = useState([]);
@@ -71,10 +71,10 @@ const CityView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit" onClick={() => handleEdit(row)}>
-                    <FiEdit style={{ fill: '#ff0000' }} />
+                <button className="icons-edit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8"}} onClick={() => handleEdit(row)}>
+                    <FiEdit  />
                 </button>
-                <button className="icons-delete" onClick={() => handleDelete(row)}>
+                <button className="icons-delete" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -93,8 +93,8 @@ const CityView = () => {
             <div className="container-viewLocation">
                 <div className="center-table">
                     <center><h2><b>CITY LIST</b></h2></center>
-                    <Link href="/Addcity">
-                        <a className="btn btn-success mb-3">Add City</a>
+                    <Link href="/Location/Addcity">
+                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Add City</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={citydetail} search={true}>

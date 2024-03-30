@@ -732,10 +732,11 @@ button:hover {
 
 /* Header css */
 #header {
-    position: absolute;
+    position: fixed;
     width: 220px;
 	top:0px;
 	bottom: opx;
+     z-index: 2 ;
   }
   #header .pro-sidebar {
     height: 100vh;
@@ -1016,7 +1017,7 @@ button:hover {
     width: 150px; 
   }
 
-<<<<<<< HEAD
+
   .center-table {
     width: 60%;
     top:50%;
@@ -1026,12 +1027,17 @@ button:hover {
 }
 
 .container-viewLocation {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
-=======
+
+
   /*OTPform*/
   .otp-container {
     display: flex;
@@ -1082,7 +1088,7 @@ button:hover {
   
   
 
->>>>>>> b378c8507cf11105f163c658bcc4fb54a6e7c48d
+
 
   
 

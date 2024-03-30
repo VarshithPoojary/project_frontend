@@ -85,7 +85,7 @@ const AdminPasswordUpdate = () => {
                         </div>
                     <div className="form-group row mt-3">
                     <div className="col-sm-12 text-right">
-                        <button type="button" className="btn btn-primary mr-2">Update</button>
+                        <button type="button" className="btn btn-primary mr-2" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8"}}>Update</button>
                         <button type="button" className="btn btn-secondary">Cancel</button>
                     </div>
                 </div>

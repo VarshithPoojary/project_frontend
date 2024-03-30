@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-//import Sidebar from '../sidebar';
-//import Topbar from '../topbar';
+import Topbar from '../topbar';
+import Header from '../Header';
 // import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
 // import { UserList } from '../../actions/userAction';
 import { add_country } from '../../actions/countryAction';
@@ -32,32 +32,41 @@ const CountryAdd = () => {
 
     
 
-    const handleSubmit =  (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-
-        
+    
         const adminId = localStorage.getItem('id');
         try {
-            const data = { admin_created_by_id: adminId,admin_country_name  }
-            const res=add_country(data);
+            const data = { admin_created_by_id: adminId, admin_country_name };
+            const res = await add_country(data); 
             setLoading(false);
-            if (res.error) {
+           if (res.msg) {
+            setMsg(res.msg); 
+            setTimeout(() => {
+                setMsg('');
+        }, 1000);
+            } else  if (res.error) {
                 console.error('Error adding country:', res.error);
-                setMsg('Error adding country. Please try again.'); 
+                setTimeout(() => {
+                    setMsg('');
+            }, 1000);
             } else {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/login`);
+                    Router.push(`/Location/viewCountry`);
                 }, 1000);
             }
         } catch (error) {
             console.error('Error:', error);
             setLoading(false);
-            setMsg('An unexpected error occurred. Please try again.'); 
+            setMsg('An unexpected error occurred. Please try again.');
         }
     };
+
+    
+
     const handleChange = name => e => {
         setValues({ ...values, [name]: e.target.value });
         
@@ -65,6 +74,8 @@ const CountryAdd = () => {
 
     return (
         <div id="wrapper">
+            <Topbar/>
+            <Header/>
             <div className="content-page">
                 <div className="content">
                     <div className="container-fluid">
@@ -80,8 +91,8 @@ const CountryAdd = () => {
                                                     <input className="form-control" id="admin_country_name" type="text" placeholder="Enter Country Name" name="admin_country_name" onChange={handleChange('admin_country_name')} required style={{ width: "105%" }} />
                                                 </div>
                                             </div>
-                                            <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Submit</button>
-                                            {loading ? (<div className="alert alert-success margin-top-10">Adding...</div>) : null}
+                                            <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Submit</button>
+                                            {loading ? (<div className="alert alert-success margin-top-10">Added successfully</div>) : null}
                                             {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
                                         </form>
                                     </div>
