@@ -174,7 +174,7 @@ const handleSubmit = async (e) => {
                                     <div className="admin-profile-form-group">
                                         <label htmlFor="userType">User type</label>
                                         <select
-                                    // className='registration-input'
+                                    
                                     className="form-control"
                                         id="userType"
                                         value={admin_type}

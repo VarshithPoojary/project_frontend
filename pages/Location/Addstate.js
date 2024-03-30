@@ -10,7 +10,9 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 //import Topbar from '../topbar';
 // import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
 // import { UserList } from '../../actions/userAction';
-//import { add_country } from '../../actions/countryAction';
+import { loadCountryDetails } from '../../actions/countryAction';
+import { add_state } from '../../actions/stateAction';
+
 // import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
@@ -19,36 +21,65 @@ import { API } from '../../config';
 const cookies = new Cookies();
 
 const StateAdd = () => {
+    //const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState('');
+    //const [selectedState, setSelectedState] = useState('');
     const [values, setValues] = useState({
-        country_code:'',
-        country_name:''
+        
+        country_list:[],
+        admin_country_id:'',
+        admin_state_name:''
 
     });
+    
+    const { admin_country_id,admin_state_name,loading } = values;
 
-    const [msg, setmsg] = useState('');
-    const { country_code, country_name,loading} = values;
+     useEffect(() =>{
+        loadCountryNames() ;
+    },[]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        var country_data={country_code,country_name}
 
-        add_country(country_data).then(res => {
-
-            if (res.error) {
-                setValues({ ...values });
+    
+    const loadCountryNames = () =>{
+     
+        loadCountryDetails().then(data => {
+             
+            if (data.error) {
+                console.log(data.error);
             } else {
-                setTimeout(() => {
-                    setValues({ ...values, loading: true })
-                });
-                setTimeout(() => {
-                    setValues({ ...values, loading: false })
-                    Router.push(`/country/viewCountry`);
-                }, 1000);
-
+                 
+             
+                setValues({ ...values, country_list: data.admin_country_list });
             }
-        });
-    };
+        })
+    
+}
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const admin_created_by_id = localStorage.getItem('id');
+
+    
+    var state_data={admin_country_id,admin_state_name,admin_created_by_id }
+
+    add_state(state_data).then(res => {
+
+        if (res.error) {
+            setValues({ ...values });
+            setMsg('Error adding state. Please try again.'); 
+
+        } else {
+            setTimeout(() => {
+                setValues({ ...values, loading: true })
+            });
+            setTimeout(() => {
+                setValues({ ...values, loading: false })
+                Router.push('/login');
+            }, 1000);
+        }
+    });
+};
+
     const handleChange = name => e => {
         setValues({ ...values, [name]: e.target.value });
         
@@ -78,26 +109,31 @@ const StateAdd = () => {
                                     <form onSubmit={handleSubmit}>
                                         <div className="row gx-3 mb-3">
                                             <div className="col-md-6">
-                                                <label className="small mb-1" htmlFor="text">Country Id</label>
-                                                <input className="form-control" id="country_id" type="number" placeholder="Enter Country Id" name="country_id" onChange={handleChange('country_id')} required style={{ width: "105%" }} />
+                                            <label className="small mb-1" htmlFor="country_id">Country Name</label>
+                                                    <select className="form-control" id="admin_country_id" name="admin_country_id" onChange={handleChange('admin_country_id')} required style={{ width: "105%" }}>
+                                                        <option value="">Select Country</option>
+                                                        {values.country_list.map(country => (
+                                                    <option key={country._id} value={country._id}>
+                                                        {country.admin_country_name}
+                                                    </option>
+                                                ))}
+                                                    </select>
                                             </div>
                                         </div>
                                         
                                         <div className="row gx-3 mb-3">
                                         <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="state_id">State Name</label>
-                                            <select className="form-control" id="state_id" name="state_id" onChange={handleChange('state_id')} required style={{ width: "105%" }}>
-                                                <option value="">Select State</option>
-                                                
-                                            </select>
+                                            <label className="small mb-1" htmlFor="state_name">State Name</label>
+                                            <input className="form-control" id="admin_state_name" type="text" placeholder="Enter State Name" name="admin_state_name" onChange={handleChange('admin_state_name')} required style={{ width: "105%" }} />
                                         </div>
                                     </div>
                                         <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Added Successfully</div>) : null}
+                                        {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
                                     </form>
                                 </div>
                             </div>
-                            {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
+                            
                         </div>
                     </div>
                 </div>

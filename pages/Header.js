@@ -93,10 +93,13 @@ const Header = () => {
                 <MenuItem icon={<BiUserPlus />} title="Patient">Patient</MenuItem>
                 <MenuItem icon={<BiBriefcase />} title="Department">Department</MenuItem>
                 <MenuItem icon={<BiCalendarPlus />} title="Appointment">Appointment</MenuItem>
-                <SubMenu title="Locations" icon={<FiMapPin />} >
-                  <MenuItem title="Country" icon={<BiMap />}>Country</MenuItem>
-                  <MenuItem title="State" icon={<BiMap />}>State</MenuItem>
-                  <MenuItem title="City" icon={<BiMap />}>City</MenuItem>
+                <SubMenu title="Locations" icon={<FiMapPin />}  >
+                  <MenuItem title="Country" icon={<BiMap />} >
+                  <Link href='/Location/viewCountry'><span >Country</span></Link></MenuItem>
+                  <MenuItem title="State" icon={<BiMap />} >
+                  <Link href='/Location/viewState'><span>State</span></Link></MenuItem>
+                  <MenuItem title="City" icon={<BiMap />} >
+                  <Link href='/Location/viewCity'><span>City</span></Link></MenuItem>
                 </SubMenu>
               </Menu>
             </Scrollbars>
