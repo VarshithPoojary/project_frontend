@@ -516,6 +516,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: 2px solid white;
+    /* background: transparent;
+    backdrop-filter: blur(2px);
+    border: 2px solid white; */
 }
 
 .login_wrapper .name {
@@ -660,6 +664,10 @@ body {
     border-radius: 5px;
 	box-shadow: 0 0 20px rgba(55, 159, 185, 1);
 	background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    /* background: transparent;
+    backdrop-filter: blur(2px);
+    border: 2px solid white; */
 	
 }
 
@@ -732,10 +740,11 @@ button:hover {
 
 /* Header css */
 #header {
-    position: absolute;
+    position: fixed;
     width: 220px;
 	top:0px;
 	bottom: opx;
+     z-index: 2 ;
   }
   #header .pro-sidebar {
     height: 100vh;
@@ -961,12 +970,13 @@ button:hover {
 }
 .profile-edit-btn{
     border: none;
-    border-radius: 1.5rem;
-    width: 70%;
+    border-radius: 1rem;
+    width: 100%;
     padding: 2%;
     font-weight: 600;
-    color: #6c757d;
+    color: #576065;
     cursor: pointer;
+    margin-top: 10px;
 }
 .proile-rating{
     font-size: 12px;
@@ -1014,6 +1024,77 @@ button:hover {
 .small-width-input {
     width: 150px; 
   }
+
+ HEAD
+  .center-table {
+    width: 60%;
+    top:50%;
+    left: 50%;
+    align-content: center;
+    justify-content: center;
+}
+
+.container-viewLocation {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -1;
+}
+  /*OTPform*/
+  .otp-container {
+    display: flex;
+    gap: 15px; 
+  }
+  
+  .otp-input {
+    width: 0px; 
+    height: 40px; 
+    font-size: 16px; 
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+  }
+
+.my-card {
+    position: relative;
+    width: 600px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .my-card-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .my-card-body {
+    padding: 20px;
+  }
+  
+  .my-btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .my-btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  
+  
+  
+  
+
 
   
 

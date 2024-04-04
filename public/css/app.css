@@ -342,16 +342,16 @@ body.enlarged {
     margin: 0; /* Adjust spacing between logo and menu items */
   }
 .navbar-custom {
-  background: rgba(119, 218, 238,0.5);
+  background: rgba(148, 222, 237, 5);
   -webkit-box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
           box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
   padding:  10px 20px ;
   position: fixed;
-  left: 0;
+  left: 0px;
   right: 0;
   display: flex;
   height: 70px;
-  z-index: 100;
+  /* z-index: 2; */
   /* Search */ }
   .navbar-custom .topnav-menu > li {
     float: left; }

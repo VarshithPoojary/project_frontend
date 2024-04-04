@@ -6,11 +6,16 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-//import Sidebar from '../sidebar';
-//import Topbar from '../topbar';
+import Topbar from '../topbar';
+import Header from '../Header';
 // import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
 // import { UserList } from '../../actions/userAction';
-//import { add_country } from '../../actions/countryAction';
+import { add_city } from '../../actions/cityAction';
+import { state_list_by_country_id } from '../../actions/stateAction';
+import { country_list } from '../../actions/countryAction';
+
+
+
 // import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
@@ -20,53 +25,102 @@ const cookies = new Cookies();
 
 const CityAdd = () => {
     const [values, setValues] = useState({
-        country_code:'',
-        country_name:''
-
+        admin_state_id: '',
+        admin_country_id: '', 
+        admin_city_name:'',
+        admin_pincode:'',
+        countryList: [],
+        statedetail: [],
+        loading: false,
+        msg: ''
     });
 
-    const [msg, setmsg] = useState('');
-    const { country_code, country_name,loading} = values;
+    const {  admin_city_name, admin_country_id, admin_state_id,admin_pincode, countryList, statedetail, loading, msg } = values;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        var country_data={country_code,country_name}
+    useEffect(() => {
+        loadCountryDetail();  
+    }, []);
 
-        add_country(country_data).then(res => {
+    const loadCountryDetail = () => {
+        country_list()
+            .then(country => {
+                if (country.error) {
+                    console.log(country.error);
+                } else {
+                      
+                    setValues({ ...values, countryList: country.admin_country_list });
+                    
+                }
+            })
+            .catch(error => console.log(error));
+};
 
-            if (res.error) {
-                setValues({ ...values });
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const adminId = localStorage.getItem('id');
+    const city_data = { admin_created_by_id: adminId, admin_city_name, admin_country_id, admin_state_id, admin_pincode };
+
+    add_city(city_data)
+        .then(res => {
+            if (res.msg) {
+                setMsg(res.msg);
+                setTimeout(() => {
+                    setMsg('');
+            }, 1000);
+            } else  if (res.error) {
+                setMsg('Error adding city. Please try again.');
+                setTimeout(() => {
+                    setMsg('');
+            }, 1000);
+            
             } else {
+                setValues({ ...values, loading: true });
                 setTimeout(() => {
-                    setValues({ ...values, loading: true })
-                });
-                setTimeout(() => {
-                    setValues({ ...values, loading: false })
-                    Router.push(`/country/viewCountry`);
+                    setValues({ ...values, loading: false, msg: 'Added Successfully' });
+                    Router.push('/Location/viewCity');
                 }, 1000);
-
             }
-        });
-    };
-    const handleChange = name => e => {
-        setValues({ ...values, [name]: e.target.value });
-        
-    };
+        })
+        .catch(error => console.error(error));
+};
+
+
+
+const handleChange = name => e => {
+    
+    setValues({ ...values, [name]: e.target.value });
+    
+    if(name===("admin_country_id"))
+   {
+    
+    state_list_by_country_id(e.target.value).then(data1 => {
+          
+        if (data1.error) {
+            alert("error")
+            console.log(data1.error);
+        } else {
+           
+        setValues({ ...values,statedetail:data1.state_list,admin_country_id:e.target.value});
+                     
+            
+      
+        }
+    })
+}
+   
+};
 
     return (
         <div id="wrapper">
-            {/* <Head>
+            <Head>
                 <title>Country Add</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta name="title" content='Country' />
-                <meta property="og:image" content="/icons/app_logo.jpeg" />
-                <meta itemprop="image" content="/icons/app_logo.jpeg"></meta>
-                <meta property="og:image:width" content="200" />
-                <meta property="og:image:height" content="200" />
+                <link rel="icon" href="/images/title_logo.png" />
             </Head>
-            <Topbar />
-            <Sidebar /> */}
+           
+             <Topbar />
+            <Header />
             <div className="content-page">
             <div className="content">
                 <div className="container-fluid">
@@ -79,37 +133,45 @@ const CityAdd = () => {
                                     <div className="row gx-3 mb-3">
                                             <div className="col-md-6">
                                                 <label className="small mb-1" htmlFor="text">Country Id</label>
-                                                <input className="form-control" id="country_id" type="number" placeholder="Enter Country Id" name="country_id" onChange={handleChange('country_id')} required style={{ width: "105%" }} />
+                                                <select className="form-control" id="admin_country_id" name="admin_country_id" onChange={handleChange('admin_country_id')} required style={{ width: "105%" }}>
+                                                        <option value="">Select Country</option>
+                                                        {values.countryList.map(country => (
+                                                    <option key={country._id} value={country._id}>
+                                                        {country.admin_country_name}
+                                                    </option>
+                                                ))}
+                                                    </select>
                                             </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
                                             <div className="col-md-6">
                                                 <label className="small mb-1" htmlFor="text">State Id</label>
-                                                <input className="form-control" id="state_id" type="number" placeholder="Enter State Id" name="state_id" onChange={handleChange('state_id')} required style={{ width: "105%" }} />
+                                                <select className="form-control" id="admin_state_id" name="admin_state_id" onChange={handleChange('admin_state_id')} required>
+                                                 <option value="">Select state</option> 
+                                                {values.statedetail.map(state => (
+                                                    <option key={state._id} value={state._id}>
+                                                        {state.admin_state_name}
+                                                    </option>
+                                                ))}
+                                            </select>
                                             </div>
                                         </div>
                                         <div className="row gx-3 mb-3">
                                         <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="city_id">City Name</label>
-                                            <select className="form-control" id="city_id" name="city_id" onChange={handleChange('city_id')} required style={{ width: "105%" }}>
-                                                <option value="">Select City</option>
-                                                
-                                            </select>
+                                            <label className="small mb-1" htmlFor="admin_city_name">City Name</label>
+                                            <input className="form-control" id="admin_city_name" type="text" placeholder="Enter City Name" name="admin_city_name" onChange={handleChange('admin_city_name')} required style={{ width: "105%" }} />
                                         </div>
-                                    </div>
-                                    <div className="row gx-3 mb-3">
                                        <div className="col-md-6">  
                                                 <label className="small mb-1" htmlFor="number">Pincode</label>
-                                                <input className="form-control" id="pincode" type="number" placeholder="Enter Pincode" name="pincode" onChange={handleChange('pincode')} required style={{ width: "105%" }} />
+                                                <input className="form-control" id="admin_pincode" type="number" placeholder="Enter Pincode" name="admin_pincode" onChange={handleChange('admin_pincode')} required style={{ width: "105%" }} />
                                             </div>
                                         </div>
                                     
-                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Added Successfully</div>) : null}
+                                        {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
                                     </form>
                                 </div>
                             </div>
-                            {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
+                           
                         </div>
                     </div>
                 </div>

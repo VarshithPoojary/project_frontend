@@ -6,11 +6,13 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-//import Sidebar from '../sidebar';
-//import Topbar from '../topbar';
+import Topbar from '../topbar';
+import Header from '../Header';
 // import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
 // import { UserList } from '../../actions/userAction';
-//import { add_country } from '../../actions/countryAction';
+import { country_list } from '../../actions/countryAction';
+import { add_state } from '../../actions/stateAction';
+
 // import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
@@ -19,36 +21,66 @@ import { API } from '../../config';
 const cookies = new Cookies();
 
 const StateAdd = () => {
+    //const [loading, setLoading] = useState(false);
+    const [msg, setMsg] = useState('');
+    //const [selectedState, setSelectedState] = useState('');
     const [values, setValues] = useState({
-        country_code:'',
-        country_name:''
+        
+        country_list:[],
+        admin_country_id:'',
+        admin_state_name:''
 
     });
+    
+    const { admin_country_id,admin_state_name,loading } = values;
 
-    const [msg, setmsg] = useState('');
-    const { country_code, country_name,loading} = values;
+     useEffect(() =>{
+        loadCountryNames() ;
+    },[]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        var country_data={country_code,country_name}
 
-        add_country(country_data).then(res => {
-
-            if (res.error) {
-                setValues({ ...values });
+    
+    const loadCountryNames = () =>{
+     
+        country_list().then(data => {
+             
+            if (data.error) {
+                console.log(data.error);
             } else {
-                setTimeout(() => {
-                    setValues({ ...values, loading: true })
-                });
-                setTimeout(() => {
-                    setValues({ ...values, loading: false })
-                    Router.push(`/country/viewCountry`);
-                }, 1000);
-
+                 
+             
+                setValues({ ...values, country_list: data.admin_country_list });
             }
-        });
-    };
+        })
+    
+}
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    const admin_created_by_id = localStorage.getItem('id');
+    const state_data = { admin_country_id, admin_state_name, admin_created_by_id };
+
+    add_state(state_data).then(res => {
+        if (res.msg) {  
+            setMsg(res.msg);
+            setTimeout(() => {
+                setMsg('');
+        }, 1000);
+        } else if (res.error) {
+            setMsg('Error adding state. Please try again.');
+            setTimeout(() => {
+                setMsg('');
+        }, 1000);
+        } else {
+            setValues({ ...values, loading: true });
+            setTimeout(() => {
+                setValues({ ...values, loading: false });
+                Router.push('/Location/viewState');
+            }, 1000);
+        }
+    });
+};
+
     const handleChange = name => e => {
         setValues({ ...values, [name]: e.target.value });
         
@@ -56,17 +88,14 @@ const StateAdd = () => {
 
     return (
         <div id="wrapper">
-            {/* <Head>
-                <title>Country Add</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="title" content='Country' />
-                <meta property="og:image" content="/icons/app_logo.jpeg" />
-                <meta itemprop="image" content="/icons/app_logo.jpeg"></meta>
-                <meta property="og:image:width" content="200" />
-                <meta property="og:image:height" content="200" />
-            </Head>
-            <Topbar />
-            <Sidebar /> */}
+               <Head>
+      <title>Add State</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Add State' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
+             <Topbar />
+            <Header />
             <div className="content-page">
             <div className="content">
                 <div className="container-fluid">
@@ -78,26 +107,31 @@ const StateAdd = () => {
                                     <form onSubmit={handleSubmit}>
                                         <div className="row gx-3 mb-3">
                                             <div className="col-md-6">
-                                                <label className="small mb-1" htmlFor="text">Country Id</label>
-                                                <input className="form-control" id="country_id" type="number" placeholder="Enter Country Id" name="country_id" onChange={handleChange('country_id')} required style={{ width: "105%" }} />
+                                            <label className="small mb-1" htmlFor="country_id">Country Name</label>
+                                                    <select className="form-control" id="admin_country_id" name="admin_country_id" onChange={handleChange('admin_country_id')} required style={{ width: "105%" }}>
+                                                        <option value="">Select Country</option>
+                                                        {values.country_list.map(country => (
+                                                    <option key={country._id} value={country._id}>
+                                                        {country.admin_country_name}
+                                                    </option>
+                                                ))}
+                                                    </select>
                                             </div>
                                         </div>
                                         
                                         <div className="row gx-3 mb-3">
                                         <div className="col-md-6">
-                                            <label className="small mb-1" htmlFor="state_id">State Name</label>
-                                            <select className="form-control" id="state_id" name="state_id" onChange={handleChange('state_id')} required style={{ width: "105%" }}>
-                                                <option value="">Select State</option>
-                                                
-                                            </select>
+                                            <label className="small mb-1" htmlFor="state_name">State Name</label>
+                                            <input className="form-control" id="admin_state_name" type="text" placeholder="Enter State Name" name="admin_state_name" onChange={handleChange('admin_state_name')} required style={{ width: "105%" }} />
                                         </div>
                                     </div>
-                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Added Successfully</div>) : null}
+                                        {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
                                     </form>
                                 </div>
                             </div>
-                            {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
+                            
                         </div>
                     </div>
                 </div>

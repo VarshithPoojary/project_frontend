@@ -4,40 +4,51 @@ import Head from 'next/head';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Swal from 'sweetalert2';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import Router from 'next/router';
+import Header from '../Header';
+import Topbar from '../topbar';
+import { city_list , DeleteCityDetails } from '../../actions/cityAction';
 
 const CityView = () => {
     const [cityDetail, setCityDetail] = useState([]);
-    const [msg, setMsg] = useState('');
+    const [values, setValues] = useState({
+        citydetail: []
+    });
 
+    const [msg, setMsg] = useState('')
+    const { citydetail} = values;
     useEffect(() => {
-        // Load city details
         loadCityDetails();
     }, []);
 
     const loadCityDetails = () => {
-        // Simulate fetching city details (replace with actual API call)
-        const dummyCityData = [
-            { id: 1,  cityName: 'Udupi', stateName: 'Karnataka', countryName: 'India' },
-            { id: 2,  cityName: 'Los Angeles', stateName: 'California', countryName: 'United States' },
-            { id: 3, cityName: 'Chicago', stateName: 'Illinois', countryName: 'United States' },
-            // Add more cities as needed
-        ];
-        // Add serial number to each item in the array
-        const citiesWithSerial = dummyCityData.map((city, index) => ({
-            ...city,
-            serialNumber: index + 1
-        }));
-        setCityDetail(citiesWithSerial);
+        city_list().then(data => {
+              //alert(JSON.stringify(data));
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                //alert(data.caretakerLists);
+                // console.log(data.caretakerDetailLists);
+                setValues({ ...values, citydetail: data.city_list });
+            }
+        })
     }
 
     const handleEdit = (row) => {
-        // Implement edit functionality
+        Router.push({
+            pathname: '/Location/Editcity',
+            query: {
+                _id: row._id,
+
+            }
+        })
     }
 
     const handleDelete = (row) => {
+        let created_by_id = localStorage.getItem('id');
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You will not be able to recover this city!',
+            text: 'You will not be able to recover this country!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -45,10 +56,14 @@ const CityView = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Delete city logic here
-                setMsg(`City "${row.cityName}" deleted successfully.`);
-                // Reload city details after deletion
-                loadCityDetails();
+                let query = { "_id": row._id, "created_by_id": created_by_id }
+                DeleteCityDetails(query).then(data => {
+                    loadCityDetails();
+                    setMsg(`State "${row.city_name}" deleted successfully.`);
+                    setTimeout(() => {
+                        setMsg('');
+                    }, 2000); 
+                });
             }
         });
     }
@@ -56,10 +71,10 @@ const CityView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit" onClick={() => handleEdit(row)}>
-                    <FiEdit style={{ fill: '#ff0000' }} />
+                <button className="icons-edit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8"}} onClick={() => handleEdit(row)}>
+                    <FiEdit  />
                 </button>
-                <button className="icons-delete" onClick={() => handleDelete(row)}>
+                <button className="icons-delete" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -71,37 +86,32 @@ const CityView = () => {
             <Head>
                 <title>City List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                {/* Add other meta tags as needed */}
+               <meta name="title" content='City List' />
+                <link rel="icon" href="/images/title_logo.png" />
             </Head>
-            <div className="container">
+            
+            <Header/>
+            <Topbar/>
+            <div className="container-viewLocation">
                 <div className="center-table">
                     <center><h2><b>CITY LIST</b></h2></center>
-                    <Link href="/city/add">
-                        <a className="btn btn-success mb-3">Add City</a>
+                    <Link href="/Location/Addcity">
+                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", width:'20%' }}>Add City</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
-                    <BootstrapTable data={cityDetail} search={true}>
-                        <TableHeaderColumn dataField="serialNumber" width="100" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="id" isKey hidden>ID</TableHeaderColumn>
+                    <BootstrapTable data={citydetail} search={true}>
+                        <TableHeaderColumn dataField="sno" width="100" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
                         
-                        <TableHeaderColumn dataField="cityName" dataSort><b>City Name</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="stateName" dataSort><b>State Name</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="countryName" dataSort><b>Country Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="city_name" dataSort><b>City Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="state_name" dataSort><b>State Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="country_name" dataSort><b>Country Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_pincode" dataSort><b>Pincode</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_firstname" dataSort><b>Creadted Admin</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="actions" dataFormat={actionFormatter}><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
             </div>
-            <style jsx>{`
-                .container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                }
-                .center-table {
-                    width: 80%;
-                }
-            `}</style>
         </Fragment>
     );
 };

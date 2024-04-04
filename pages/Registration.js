@@ -147,7 +147,7 @@ const Registrations = () => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
     const toggleConfirmPasswordVisibility  = () => {
-        setValues({ ...values, showPassword: !values.showPassword });
+        setValues({ ...values, showConfirmPassword: !values.showConfirmPassword });
     };
     
     return (
@@ -155,8 +155,10 @@ const Registrations = () => {
              <Head>
       <title>Registration</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta name="title" content='Admin_Profile' />
+      <meta name="title" content='Registration' />
+      <link rel="icon" href="/images/title_logo.png" />
     </Head>
+
         <div className="registration-container">
             <div className="registration-form">
                 {/* <div className="logo">
@@ -274,14 +276,14 @@ const Registrations = () => {
                         <div className="col">
                                 <label htmlFor="confirmPassword">Confirm Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
-                                    type={values.showPassword ? 'text' : 'password'}
+                                    type={values.showConfirmPassword ? 'text' : 'password'}
                                 className='registration-input'
                                     id="confirmPassword"
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                                   <span
-                                    className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                    className={`fas ${values.showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`}
                                     onClick={toggleConfirmPasswordVisibility}
                                     style={{ cursor: 'pointer' }}
                                 ></span>

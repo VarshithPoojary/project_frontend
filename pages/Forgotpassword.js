@@ -20,30 +20,46 @@ const ForgotPasswordPage = () => {
     <Head>
     <title>Forgot Password</title>
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <meta name="title" content='Admin_Profile' />
-  </Head>
-    <div className="d-flex justify-content-center">
-    
-    <div className="card text-center" style={{ width: '600px' }}>
-      <div className="card-header h5 text-white bg-primary">Password Reset</div>
-      <div className="card-body px-5">
-        <p className="card-text py-2">
-          Enter your email address and we'll send you an email with instructions to reset your password.
-        </p>
-        <div className="form-outline">
-          <input type="email" id="typeEmail" className="form-control my-3" />
-          
+    <meta name="title" content='Forgot Password' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
+
+
+  <div id="wrapper">
+            <div className="content-page">
+                <div className="content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col-12">
+                                <div className="card mb-4" style={{ width: "900px", marginTop: "70px" }}>
+                                    <div className="card-header">Forgot Password</div>
+                                    <div className="card-body" style={{ maxWidth: "1000px" }}>
+                                        <form onSubmit={handleResetPassword}>
+                                            <div className="row gx-3 mb-3">
+                                                <div className="col-md-6">
+                                                    <label className="small mb-1" htmlFor="admin_email"> Enter your email address and we'll send you an email with instructions to reset your password.
+                                                    </label>
+                                                    <input className="form-control" id="admin_email" type="email" placeholder="Enter Your Email" name="admin_email"  required style={{ width: "150%" }} />
+                                                </div>
+                                            </div>
+                                            <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA",width: "30%" }}onClick={handleResetPassword}>Send OTP</button>
+                                            <div className="d-flex justify-content-between mt-4">
+                                                <a className="" Link href="/login">Login</a>
+                                                <a className="" Link href="/Registration">Register</a>
+                                              </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button className="btn btn-primary w-100" onClick={handleResetPassword}>Reset password</button>
-        <div className="d-flex justify-content-between mt-4">
-          <a className="" Link href="/login">Login</a>
-          <a className="" Link href="/Registration">Register</a>
-        </div>
-      </div>
-    </div>
-    </div>
-    </>
-  );
+        </>
+    );
 };
+    
 
 export default ForgotPasswordPage;

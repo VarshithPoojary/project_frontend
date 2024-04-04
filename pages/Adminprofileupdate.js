@@ -110,7 +110,9 @@ const handleSubmit = async (e) => {
             <Head>
                 <title>Edit Profile</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="title" content='Admin_Profile' />
+                <meta name="title" content='Edit Profile' />
+                <link rel="icon" href="/images/title_logo.png" />
+
             </Head>
             <Header />
             <Topbar />
@@ -174,7 +176,7 @@ const handleSubmit = async (e) => {
                                     <div className="admin-profile-form-group">
                                         <label htmlFor="userType">User type</label>
                                         <select
-                                    // className='registration-input'
+                                    
                                     className="form-control"
                                         id="userType"
                                         value={admin_type}
@@ -203,11 +205,11 @@ const handleSubmit = async (e) => {
                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div className="text-right">
                                                 <Link href="/Adminprofileui">
-                                                    <button type="button" className="btn btn-primary mr-2">Profile</button>
+                                                    <button type="button" className="btn btn-primary mr-2" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", marginTop:"10px" }}>Profile</button>
                                                 </Link>
-                                                <button type="submit" className="btn btn-primary mr-2">Update</button>
+                                                <button type="submit" className="btn btn-primary mr-2" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", marginTop:"10px" }}>Update</button>
                                                 {loading && <div className="alert alert-success margin-top-10">Edited Successfully</div>}
-                                                <button type="button" className="btn btn-secondary" onClick={Cancel}>Cancel</button>
+                                                <button type="button" className="btn btn-secondary" onClick={Cancel} style={{ marginTop:"10px" }}>Cancel</button>
                                             </div>
                                         </div>
                                     </div>
