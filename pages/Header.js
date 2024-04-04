@@ -46,10 +46,20 @@ const Header = () => {
     }
   }, []);
 
+  const handleDashboard = () => {
+    Router.push('/dashboard');
+  };
+
+  const handleAdmin = () => {
+    Router.push('/Admin/viewAdminList');
+  };
+
+
   const handleLogout = () => {
     localStorage.removeItem('id');
     Router.push('/login');
   };
+
 
   const loadUserDetails = (user_id) => {
     admin_details_by_id(user_id)
@@ -72,6 +82,7 @@ const Header = () => {
 
   return (
     <>
+    
       <div id="header">
         <ProSidebar collapsed={menuCollapse}>
           <SidebarHeader>
@@ -85,10 +96,12 @@ const Header = () => {
           <SidebarContent>
             <Scrollbars style={{ width: '100%', height: '100%' }}>
               <Menu iconShape="square">
-                <MenuItem icon={<FiHome />} title="Dashboard">
+                <MenuItem icon={<FiHome />} title="Dashboard" onClick={handleDashboard}>
                   <Link href='/dashboard'><span>Dashboard</span></Link>
                 </MenuItem>
-                <MenuItem icon={<BiUser />} title="Admin">Admin</MenuItem>
+                <MenuItem icon={<BiUser />} title="Admin" onClick={handleAdmin}>
+                <Link href='/Admin/viewAdminList'><span>Admin</span></Link>
+                </MenuItem>
                 <MenuItem icon={<BiClinic />} title="Doctor">Doctor</MenuItem>
                 <MenuItem icon={<BiUserPlus />} title="Patient">Patient</MenuItem>
                 <MenuItem icon={<BiBriefcase />} title="Department">Department</MenuItem>

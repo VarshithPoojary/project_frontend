@@ -6,11 +6,11 @@ import { useState, useEffect } from 'react';
 import Router from 'next/router';
 import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-//import Sidebar from '../sidebar';
-//import Topbar from '../topbar';
+import Topbar from '../topbar';
+import Header from '../Header';
 // import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
 // import { UserList } from '../../actions/userAction';
-import { loadCountryDetails } from '../../actions/countryAction';
+import { country_list } from '../../actions/countryAction';
 import { add_state } from '../../actions/stateAction';
 
 // import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
@@ -42,7 +42,7 @@ const StateAdd = () => {
     
     const loadCountryNames = () =>{
      
-        loadCountryDetails().then(data => {
+        country_list().then(data => {
              
             if (data.error) {
                 console.log(data.error);
@@ -58,23 +58,24 @@ const StateAdd = () => {
 const handleSubmit = (e) => {
     e.preventDefault();
     const admin_created_by_id = localStorage.getItem('id');
-
-    
-    var state_data={admin_country_id,admin_state_name,admin_created_by_id }
+    const state_data = { admin_country_id, admin_state_name, admin_created_by_id };
 
     add_state(state_data).then(res => {
-
-        if (res.error) {
-            setValues({ ...values });
-            setMsg('Error adding state. Please try again.'); 
-
+        if (res.msg) {  
+            setMsg(res.msg);
+            setTimeout(() => {
+                setMsg('');
+        }, 1000);
+        } else if (res.error) {
+            setMsg('Error adding state. Please try again.');
+            setTimeout(() => {
+                setMsg('');
+        }, 1000);
         } else {
+            setValues({ ...values, loading: true });
             setTimeout(() => {
-                setValues({ ...values, loading: true })
-            });
-            setTimeout(() => {
-                setValues({ ...values, loading: false })
-                Router.push('/login');
+                setValues({ ...values, loading: false });
+                Router.push('/Location/viewState');
             }, 1000);
         }
     });
@@ -87,17 +88,14 @@ const handleSubmit = (e) => {
 
     return (
         <div id="wrapper">
-            {/* <Head>
-                <title>Country Add</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="title" content='Country' />
-                <meta property="og:image" content="/icons/app_logo.jpeg" />
-                <meta itemprop="image" content="/icons/app_logo.jpeg"></meta>
-                <meta property="og:image:width" content="200" />
-                <meta property="og:image:height" content="200" />
-            </Head>
-            <Topbar />
-            <Sidebar /> */}
+               <Head>
+      <title>Add State</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Add State' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
+             <Topbar />
+            <Header />
             <div className="content-page">
             <div className="content">
                 <div className="container-fluid">
@@ -127,7 +125,7 @@ const handleSubmit = (e) => {
                                             <input className="form-control" id="admin_state_name" type="text" placeholder="Enter State Name" name="admin_state_name" onChange={handleChange('admin_state_name')} required style={{ width: "105%" }} />
                                         </div>
                                     </div>
-                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Added Successfully</div>) : null}
                                         {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
                                     </form>

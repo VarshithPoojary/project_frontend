@@ -7,35 +7,37 @@ import { Adminsignin } from '../actions/loginAction';
 
 const AdminSignin = () => {
     const [values, setValues] = useState({
-        username: '',
+        email: '',
         password: '',
         error: '',
         loading: false,
         showPassword: false, 
     });
 
-    const { username, password, error, loading, showPassword } = values;
+    const { email, password, error, loading, showPassword } = values;
     const [isSuccess, setIsSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!username || !password) {
+        if (!email || !password) {
             setValues({ ...values, error: 'Please enter all fields' });
             return;
         }
         setValues({ ...values, loading: true, error: '' });
 
         try {
-            const loginData = { username, password };
+            const loginData = { email, password };
             const response = await Adminsignin(loginData); 
             if (response.error) {
-                setValues({ ...values, error: 'Incorrect username or password', loading: false });
+                setValues({ ...values, error: 'Incorrect email or password', loading: false });
+                setTimeout(() => {
+                    setValues({ ...values, error: '', loading: false });
+                }, 1000);
             } else {
                 localStorage.setItem('id', response.userId);
                 setIsSuccess(true);
-                setSuccessMessage('Login successfull');
-                setValues({ ...values, username: '', password: '', loading: false });
+                setValues({ ...values, email: '', password: '', loading: false });
                 Router.push('/dashboard'); 
             }
         } catch (error) {
@@ -57,6 +59,9 @@ const AdminSignin = () => {
             <Head>
                 <title>Login</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="title" content='Login' />
+                <link rel="icon" href="/images/title_logo.png" />
+
             </Head>
            
 
@@ -70,15 +75,15 @@ const AdminSignin = () => {
                 <form onSubmit={handleSubmit} className="p-3 mt-3">
                     
                     <div className="form-field d-flex align-items-center">
-                        <span className="far fa-user"></span>
+                        <span className="far fa-envelope"></span>
                         <input
                             className='login_input'
-                            id='login_username'
-                            type="text"
-                            name="username"
-                            placeholder="Username"
-                            value={username}
-                            onChange={handleChange('username')}
+                            id='login_email'
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={handleChange('email')}
                         />
                     </div>
                     <div className="form-field d-flex align-items-center">

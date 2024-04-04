@@ -6,6 +6,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  
 }
 
 .main {
@@ -15,6 +16,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 .footer {
@@ -118,4 +120,45 @@
     width: 100%;
     flex-direction: column;
   }
+}
+
+.body {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.homepage {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.services {
+  margin-bottom: 40px;
+}
+
+.service {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.service h3 {
+  color: #333;
+}
+
+.about {
+  margin-bottom: 40px;
+}
+
+.footer {
+  text-align: center;
+  color: #666;
 }

@@ -7,7 +7,7 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import Router from 'next/router';
 import Header from '../Header';
 import Topbar from '../topbar';
-import { state_list, DeleteStateDetails } from '../../actions/locationAction';
+import { state_list, DeleteStateDetails } from '../../actions/stateAction';
 
 
 
@@ -62,7 +62,7 @@ const StateView = () => {
                     setMsg(`State "${row.admin_state_name}" deleted successfully.`);
                     setTimeout(() => {
                         setMsg('');
-                    }, 5000); 
+                    }, 2000); 
                 });
             }
         });
@@ -73,10 +73,10 @@ const StateView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit" onClick={() => handleEdit(row)}>
-                    <FiEdit style={{ fill: '#ff0000' }} />
+                <button className="icons-edit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8",width:"50px",marginLeft:"10px" }} onClick={() => handleEdit(row)}>
+                    <FiEdit  />
                 </button>
-                <button className="icons-delete" onClick={() => handleDelete(row)}>
+                <button className="icons-delete" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8",width:"50px",marginLeft:"20px" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -88,7 +88,9 @@ const StateView = () => {
             <Head>
                 <title>State List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                {/* Add other meta tags as needed */}
+                <meta name="title" content='State List' />
+                <link rel="icon" href="/images/title_logo.png" />
+    
             </Head>
             <Header/>
             <Topbar/>
@@ -97,7 +99,7 @@ const StateView = () => {
                 <div className="center-table">
                     <center><h2><b>STATE LIST</b></h2></center>
                     <Link href="/Location/Addstate">
-                        <a className="btn btn-success mb-3">Add State</a>
+                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", width:'20%' }}>Add State</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={statedetail} search={true}>

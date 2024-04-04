@@ -27,11 +27,21 @@ const ForgotPasswordPage = () => {
 
   return (
     <>
+<<<<<<< HEAD
       <Head>
         <title>Forgot Password</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="title" content='Forgot_password' />
       </Head>
+=======
+    <Head>
+    <title>Forgot Password</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta name="title" content='Forgot Password' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
+
+>>>>>>> a7b83b58fbe74c01c5cd8138744f73423073cd6e
 
       <div id="wrapper">
         <div className="content-page">

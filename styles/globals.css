@@ -516,6 +516,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: 2px solid white;
+    /* background: transparent;
+    backdrop-filter: blur(2px);
+    border: 2px solid white; */
 }
 
 .login_wrapper .name {
@@ -660,6 +664,10 @@ body {
     border-radius: 5px;
 	box-shadow: 0 0 20px rgba(55, 159, 185, 1);
 	background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    /* background: transparent;
+    backdrop-filter: blur(2px);
+    border: 2px solid white; */
 	
 }
 
@@ -732,10 +740,11 @@ button:hover {
 
 /* Header css */
 #header {
-    position: absolute;
+    position: fixed;
     width: 220px;
 	top:0px;
 	bottom: opx;
+     z-index: 2 ;
   }
   #header .pro-sidebar {
     height: 100vh;
@@ -1016,7 +1025,11 @@ button:hover {
     width: 150px; 
   }
 
+<<<<<<< HEAD
 
+=======
+ HEAD
+>>>>>>> a7b83b58fbe74c01c5cd8138744f73423073cd6e
   .center-table {
     width: 60%;
     top:50%;
@@ -1026,12 +1039,20 @@ button:hover {
 }
 
 .container-viewLocation {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    z-index: -1;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> a7b83b58fbe74c01c5cd8138744f73423073cd6e
   /*OTPform*/
   .otp-container {
     display: flex;

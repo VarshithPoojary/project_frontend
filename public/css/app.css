@@ -293,17 +293,65 @@ body.enlarged {
   height: 70px;
   width: 240px;
   float: left; }
-
-.navbar-custom {
+.navbar {
   background: rgba(119, 218, 238,0.5);
   -webkit-box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
           box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
-  padding: 0 10px 0 0;
+  padding:  10px 20px ;
   position: fixed;
+  top :0; /* Position the navbar at the top of the viewport */
   left: 0;
   right: 0;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  width: 100%; /* Make the navbar take up the entire width of the viewport */
+  z-index: 1000;
+  position:fixed;
+  }
+  
+  .navbar-navb {
+    list-style-type: none;
+   
+    padding: 0;
+    display: flex; /* Change display to flex */
+    margin-right: 100px;
+  }
+  
+  .nav-item {
+    margin-right: 20px;
+    display: inline-block;
+    align-items:last center;
+  }
+  
+  .nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .nav-link:hover {
+    color:#348cd4; /* Change color on hover */
+  }
+  .navbar-logo {
+    width: 120px; /* Adjust width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0; /* Adjust spacing between logo and menu items */
+  }
+.navbar-custom {
+  background: rgba(148, 222, 237, 5);
+  -webkit-box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+          box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+  padding:  10px 20px ;
+  position: fixed;
+  left: 0px;
+  right: 0;
+  display: flex;
   height: 70px;
-  z-index: 100;
+  /* z-index: 2; */
   /* Search */ }
   .navbar-custom .topnav-menu > li {
     float: left; }
@@ -2878,3 +2926,39 @@ h3.timeline-title {
   .pricing-column .plan-stats li {
     margin-bottom: 15px;
     line-height: 24px; }
+
+
+    .home_footer {
+      background-color:rgba(119, 218, 238,0.5);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      width:100%;
+      bottom:0%;
+    }
+    
+    .home_footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .home_footer-nav ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .home_footer-nav li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    
+    .home_footer-nav a {
+      color: #fff;
+      text-decoration: none;
+    }
+    
+    .home_footer-nav a:hover {
+      color: #ff6600;
+    }
