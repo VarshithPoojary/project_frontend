@@ -3,6 +3,7 @@ import '../styles/slide.scss';
 import '../styles/variable.scss';
 import '../public/css/bootstrap.css';
 
+
 function MyApp({ Component, pageProps }) {
   return (
     <>
