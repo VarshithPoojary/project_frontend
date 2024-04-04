@@ -1025,8 +1025,7 @@ button:hover {
     width: 150px; 
   }
 
- HEAD
-  .center-table {
+ HEAD  .center-table {
     width: 60%;
     top:50%;
     left: 50%;
