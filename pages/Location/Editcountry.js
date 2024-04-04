@@ -14,7 +14,8 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 // import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
-
+import Header from '../Header';
+import Topbar from '../topbar';
 
 const cookies = new Cookies();
 
@@ -67,6 +68,8 @@ const CountryEdit = () => {
             </Head>
             <Topbar />
             <Sidebar /> */}
+            <Header/>
+            <Topbar/>
             <div className="content-page">
             <div className="content">
                 <div className="container-fluid">

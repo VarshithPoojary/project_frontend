@@ -14,6 +14,8 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 // import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
+import Header from '../Header';
+import Topbar from '../topbar';
 
 
 const cookies = new Cookies();
@@ -56,6 +58,8 @@ const CityEdit = () => {
 
     return (
         <div id="wrapper">
+            <Header/>
+            <Topbar/>
             {/* <Head>
                 <title>Country Add</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -76,34 +80,32 @@ const CityEdit = () => {
                                 <div className="card-header">Edit City here</div>
                                 <div className="card-body" style={{ maxWidth: "400px" }}>
                                     <form onSubmit={handleSubmit}>
-                                    <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
+                                    <div className="row">
+                                        <div className="col">
                                                 <label className="small mb-1" htmlFor="text">Country Id</label>
                                                 <input className="form-control" id="country_id" type="number" placeholder="Enter Country Id" name="country_id" onChange={handleChange('country_id')} required style={{ width: "105%" }} />
                                             </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
+                                      
+                                            <div className="col">
                                                 <label className="small mb-1" htmlFor="text">State Id</label>
                                                 <input className="form-control" id="state_id" type="number" placeholder="Enter State Id" name="state_id" onChange={handleChange('state_id')} required style={{ width: "105%" }} />
                                             </div>
-                                        </div>
-                                        <div className="row gx-3 mb-3">
-                                        <div className="col-md-6">
+                                            </div>
+                                        <div className="row">
+                                       <div className="col">
                                             <label className="small mb-1" htmlFor="city_id">City Name</label>
                                             <select className="form-control" id="city_id" name="city_id" onChange={handleChange('city_id')} required style={{ width: "105%" }}>
                                                 <option value="">Select City</option>
                                                 
                                             </select>
                                         </div>
-                                    </div>
-                                    <div className="row gx-3 mb-3">
-                                            <div className="col-md-6">
+                                    
+                                        <div className="col">
                                                 <label className="small mb-1" htmlFor="number">Pincode</label>
                                                 <input className="form-control" id="pincode" type="number" placeholder="Enter Pincode" name="pincode" onChange={handleChange('pincode')} required style={{ width: "105%" }} />
                                             </div>
                                         </div>
-                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#0c9da5", borderColor: "#87CEFA" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Edited Successfully</div>) : null}
                                     </form>
                                 </div>

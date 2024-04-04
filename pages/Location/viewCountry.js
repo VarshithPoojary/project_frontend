@@ -4,37 +4,46 @@ import Head from 'next/head';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Swal from 'sweetalert2';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import Router from 'next/router';
+import Header from '../Header';
+import Topbar from '../topbar';
+import { DeleteCountryDetails,country_list } from '../../actions/locationAction';
 
 const CountryView = () => {
-    const [countryDetail, setCountryDetail] = useState([]);
+    const [values, setValues] = useState({
+        countrydetail: []
+    });
     const [msg, setMsg] = useState('');
+    const { countrydetail} = values;
+
 
     useEffect(() => {
-        // Load country details
         loadCountryDetails();
     }, []);
 
     const loadCountryDetails = () => {
-        // Simulate fetching country details (replace with actual API call)
-        const dummyCountryData = [
-            // { id: 1, countryCode: 'IN', countryName: 'India' },
-            // { id: 2, countryCode: 'CA', countryName: 'Canada' },
-            // { id: 3, countryCode: 'MX', countryName: 'Mexico' },
-            // Add more countries as needed
-        ];
-        // Add serial number to each item in the array
-        const countriesWithSerial = dummyCountryData.map((country, index) => ({
-            ...country,
-            serialNumber: index + 1
-        }));
-        setCountryDetail(countriesWithSerial);
-    }
+        country_list().then(data => {
+          if (data.error) {
+              console.log(data.error);
+          } else {
+              setValues({ ...values, countrydetail: data.admin_country_list });
+          }
+      })
+  }
+    
 
     const handleEdit = (row) => {
-        // Implement edit functionality
+        Router.push({
+            pathname: '/Location/Editcountry',
+            query: {
+                _id: row._id,
+
+            }
+        })
     }
 
     const handleDelete = (row) => {
+        let created_by_id = localStorage.getItem('id');
         Swal.fire({
             title: 'Are you sure?',
             text: 'You will not be able to recover this country!',
@@ -45,11 +54,15 @@ const CountryView = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Delete country logic here
-                setMsg(`Country "${row.countryName}" deleted successfully.`);
-                // Reload country details after deletion
-                loadCountryDetails();
-            }
+                let query = { "_id": row._id, "created_by_id": created_by_id }
+                DeleteCountryDetails(query).then(data => {
+                    loadCountryDetails();
+                setMsg(`Country "${row.admin_country_name}" deleted successfully.`);
+                setTimeout(() => {
+                    setMsg('');
+                }, 5000); 
+            });
+         }
         });
     }
 
@@ -67,40 +80,33 @@ const CountryView = () => {
     }
 
     return (
+        
         <Fragment>
             <Head>
                 <title>Country List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 {/* Add other meta tags as needed */}
             </Head>
-            <div className="container">
-                <div className="center-table">
+            <Header/>
+            <Topbar/>
+            <div className="container-viewLocation">
+                <div className="center-table" >
                  <center > <h2><b>COUNTRY LIST</b></h2></center>  
                     <Link href="/country/add">
                         <a className="btn btn-success mb-3">Add Country</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
-                    <BootstrapTable data={countryDetail} search={true}>
+                    <BootstrapTable data={countrydetail} search={true} >
 
-                        <TableHeaderColumn dataField="serialNumber" width="100" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="id" isKey hidden>ID</TableHeaderColumn>
-                        <TableHeaderColumn dataField="countryCode" dataSort><b>Country Code</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="countryName" dataSort><b>Country Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="sno" width="100" dataAlign="center" dataSort ><b>S.No</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_country_name" dataSort><b>Country Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_firstname" dataSort><b>Created Admin</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="actions" dataFormat={actionFormatter}><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
             </div>
-            <style jsx>{`
-                .container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                }
-                .center-table {
-                    width: 80%;
-                }
-            `}</style>
+           
         </Fragment>
     );
 };

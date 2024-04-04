@@ -961,12 +961,13 @@ button:hover {
 }
 .profile-edit-btn{
     border: none;
-    border-radius: 1.5rem;
-    width: 70%;
+    border-radius: 1rem;
+    width: 100%;
     padding: 2%;
     font-weight: 600;
-    color: #6c757d;
+    color: #576065;
     cursor: pointer;
+    margin-top: 10px;
 }
 .proile-rating{
     font-size: 12px;
@@ -1015,6 +1016,22 @@ button:hover {
     width: 150px; 
   }
 
+
+  .center-table {
+    width: 60%;
+    top:50%;
+    left: 50%;
+    align-content: center;
+    justify-content: center;
+}
+
+.container-viewLocation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
   /*OTPform*/
   .otp-container {
     display: flex;
@@ -1030,18 +1047,21 @@ button:hover {
     border-radius: 15px;
   }
 
-.my-card {
-    top:50%;
+  .my-card {
+    position: fixed;
+    top: 50%;
     left: 50%;
-    position: absolute;
+    transform: translate(-50%, -50%);
     width: 400px;
-    margin: auto;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 0px;
-    margin-left: 150px;
+    justify-content: center;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
   }
+  
   
   .my-card-header {
     background-color: #f0f0f0;
@@ -1049,10 +1069,12 @@ button:hover {
     border-bottom: 1px solid #ddd;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    
   }
   
   .my-card-body {
     padding: 20px;
+    
   }
   
   .my-btn-primary {
