@@ -118,6 +118,12 @@ const handleChange = name => e => {
 
 return (
     <div id="wrapper">
+           <Head>
+      <title>Edit City</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Edit City' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
         <Header/>
         <Topbar/>
         <div className="content-page">

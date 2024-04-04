@@ -86,15 +86,17 @@ const CityView = () => {
             <Head>
                 <title>City List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                {/* Add other meta tags as needed */}
+               <meta name="title" content='City List' />
+                <link rel="icon" href="/images/title_logo.png" />
             </Head>
+            
             <Header/>
             <Topbar/>
             <div className="container-viewLocation">
                 <div className="center-table">
                     <center><h2><b>CITY LIST</b></h2></center>
                     <Link href="/Location/Addcity">
-                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Add City</a>
+                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", width:'20%' }}>Add City</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={citydetail} search={true}>

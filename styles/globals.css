@@ -516,6 +516,10 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: 2px solid white;
+    /* background: transparent;
+    backdrop-filter: blur(2px);
+    border: 2px solid white; */
 }
 
 .login_wrapper .name {
@@ -660,6 +664,10 @@ body {
     border-radius: 5px;
 	box-shadow: 0 0 20px rgba(55, 159, 185, 1);
 	background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid white;
+    /* background: transparent;
+    backdrop-filter: blur(2px);
+    border: 2px solid white; */
 	
 }
 
@@ -1035,6 +1043,7 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: -1;
 }
   /*OTPform*/
   .otp-container {

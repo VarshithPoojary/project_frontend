@@ -74,6 +74,12 @@ const CountryAdd = () => {
 
     return (
         <div id="wrapper">
+               <Head>
+      <title>Add Country</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Add Country' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
             <Topbar/>
             <Header/>
             <div className="content-page">

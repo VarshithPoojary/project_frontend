@@ -88,7 +88,9 @@ const StateView = () => {
             <Head>
                 <title>State List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                {/* Add other meta tags as needed */}
+                <meta name="title" content='State List' />
+                <link rel="icon" href="/images/title_logo.png" />
+    
             </Head>
             <Header/>
             <Topbar/>
@@ -97,7 +99,7 @@ const StateView = () => {
                 <div className="center-table">
                     <center><h2><b>STATE LIST</b></h2></center>
                     <Link href="/Location/Addstate">
-                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Add State</a>
+                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", width:'20%' }}>Add State</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={statedetail} search={true}>

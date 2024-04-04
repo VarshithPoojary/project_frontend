@@ -96,6 +96,7 @@ const AdminView = () => {
                         <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Add City</a>
                     </Link> */}
                     {/* {msg && <div className="alert alert-success">{msg}</div>} */}
+                    
                     <BootstrapTable data={admindetail} search={true}>
                         <TableHeaderColumn dataField="sno" width="100" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>

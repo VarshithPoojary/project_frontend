@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import Router from 'next/router';
 import Topbar from './topbar';
 import Header from './Header';
@@ -125,6 +126,12 @@ const AdminPasswordUpdate = () => {
 
     return (
         <>
+           <Head>
+      <title>Password update</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Pasword Update' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
        <Topbar/>
         <Header/>
         <div className="col-xl-8 col-lg-8 col-md-10 col-sm-12 col-12">

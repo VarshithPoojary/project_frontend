@@ -88,16 +88,12 @@ const handleSubmit = (e) => {
 
     return (
         <div id="wrapper">
-            {/* <Head>
-                <title>Country Add</title>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="title" content='Country' />
-                <meta property="og:image" content="/icons/app_logo.jpeg" />
-                <meta itemprop="image" content="/icons/app_logo.jpeg"></meta>
-                <meta property="og:image:width" content="200" />
-                <meta property="og:image:height" content="200" />
-            </Head>
-            */}
+               <Head>
+      <title>Add State</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="title" content='Add State' />
+      <link rel="icon" href="/images/title_logo.png" />
+    </Head>
              <Topbar />
             <Header />
             <div className="content-page">

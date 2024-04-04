@@ -85,6 +85,9 @@ const CountryView = () => {
             <Head>
                 <title>Country List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="title" content='Country List' />
+                <link rel="icon" href="/images/title_logo.png" />
+   
             </Head>
             <Header/>
             <Topbar/>
@@ -92,7 +95,7 @@ const CountryView = () => {
                 <div className="center-table" >
                  <center > <h2><b>COUNTRY LIST</b></h2></center>  
                     <Link href="/Location/Addcountry">
-                        <a className="btn btn-success mb-3"  style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Add Country</a>
+                        <a className="btn btn-success mb-3"  style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", width:'20%' }}>Add Country</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={countrydetail} search={true} >
