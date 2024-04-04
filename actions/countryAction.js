@@ -21,6 +21,7 @@ export const add_country = countryData => {
 };
 
 
+
 export const country_list = () => {
     return fetch(`${API}/admin_country_list`,{
         method: 'GET',
@@ -34,6 +35,7 @@ export const country_list = () => {
         })
         .catch(err => console.log(err));
 };
+
 
 export const CountryListById = country => {
     var id={"_id":country};
