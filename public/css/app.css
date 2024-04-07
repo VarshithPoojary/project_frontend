@@ -299,7 +299,7 @@ body.enlarged {
           box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
   padding:  10px 20px ;
   position: fixed;
-  top :0; /* Position the navbar at the top of the viewport */
+  top :0;
   left: 0;
   right: 0;
   padding: 10px 20px;
@@ -307,7 +307,7 @@ body.enlarged {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  width: 100%; /* Make the navbar take up the entire width of the viewport */
+  width: 100%; 
   z-index: 1000;
   position:fixed;
   }
@@ -316,7 +316,7 @@ body.enlarged {
     list-style-type: none;
    
     padding: 0;
-    display: flex; /* Change display to flex */
+    display: flex; 
     margin-right: 100px;
   }
   
@@ -334,15 +334,15 @@ body.enlarged {
   }
   
   .nav-link:hover {
-    color:#348cd4; /* Change color on hover */
+    color:#348cd4; 
   }
   .navbar-logo {
-    width: 120px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    margin: 0; /* Adjust spacing between logo and menu items */
+    width: 120px; 
+    height: auto; 
+    margin: 0; 
   }
 .navbar-custom {
-  background: rgba(148, 222, 237, 5);
+  background: #89c4ee;
   -webkit-box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
           box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
   padding: 0 10px 0 0 ;
@@ -353,7 +353,33 @@ body.enlarged {
   /* z-index: 2; */
   /* Search */ }
   .navbar-custom .topnav-menu > li {
-    float: left; }
+    float: left; 
+  }
+
+  .topbar-nav-link {
+    color: #333;
+    text-decoration: none; 
+    font-family: Arial, sans-serif; 
+    position: relative; 
+    transition: color 0.3s ease; 
+}
+
+.topbar-nav-link:hover {
+    color: #ffffff; 
+}
+
+.topbar-nav-link:hover::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px; 
+    width: 100%;
+    height: 1.5px;
+    background-color: #ffffff;
+    transition: width 0.3s ease; 
+}
+
+
   .navbar-custom .topnav-menu .nav-link {
     padding: 0 15px;
     color: rgba(255, 255, 255, 0.6);
@@ -363,7 +389,7 @@ body.enlarged {
     text-align: center;
     max-height: 70px; }
   .navbar-custom .dropdown.show .nav-link {
-    background-color: rgba(255, 255, 255, 0.05); }
+    background-color: rgba(193, 16, 16, 0.05); }
   .navbar-custom .app-search {
     overflow: hidden;
     height: 70px;

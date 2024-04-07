@@ -49,6 +49,22 @@ export const update_admin = formData => {
         });
 };
 
+export const DeleteAdminDetails = (adminData) => {
+    var id={"_id":adminData};
+    return fetch(`${API}/admin_delete`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
 
 
 
