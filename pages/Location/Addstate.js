@@ -8,12 +8,8 @@ import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Topbar from '../topbar';
 import Header from '../Header';
-// import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
-// import { UserList } from '../../actions/userAction';
 import { country_list } from '../../actions/countryAction';
 import { add_state } from '../../actions/stateAction';
-
-// import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
 
@@ -21,9 +17,7 @@ import { API } from '../../config';
 const cookies = new Cookies();
 
 const StateAdd = () => {
-    //const [loading, setLoading] = useState(false);
     const [msg, setMsg] = useState('');
-    //const [selectedState, setSelectedState] = useState('');
     const [values, setValues] = useState({
         
         country_list:[],
@@ -125,7 +119,7 @@ const handleSubmit = (e) => {
                                             <input className="form-control" id="admin_state_name" type="text" placeholder="Enter State Name" name="admin_state_name" onChange={handleChange('admin_state_name')} required style={{ width: "105%" }} />
                                         </div>
                                     </div>
-                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{   background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Added Successfully</div>) : null}
                                         {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
                                     </form>

@@ -64,7 +64,7 @@ const StateEdit = () => {
                 setMsg('State edited successfully');
                 setTimeout(() => {
                     setMsg('');
-                }, 5000); // Hide message after 5 seconds
+                }, 5000); 
                 Router.push(`/Location/viewState`);
             }
         } catch (error) {
@@ -115,7 +115,7 @@ const StateEdit = () => {
                                                     <input className="form-control" id="admin_state_name" type="text" placeholder="Enter State Name" name="admin_state_name" value={admin_state_name} onChange={handleChange('admin_state_name')} required style={{ width: "105%" }} />
                                                 </div>
                                             </div>
-                                            <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
+                                            <button className="btn btn-primary" type="submit" style={{  background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
                                             {loading && <div className="alert alert-info">Loading...</div>}
                                         </form>
                                         {msg && <div className="alert alert-success margin-top-10">{msg}</div>}

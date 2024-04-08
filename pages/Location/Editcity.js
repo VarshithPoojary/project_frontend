@@ -7,12 +7,6 @@ import Router from 'next/router';
 import { useRouter } from 'next/router';
 import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-//import Sidebar from '../sidebar';
-//import Topbar from '../topbar';
-// import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
-// import { UserList } from '../../actions/userAction';
-//import { add_country } from '../../actions/countryAction';
-// import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
 import Header from '../Header';
@@ -168,7 +162,7 @@ return (
                                                 <input className="form-control" id="admin_pincode" type="number" placeholder="Enter Pincode" name="admin_pincode" value={admin_pincode} onChange={handleChange('admin_pincode')} required style={{ width: "105%" }} />
                                             </div>
                                         </div>
-                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{  background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Edited Successfully</div>) : null}
                                     </form>
                                 </div>

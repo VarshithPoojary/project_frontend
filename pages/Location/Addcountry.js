@@ -8,10 +8,7 @@ import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Topbar from '../topbar';
 import Header from '../Header';
-// import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
-// import { UserList } from '../../actions/userAction';
 import { add_country } from '../../actions/countryAction';
-// import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
 
@@ -97,7 +94,7 @@ const CountryAdd = () => {
                                                     <input className="form-control" id="admin_country_name" type="text" placeholder="Enter Country Name" name="admin_country_name" onChange={handleChange('admin_country_name')} required style={{ width: "105%" }} />
                                                 </div>
                                             </div>
-                                            <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Submit</button>
+                                            <button className="btn btn-primary" type="submit" style={{  background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8" }}>Submit</button>
                                             {loading ? (<div className="alert alert-success margin-top-10">Added successfully</div>) : null}
                                             {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
                                         </form>

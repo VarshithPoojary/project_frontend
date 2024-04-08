@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Router from 'next/router';
+import { verifyOTP } from '../actions/forgotpasswordAction';
 
 const OTPPage = () => {
-  const [otpDigits, setOtpDigits] = useState(['', '', '', '', '', '']);
+  const [otpDigits, setOtpDigits] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
-  const handleOtpChange = (index, value) => {
-    const updatedOtpDigits = [...otpDigits];
-    updatedOtpDigits[index] = value;
-    setOtpDigits(updatedOtpDigits);
+  const handleOtpChange = (e) => {
+    setOtpDigits(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const enteredOtp = otpDigits.join('');
-    console.log('Submitted OTP:', enteredOtp);
-    // Add your logic here to handle the submitted OTP
+    console.log('Submitting form...');
+    try {
+      const response = await verifyOTP(otpDigits); 
+      setMessage(response.message);
+      setError('');
+      if (response.message === 'OTP verified successfully') {
+        Router.push('/Resetpassword');
+      }
+    } catch (err) {
+      setMessage('');
+      setError('Failed to verify OTP');
+    }
   };
 
   return (
@@ -37,27 +48,25 @@ const OTPPage = () => {
                     <div className="my-card-body">
                       <form onSubmit={handleSubmit}>
                         <div className="mb-3">
-                          <label htmlFor="otp" className="form-label">Enter OTP sent to your Email</label>
+                          <label htmlFor="admin_otp" className="form-label">Enter OTP sent to your Mobile</label>
                           <div className="otp-container">
-                            {otpDigits.map((digit, index) => (
-                              <input
-                                key={index}
-                                className="otp-input"
-                                type="text"
-                                maxLength="1"
-                                value={digit}
-                                onChange={(e) => handleOtpChange(index, e.target.value)}
-                              />
-                            ))}
+                            <input
+                              className="otp-input"
+                              type="text"
+                              value={otpDigits}
+                              onChange={handleOtpChange}
+                            />
                           </div>
                         </div>
                         <div className="d-grid">
-                          <button className="my-btn-primary" type="submit">Submit</button>
+                          <button className="my-btn-primary" type="button" onClick={handleSubmit}>Submit</button>
                         </div>
                         <div className="mt-3 text-center">
                           <Link href="/ResendOTP">Resend OTP</Link>
                         </div>
                       </form>
+                      {message && <div className="alert alert-success mt-3">{message}</div>}
+                      {error && <div className="alert alert-danger mt-3">{error}</div>}
                     </div>
                   </div>
                 </div>

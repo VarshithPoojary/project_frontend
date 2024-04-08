@@ -4,7 +4,8 @@ import Head from 'next/head';
 import Header from './Header';
 import Topbar from './topbar';
 import Router from 'next/router';
-import { admin_details_by_id } from '../actions/adminprofileAction';
+import Swal from 'sweetalert2';
+import { admin_details_by_id, DeleteAdminDetails } from '../actions/adminprofileAction';
 
 const AdminProfile = () => {
   const defaultProfileImage = '/images/userLogo.jpeg';
@@ -75,6 +76,27 @@ const AdminProfile = () => {
     localStorage.setItem(`adminBio_${user_id}`, newBio);
   };
 
+ 
+  const handleDelete = () => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this Profile!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+      if (result.isConfirmed) {
+    const user_id = localStorage.getItem("id");
+    DeleteAdminDetails(user_id);
+    localStorage.removeItem('id');
+    Router.push('/login');
+
+  }
+});
+}
+
   return (
     <div>
       <Head>
@@ -116,6 +138,8 @@ const AdminProfile = () => {
               <Link href="/Adminprofilepasswordupdate">
                 <input type="button" className="profile-edit-btn" name="btnAddMore" value="Edit Password" />
               </Link>
+              <input type="button" className="profile-edit-btn" name="btnAddMore" value="Delete Profile" onClick={() => handleDelete()} />
+
             </div>
 
           </div>

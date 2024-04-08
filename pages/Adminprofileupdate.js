@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Topbar from './topbar';
 import Header from './Header';
+import { FiCamera } from 'react-icons/fi'; 
 import Head from 'next/head';
 import Router from 'next/router';
 import { admin_details_by_id, update_admin } from '../actions/adminprofileAction';
@@ -66,7 +67,6 @@ const UserProfileUpdate = () => {
     };
 
     
-// Inside the handleSubmit function
 const handleSubmit = async (e) => {
     e.preventDefault();
     const admin_id = localStorage.getItem('id');   
@@ -124,11 +124,17 @@ const handleSubmit = async (e) => {
                                 <div className="card-body">
                                     <div className="user-profile text-center">
                                         <label htmlFor="fileInput">
-                                            <div className="user-avatar">
-                                                <img src={admin_profile_image} alt="Admin Profile" style={{ width: '90px', height: '90px', borderRadius: '50%', cursor: 'pointer' }} />
+                                        <div className="user-avatar" style={{ position: 'relative', display: 'inline-block' }}>
+                                            <img src={admin_profile_image} alt="Admin Profile" style={{ width: '90px', height: '90px', borderRadius: '50%', cursor: 'pointer' }} />
+                                            <div style={{ position: 'absolute', bottom: '0', left: '0', zIndex: '1' }}>
+                                                <span style={{ color: 'black', cursor: 'pointer',width:'100%' }}><FiCamera /></span>
                                             </div>
+                                            <div className='img-update' style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', cursor: 'pointer', zIndex: '2' }}>
+                                                <input type="file" onChange={onFileChange} id="fileInput" style={{ display: 'none' }} />
+                                            </div>
+                                        </div>
+
                                         </label>
-                                        <input type="file" onChange={onFileChange} id="fileInput" style={{display:'none'}}  />
                                         <h5 className="user-name">{`${admin_firstname} ${admin_lastname}`}</h5>
                                         <h6 className="user-type">{admin_type}</h6>
                                     </div>
@@ -185,29 +191,16 @@ const handleSubmit = async (e) => {
                                         <option value="doctor">Doctor</option>
                                         <option value="patient">Patient</option>
                                     </select>
-                                        {/* <input type="text" className="form-control" id="userType" placeholder="Enter user" value={ admin_username} onChange={handleChange('admin_username')} /> */}
                                     </div>
                                 </div>
-                                {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div className="admin-profile-form-group">
-                                        <label htmlFor="password">Password</label>
-                                        <input type="password" className="form-control" id="password" placeholder="Enter password" value={ admin_password} onChange={handleChange('admin_password')} />
-                                    </div>
-                                </div>
-                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                    <div className="admin-profile-form-group">
-                                        <label htmlFor="confirmPassword">Confirm Password</label>
-                                        <input type="password" className="form-control" id="confirmPassword" placeholder="Confirm password" value={ admin_password} onChange={handleChange('admin_password')} />
-                                    </div>
-                                </div> */}
                                     </div>
                                     <div className="row gutters">
                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div className="text-right">
                                                 <Link href="/Adminprofileui">
-                                                    <button type="button" className="btn btn-primary mr-2" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", marginTop:"10px" }}>Profile</button>
+                                                    <button type="button" className="btn btn-primary mr-2" style={{     background: "linear-gradient(to top, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Profile</button>
                                                 </Link>
-                                                <button type="submit" className="btn btn-primary mr-2" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", marginTop:"10px" }}>Update</button>
+                                                <button type="submit" className="btn btn-primary mr-2" style={{  background: "linear-gradient(to top, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Update</button>
                                                 {loading && <div className="alert alert-success margin-top-10">Edited Successfully</div>}
                                                 <button type="button" className="btn btn-secondary" onClick={Cancel} style={{ marginTop:"10px" }}>Cancel</button>
                                             </div>

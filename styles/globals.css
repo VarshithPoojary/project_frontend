@@ -453,7 +453,6 @@ td {
 	white-space: pre-wrap;
   }
 
-/* Fancy Login Form Styles */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -479,9 +478,8 @@ body {
     width: 100vw; 
     height: 100vh; 
     margin-top: 0px;
-    background: #46baf5 url('/images/login_bg.jpg') center/cover no-repeat;
+    background:url('/images/login.jpg') center/cover no-repeat;
     padding: 10px;
-    background-color: #9fdded;
     background-size: cover; 
     background-repeat: no-repeat; 
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
@@ -516,25 +514,26 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 2px solid white;
+    border: 2px solid rgb(97, 178, 240,0.7);
+    /* box-shadow: 0 0 5px rgb(41, 113, 172,0.5); */
     /* background: transparent;
     backdrop-filter: blur(2px);
     border: 2px solid white; */
 }
 
 .login_wrapper .name {
-    margin-top: 1px; /* Adjust margin top as needed */
+    margin-top: 1px; 
     font-weight: bold;
     font-size: 2.5rem;
     letter-spacing: 1.7px;
     text-align: center;
-    color: #027b89;
+    color: #1f6da9;
     font-family: "popins";
     
 }
 
 .login-link{
-	color: #424242;
+	color: #1f1e1e;
 	font-size: 1rem; 
 }
 
@@ -560,7 +559,7 @@ body {
     padding: 10px;
 	background-color: rgb(242, 248, 255);
 	/* box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff; */
-    border: 1px solid #1bcbe3;
+    border: 1px solid #1b9de3;
     border-radius: 5px;
 	margin-bottom: 10px;
 }
@@ -570,19 +569,20 @@ body {
 }
 
 .login_wrapper .btn {
-    box-shadow: none;
+    /* box-shadow: none; */
     width: 100%;
     font-size: 1rem;
-    background-color: #027b89;
     color: #fff;
     border-radius: 5px;
-    /* box-shadow: 2px 2px 2px #9dfaf7,-2px -2px 2px #9dfaf7; */
     letter-spacing: 1.3px;
+    background: linear-gradient(to right, #7ebce9, #1e7bb5); 
 }
 
 .login_wrapper .btn:hover {
-    background-color: #53d5ec;
+    background: linear-gradient(to right, #b1d4f1, #2f8cc2);
+    color: #fff; 
 }
+
 
 .login_wrapper a {
     text-decoration: none;
@@ -614,8 +614,8 @@ body {
 }
 
 
-
 .registration-container {
+    position: relative; 
     width: 100%;
     height: 850px;
     margin-top: 0px;
@@ -624,14 +624,28 @@ body {
     border-radius: 5px;
     background-size: cover; 
     background-repeat: no-repeat; 
-    box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 20px rgb(86, 152, 202);
     display: flex;
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
-	background:  url('/images/registration_bg.jpg') center/cover no-repeat;
-
+    /* background-color: #b0eff5; */
+    background: url('/images/registration.jpg') center/cover no-repeat;
+    z-index: 2;
 }
+
+.registration-container::before {
+    content: ""; 
+    position: absolute; 
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(253, 244, 244, 0.1); 
+    border-radius: inherit;
+    z-index: -1; 
+}
+
 
 
 .logo {
@@ -662,9 +676,9 @@ body {
     margin: 2px auto 0 auto; 
     padding: 20px;
     border-radius: 5px;
-	box-shadow: 0 0 20px rgba(55, 159, 185, 1);
+	box-shadow: 0 0 10px rgba(55, 159, 185, 0.3);
 	background-color: rgba(255, 255, 255, 0.5);
-    border: 2px solid white;
+    border: 1px solid white;
     /* background: transparent;
     backdrop-filter: blur(2px);
     border: 2px solid white; */
@@ -678,7 +692,7 @@ body {
 	font-weight: bold;
     font-size: 2.5rem; 
     letter-spacing: 1.3px;
-    color: #3a879a;
+    color: #1e7bb5;
     font-family: "popins";
 	
 }
@@ -710,26 +724,29 @@ select {
 	height: 33px;
     padding: 2px;
 	/* box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff; */
-    border: 1px solid #1bcbe3;
+    border: 1px solid #65b6e5;
     border-radius: 5px;
 }
 
 
-button {
+.registration-button {
     width: 50%;
     padding: 10px;
-    background-color: #3a879a;
+    background: linear-gradient(to left, #7ebce9, #2787c2); 
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-	font-size: 2rem;
+	font-size: 1rem;
     transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #084b5f;
+.registration-button:hover {
+    background: linear-gradient(to left,  #b1d4f1, #509fcd);
+    color: #fff; 
 }
+
+
 
 .error-message {
     color: red;
@@ -738,7 +755,6 @@ button:hover {
 }
 
 
-/* Header css */
 #header {
     position: fixed;
     width: 220px;
@@ -772,7 +788,7 @@ button:hover {
     min-width: 80px;
   }
   #header .pro-sidebar-inner {
-    background-color: #6fddea;
+    background-color: #51a2d4;
     box-shadow: 2px 2px 2px 5px rgba(24, 172, 226, 0.15);
   }
   #header .pro-sidebar-inner .pro-sidebar-layout {
@@ -788,17 +804,18 @@ button:hover {
     padding: 0 5px;
   }
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
-    color: #000;
+    color: #000000;
     margin: 10px 0px;
     font-weight: bold;
   }
 
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item:hover{
-	color: #176575;
+	color: #d7e7f8;
+    transition: color 0.3s ease; 
   }
   
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
-    background-color: #befafd;
+    background-color: #cfe1f8;
     color: #000;
     border-radius: 3px;
   }
@@ -827,6 +844,7 @@ button:hover {
     padding: 20px;
   }
   
+  
   @media only screen and (max-width: 720px) {
     html {
       overflow: hidden;
@@ -853,8 +871,8 @@ button:hover {
 }
 
 .account-settings .user-profile .user-avatar img {
-    width: 90px; /* Fixed width for user avatar */
-    height: 90px; /* Fixed height for user avatar */
+    width: 90px; 
+    height: 90px; 
     border-radius: 100px;
 }
 
@@ -901,7 +919,7 @@ button:hover {
     font-size: 0.875rem;
     border-radius: 0.25rem;
     cursor: pointer;
-    width: 80px; /* Fixed width for buttons */
+    width: 80px; 
 }
 
 .btn-secondary {
@@ -1025,9 +1043,10 @@ button:hover {
     width: 150px; 
   }
 
+
  HEAD
   .center-table {
-    width: 60%;
+    width: 100%;
     top:50%;
     left: 50%;
     align-content: center;
@@ -1045,6 +1064,9 @@ button:hover {
     align-items: center;
     z-index: -1;
 }
+
+
+
   /*OTPform*/
   .otp-container {
     display: flex;
@@ -1060,14 +1082,21 @@ button:hover {
     border-radius: 15px;
   }
 
-.my-card {
-    position: relative;
-    width: 600px;
-    margin: auto;
-    margin-top: 100px;
+  .my-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    
   }
+  
   
   .my-card-header {
     background-color: #f0f0f0;
@@ -1075,15 +1104,17 @@ button:hover {
     border-bottom: 1px solid #ddd;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    
   }
   
   .my-card-body {
     padding: 20px;
+    
   }
   
   .my-btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #5abce0;
+    border-color: #5abce0;
   }
   
   .my-btn-primary:hover {

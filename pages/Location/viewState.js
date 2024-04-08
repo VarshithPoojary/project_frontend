@@ -73,10 +73,10 @@ const StateView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8",width:"50px",marginLeft:"10px" }} onClick={() => handleEdit(row)}>
+                <button className="icons-edit" style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px",marginLeft:"10px" }} onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
-                <button className="icons-delete" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8",width:"50px",marginLeft:"20px" }} onClick={() => handleDelete(row)}>
+                <button className="icons-delete" style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px",marginLeft:"20px" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -99,7 +99,7 @@ const StateView = () => {
                 <div className="center-table">
                     <center><h2><b>STATE LIST</b></h2></center>
                     <Link href="/Location/Addstate">
-                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", width:'20%' }}>Add State</a>
+                        <a className="btn btn-success mb-3" style={{   background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", width:'20%' }}>Add State</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={statedetail} search={true}>
