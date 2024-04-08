@@ -22,6 +22,9 @@ const AdminSignin = () => {
         e.preventDefault();
         if (!email || !password) {
             setValues({ ...values, error: 'Please enter all fields' });
+            setTimeout(() => {
+                setValues({ ...values, error: '', loading: false });
+            }, 1000);
             return;
         }
         setValues({ ...values, loading: true, error: '' });
