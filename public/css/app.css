@@ -3019,31 +3019,13 @@ h3.timeline-title {
     }
 
     
-    .about-us {
-      background-color: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-    
-    .section-title {
-      color: #333;
-      font-size: 24px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
     .subsection-title {
       color: #555;
       font-size: 20px;
       margin-bottom: 10px;
     }
     
-    .about-content p {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
+    
     
     .choose-us-list {
       list-style-type: none;
