@@ -56,7 +56,7 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('id');
-    Router.push('/login');
+    Router.push('/Home');
   };
 
 
