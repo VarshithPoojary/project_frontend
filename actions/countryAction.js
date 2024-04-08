@@ -20,12 +20,12 @@ export const add_country = countryData => {
         .catch(err => console.log(err));
 };
 
-<<<<<<< HEAD
-export const loadCountryDetails = () => {
-=======
+
+
+
 
 export const country_list = () => {
->>>>>>> a7b83b58fbe74c01c5cd8138744f73423073cd6e
+
     return fetch(`${API}/admin_country_list`,{
         method: 'GET',
         headers: {
@@ -39,8 +39,7 @@ export const country_list = () => {
         .catch(err => console.log(err));
 };
 
-<<<<<<< HEAD
-=======
+
 export const CountryListById = country => {
     var id={"_id":country};
     return fetch(`${API}/admin_country_list_by_id`, {
@@ -89,5 +88,4 @@ export const update_country= countryData => {
         })
         .catch(err => console.log(err));
 };
->>>>>>> a7b83b58fbe74c01c5cd8138744f73423073cd6e
 
