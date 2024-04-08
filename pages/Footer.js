@@ -23,9 +23,16 @@ function Footer() {
         <li><a href="#contact">Contact Us</a></li>
       </ul>
     </nav>
-   <br></br>
-  </div>
+   <div>
+   <h4>Emergency Contact</h4>
+  <div className="emergency-info">
+    <p>In case of emergency, call</p>
+    <div className="emergency-number" style={{ color:'#e74c3c'}}>911</div>
+</div>
+</div>
+</div>
 </footer>
+
   );
 }
 

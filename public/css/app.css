@@ -3000,3 +3000,65 @@ h3.timeline-title {
     .home_footer-nav a:hover {
       color: #ff6600;
     }
+    .emergency-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .emergency-info p {
+      margin-right: 10px;
+      margin: 0; /* Remove default margin */
+    }
+    
+    .emergency-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-left: 10px; 
+    }
+
+    
+    .about-us {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      color: #333;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .subsection-title {
+      color: #555;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    
+    .about-content p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .choose-us-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .choose-us-list li {
+      margin-bottom: 10px;
+    }
+    
+    .choose-us-list li:before {
+      content: "•";
+      color: #007bff; /* Bullet color */
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    
