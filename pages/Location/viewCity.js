@@ -23,12 +23,9 @@ const CityView = () => {
 
     const loadCityDetails = () => {
         city_list().then(data => {
-              //alert(JSON.stringify(data));
             if (data.error) {
                 console.log(data.error);
             } else {
-                //alert(data.caretakerLists);
-                // console.log(data.caretakerDetailLists);
                 setValues({ ...values, citydetail: data.city_list });
             }
         })
@@ -71,10 +68,10 @@ const CityView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8"}} onClick={() => handleEdit(row)}>
+                <button className="icons-edit" style={{ backgroundColor: "#7ebce9",width:'50%', borderColor: "#1e7bb5"}} onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
-                <button className="icons-delete" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }} onClick={() => handleDelete(row)}>
+                <button className="icons-delete" style={{ backgroundColor: "#7ebce9",width:'50%',left:'10%', borderColor: "#1e7bb5" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -96,7 +93,7 @@ const CityView = () => {
                 <div className="center-table">
                     <center><h2><b>CITY LIST</b></h2></center>
                     <Link href="/Location/Addcity">
-                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8", width:'20%' }}>Add City</a>
+                        <a className="btn btn-success mb-3" style={{   background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", width:'20%' }}>Add City</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={citydetail} search={true}>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Scrollbars } from 'react-custom-scrollbars';
 import Link from 'next/link';
 import Router from 'next/router';
- // Import Router
 import {
   ProSidebar,
   Menu,
@@ -119,7 +118,7 @@ const Header = () => {
           </SidebarContent>
           <SidebarFooter>
             <Menu iconShape="square">
-              <MenuItem icon={<FiLogOut />} title="Logout" onClick={handleLogout}> {/* Call handleLogout on click */}
+              <MenuItem icon={<FiLogOut />} title="Logout" onClick={handleLogout}> 
                 <span>Logout</span>
               </MenuItem>
             </Menu>

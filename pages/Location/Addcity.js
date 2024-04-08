@@ -8,15 +8,9 @@ import Cookies from 'universal-cookie';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Topbar from '../topbar';
 import Header from '../Header';
-// import { AddCaretaker, CaretakerList, EditCaretaker, DeleteCaretaker } from '../../actions/caretakerAction';
-// import { UserList } from '../../actions/userAction';
 import { add_city } from '../../actions/cityAction';
 import { state_list_by_country_id } from '../../actions/stateAction';
 import { country_list } from '../../actions/countryAction';
-
-
-
-// import { areaListById, stateList, countryList, stateListById } from '../../actions/locationAction';
 import axios from 'axios';
 import { API } from '../../config';
 
@@ -132,7 +126,7 @@ const handleChange = name => e => {
                                     <form onSubmit={handleSubmit}>
                                     <div className="row gx-3 mb-3">
                                             <div className="col-md-6">
-                                                <label className="small mb-1" htmlFor="text">Country Id</label>
+                                                <label className="small mb-1" htmlFor="text">Country Name</label>
                                                 <select className="form-control" id="admin_country_id" name="admin_country_id" onChange={handleChange('admin_country_id')} required style={{ width: "105%" }}>
                                                         <option value="">Select Country</option>
                                                         {values.countryList.map(country => (
@@ -143,7 +137,7 @@ const handleChange = name => e => {
                                                     </select>
                                             </div>
                                             <div className="col-md-6">
-                                                <label className="small mb-1" htmlFor="text">State Id</label>
+                                                <label className="small mb-1" htmlFor="text">State Name</label>
                                                 <select className="form-control" id="admin_state_id" name="admin_state_id" onChange={handleChange('admin_state_id')} required>
                                                  <option value="">Select state</option> 
                                                 {values.statedetail.map(state => (
@@ -165,7 +159,7 @@ const handleChange = name => e => {
                                             </div>
                                         </div>
                                     
-                                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{   background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Added Successfully</div>) : null}
                                         {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
                                     </form>

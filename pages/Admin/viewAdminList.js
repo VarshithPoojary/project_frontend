@@ -23,63 +23,15 @@ const AdminView = () => {
 
     const loadAdminDetails = () => {
         admin_list().then(data => {
-              //alert(JSON.stringify(data));
             if (data.error) {
                 console.log(data.error);
             } else {
-                //alert(data.caretakerLists);
-                // console.log(data.caretakerDetailLists);
                 setValues({ ...values, admindetail: data.admin_list });
             }
         })
     }
 
-    // const handleEdit = (row) => {
-    //     Router.push({
-    //         pathname: '/Location/Editcity',
-    //         query: {
-    //             _id: row._id,
-
-    //         }
-    //     })
-    // }
-
-    // const handleDelete = (row) => {
-    //     let created_by_id = localStorage.getItem('id');
-    //     Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: 'You will not be able to recover this country!',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#d33',
-    //         cancelButtonColor: '#3085d6',
-    //         confirmButtonText: 'Yes, delete it!'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             let query = { "_id": row._id, "created_by_id": created_by_id }
-    //             DeleteCityDetails(query).then(data => {
-    //                 loadCityDetails();
-    //                 setMsg(`State "${row.city_name}" deleted successfully.`);
-    //                 setTimeout(() => {
-    //                     setMsg('');
-    //                 }, 2000); 
-    //             });
-    //         }
-    //     });
-    // }
-
-    // const actionFormatter = (cell, row) => {
-    //     return (
-    //         <div>
-    //             <button className="icons-edit" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }} onClick={() => handleEdit(row)}>
-    //                 <FiEdit  />
-    //             </button>
-    //             <button className="icons-delete" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }} onClick={() => handleDelete(row)}>
-    //                 <FiTrash2 />
-    //             </button>
-    //         </div>
-    //     );
-    // }
+    
 
     return (
         <Fragment>
@@ -92,10 +44,6 @@ const AdminView = () => {
             <div className="container-viewLocation">
                 <div className="center-table">
                     <center><h2><b>ADMIN LIST</b></h2></center>
-                    {/* <Link href="/Location/Addcity">
-                        <a className="btn btn-success mb-3" style={{ backgroundColor: "#1fa4b5", borderColor: "#0c9da8" }}>Add City</a>
-                    </Link> */}
-                    {/* {msg && <div className="alert alert-success">{msg}</div>} */}
                     
                     <BootstrapTable data={admindetail} search={true}>
                         <TableHeaderColumn dataField="sno" width="100" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>

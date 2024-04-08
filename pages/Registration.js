@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import Router from 'next/router';
 import { Registration } from '../actions/registrationAction';
 
 const Registrations = () => {
+    const defaultProfileImage = '/images/userLogo.jpeg';
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -29,14 +30,36 @@ const Registrations = () => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');  
+    const [passwordValidations, setPasswordValidations] = useState({
+        upperCase: false,
+        lowerCase: false,
+        digit: false,
+        specialChar: false,
+        length: false,
+    });
+
+    useEffect(() => {
+        validatePassword(password);
+    }, [password]);
 
     const onFileChange = (e) => {
         setProfileImage(e.target.files[0]);
     }
+
+    const validatePassword = (password) => {
+        const validations = {
+            upperCase: /[A-Z]/.test(password),
+            lowerCase: /[a-z]/.test(password),
+            digit: /[0-9]/.test(password),
+            specialChar: /[^A-Za-z0-9]/.test(password),
+            length: password.length >= 8 && password.length <= 16,
+        };
+        setPasswordValidations(validations);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-
 
         const validationErrors = {};
 
@@ -49,7 +72,7 @@ const Registrations = () => {
         }
 
         if (!username.trim()) {
-            validationErrors.username = 'Username is required.';
+            validationErrors.username = 'Please enter Username.';
         }
 
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -57,13 +80,8 @@ const Registrations = () => {
         }
 
         if (!/^[6-9]\d{9}$/.test(mobileNumber)) {
-            validationErrors.mobileNumber = 'Please enter a valid mobile number starting with 6, 7, 8, or 9 and having exactly 10 digits.';
+            validationErrors.mobileNumber = 'Please enter a valid mobile number.';
         }
-
-        if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*\s).{8,16}$/.test(password)) {
-            validationErrors.password = 'Password must contain at least one digit, one lowercase letter, one uppercase letter, one special character, and be between 8 and 16 characters long.';
-          }
-          
 
         if (!password) {
             validationErrors.password = 'Please enter your password.';
@@ -82,10 +100,10 @@ const Registrations = () => {
             setIsLoading(false);
             setTimeout(() => {
                 setErrors({});
-            }, 5000);
+            }, 10000);
             return;
-            
         }
+
         try {
             const formData = new FormData();
             formData.append('admin_firstname', firstName);
@@ -96,26 +114,29 @@ const Registrations = () => {
             formData.append('admin_email', email);
             formData.append('admin_username', username);
             formData.append('admin_type', userType);
-            
 
-            
             Registration(formData).then(response => {
-                if (response.error) {
+                if (response.msg) {
+                    setErrorMessage(response.msg); 
+                    setTimeout(() => {
+                        setErrorMessage('');
+                    }, 5000);
+                } else if (response.error) {
                     setValues({ ...values });
                 } else {
                     setIsSuccess(true);
-                    setSuccessMessage('Saved successfully!');
+                    setSuccessMessage('Registered successfully!');
                     setTimeout(() => {
                         Router.push(`/login`);
                         console.log('Response from backend:', response.data);
-                    }, 1000);
+                    }, 100);
                 }
             });
         } catch (error) {
             console.error('Error:', error);
             setErrorMessage('Error saving data. Please try again.');
         }
-        
+
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
         console.log('Form submitted:', {
@@ -130,42 +151,31 @@ const Registrations = () => {
             userType,
         });
 
-        setFirstName('');
-        setLastName('');
-        setUsername('');
-        setEmail('');
-        setMobileNumber('');
-        setPassword('');
-        setConfirmPassword('');
-        setProfileImage(null);
-        setUserType('Select type');
         setIsSuccess(false);
-
         setIsLoading(false);
     };
+
     const togglePasswordVisibility = () => {
         setValues({ ...values, showPassword: !values.showPassword });
     };
-    const toggleConfirmPasswordVisibility  = () => {
+
+    const toggleConfirmPasswordVisibility = () => {
         setValues({ ...values, showConfirmPassword: !values.showConfirmPassword });
     };
-    
+
     return (
         <>
-             <Head>
-      <title>Registration</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta name="title" content='Registration' />
-      <link rel="icon" href="/images/title_logo.png" />
-    </Head>
+            <Head>
+                <title>Registration</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="title" content='Registration' />
+                <link rel="icon" href="/images/title_logo.png" />
+            </Head>
 
-        <div className="registration-container">
-            <div className="registration-form">
-                {/* <div className="logo">
-                    <img src="/icons/img1.png" alt="Logo" />
-                </div> */}
-                <h2>Registration</h2>
-                <form onSubmit={handleSubmit}>
+            <div className="registration-container">
+                <div className="registration-form">
+                    <h2>Registration</h2>
+                    <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <div className="row">
                             <div className="col">
@@ -192,7 +202,7 @@ const Registrations = () => {
                             </div>
                            
                         </div>
-                    </div>
+                  
                     <div className="form-group">
                         <div className="row">
                         <div className="col">
@@ -250,30 +260,45 @@ const Registrations = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="form-group">
-                        <div className="row">
-                        <div className="col">
-                                <label htmlFor="password">Password<span style={{ color: 'red' }}>*</span>:</label>
-                                <input
-                                    type={values.showPassword ? 'text' : 'password'}
-                                className='registration-input'
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                <span
-                                    className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
-                                    onClick={togglePasswordVisibility}
-                                    style={{ cursor: 'pointer' }}
-                                ></span>
 
-                                {errors.password && <div className="error-message">{errors.password}</div>}
-                                
-
-
-                            </div>
-
-                        <div className="col">
+                        <div className="form-group">
+                            <div className="row">
+                                <div className="col">
+                                    <label htmlFor="password">Password:</label>
+                                    <input
+                                        type={values.showPassword ? 'text' : 'password'}
+                                        className='registration-input'
+                                        id="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+                                    <span
+                                        className={`fas ${values.showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                        onClick={togglePasswordVisibility}
+                                        style={{ cursor: 'pointer' }}
+                                    ></span>
+                                    {errors.password && <div className="error-message">{errors.password}</div>}
+                                    {password && (
+                                        <div>
+                                            <div style={{ color: passwordValidations.upperCase ? 'green' : 'red' }}>
+                                                {passwordValidations.upperCase ? 'Contains uppercase letter ✓' : 'Requires at least one uppercase letter'}
+                                            </div>
+                                            <div style={{ color: passwordValidations.lowerCase ? 'green' : 'red' }}>
+                                                {passwordValidations.lowerCase ? 'Contains lowercase letter ✓' : 'Requires at least one lowercase letter'}
+                                            </div>
+                                            <div style={{ color: passwordValidations.digit ? 'green' : 'red' }}>
+                                                {passwordValidations.digit ? 'Contains digit ✓' : 'Requires at least one digit'}
+                                            </div>
+                                            <div style={{ color: passwordValidations.specialChar ? 'green' : 'red' }}>
+                                                {passwordValidations.specialChar ? 'Contains special character ✓' : 'Requires at least one special character'}
+                                            </div>
+                                            <div style={{ color: passwordValidations.length ? 'green' : 'red' }}>
+                                                {passwordValidations.length ? 'Length between 8 and 16 characters ✓' : 'Requires length between 8 and 16 characters'}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="col">
                                 <label htmlFor="confirmPassword">Confirm Password<span style={{ color: 'red' }}>*</span>:</label>
                                 <input
                                     type={values.showConfirmPassword ? 'text' : 'password'}
@@ -291,14 +316,17 @@ const Registrations = () => {
                                     {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
                                   
                                 </div>
+                            </div>
+                        </div>
+                        
                            
                     
                                
-                        </div>
+                       
                         <div className="form-group">
                         <div className="row">
                         <div className="col">
-                                <label htmlFor="image">Profile Image<span style={{ color: 'red' }}>*</span>:</label>
+                                <label htmlFor="image">Profile Image:</label>
                                 <input type="file" onChange={onFileChange}  style={{ width:'50%'}} className='registration-input'   />
                             </div>
 
@@ -308,7 +336,7 @@ const Registrations = () => {
                         <div className="form-group">
                             <div className="row justify-content-center">
                                 <div className="col text-center">
-                                    <button type="submit" disabled={isLoading}>
+                                    <button className='registration-button' type="submit" disabled={isLoading}>
                                         {isLoading ? 'Loading...' : 'Register'}
                                     </button>
                                     {isSuccess && <div className="success-message">{successMessage}</div>}
@@ -323,11 +351,11 @@ const Registrations = () => {
                             <a>Login</a>
                         </Link>
                     </div>
+
                 </div>
             </div>
-            </>
-        );
-    }
+        </>
+    );
+}
 
-    
-    export default Registrations;
+export default Registrations;

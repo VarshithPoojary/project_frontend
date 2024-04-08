@@ -17,11 +17,6 @@ const Topbar = () => {
     admin_email:'',
     admin_username: '',
     admin_type: '',
-    // admin_created_by_id: '',
-    // admin_updated_by_id: '',
-    // admin_deleted_by_id: '',
-    // admin_created_date: '',
-    // admin_updated_date: '',
     error: '',
     loading: false,
     message: '',
@@ -68,7 +63,6 @@ const loadUserDetails = (user_id) => {
       console.log(data.error);
       setValues({ ...values, error: data.error, loading: false });
     } else {
-      // alert(JSON.stringify(data))
       const adminData = data.admin_list[0];
       setValues({ ...values,
         admin_profile_image: adminData.admin_profile_image || defaultProfileImage,     
@@ -97,25 +91,25 @@ const loadUserDetails = (user_id) => {
             <li className="dropdown notification-list">
             <Link href="/dashboard">
               <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown"  role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{ color: "black" }}><FiHome /> Dashboard</span>
+                <span className="ml-1 topbar-nav-link" ><FiHome /> Dashboard</span>
               </a>
               </Link>
             </li>
             <li className="dropdown notification-list">
               
               <a href="#" className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{ color: "black" }}><FiBell /> Notification</span>
+                <span className="ml-1 topbar-nav-link" ><FiBell /> Notification</span>
               </a>
             </li>
             <li className="dropdown notification-list">
               <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{ color: "black" }}><FiSettings /> Settings</span>
+                <span className="ml-1 topbar-nav-link" ><FiSettings /> Settings</span>
               </a>
             </li>
             <li className="dropdown notification-list">
             <Link href="/Adminprofileui">
               <a  className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1" style={{ color: "black" }}><FiUser /> Profile</span>
+                <span className="ml-1 topbar-nav-link" ><FiUser /> Profile</span>
               </a>
               </Link>
             </li>
