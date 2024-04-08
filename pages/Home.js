@@ -8,7 +8,7 @@ import Footer from './Footer';
 
 function App() {
     const appStyles = {
-        backgroundImage: 'url("./images/home.jpg")',
+        backgroundImage: 'url("./images/bg_profile1.jpg")',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         minHeight: '100vh', // Ensure that the background covers the entire viewport height
@@ -23,7 +23,7 @@ function App() {
                 <title>Home</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
-            <nav className="navbar">
+            <nav className="navbar" style={{ position: 'fixed' }}>
         <img src="./icons/img1.png" alt="Logo" className="navbar-logo" />
     <ul className="navbar-navb ">
       <li className="nav-item"><a href="./Home" className="nav-link">Home</a></li>
@@ -37,7 +37,7 @@ function App() {
   
         
         <HomePage />
-        <Footer/>
+        <Footer />
       </div>
     );
   }

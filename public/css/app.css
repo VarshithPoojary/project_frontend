@@ -294,11 +294,11 @@ body.enlarged {
   width: 240px;
   float: left; }
 .navbar {
-  background: rgba(119, 218, 238,0.5);
+ /* background: rgba(119, 218, 238,0.5);*/
+ background-color: #0071BA;
   -webkit-box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
           box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
   padding:  10px 20px ;
-  position: fixed;
   top :0; /* Position the navbar at the top of the viewport */
   left: 0;
   right: 0;
@@ -345,11 +345,11 @@ body.enlarged {
   background: rgba(148, 222, 237, 5);
   -webkit-box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
           box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
-  padding:  10px 20px ;
+  padding: 0 10px 0 0 ;
   position: fixed;
-  left: 0px;
-  right: 0;
-  display: flex;
+  left:0px;
+  right:0;
+ 
   height: 70px;
   /* z-index: 2; */
   /* Search */ }
@@ -2929,17 +2929,24 @@ h3.timeline-title {
 
 
     .home_footer {
-      background-color:rgba(119, 218, 238,0.5);
       color: #fff;
       padding: 20px;
       text-align: center;
-      width:100%;
       bottom:0%;
+      left :0%;
+      -webkit-box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+              box-shadow: 0px 0px 35px 0px rgba(154, 161, 171, 0.15);
+      left: 0;
+      right: 0;
+     position:absolute;
+     width:100%;
+      z-index: 1000;
+      
     }
     
     .home_footer-content {
       display: flex;
-      justify-content: space-between;
+     justify-content: space-between;
       align-items: center;
     }
     

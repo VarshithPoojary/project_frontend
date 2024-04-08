@@ -3,17 +3,18 @@ import { BsTwitter } from "react-icons/bs";
 import { SiLinkedin } from "react-icons/si";
 import { BsYoutube } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa";
+//import { position } from 'html2canvas/dist/types/css/property-descriptors/position';
 
 function Footer() {
   return (
     
    
-    <footer class="home_footer">
-  <div class="footer-content">
-          <BsTwitter />&nbsp;&nbsp;
-          <SiLinkedin />&nbsp;&nbsp;
-          <BsYoutube />&nbsp;&nbsp;
-          <FaFacebookF />&nbsp;&nbsp;
+    <footer class="home_footer"  style={{backgroundColor:'#060822' }}>
+  <div class="footer-content"  >
+          <BsTwitter />&nbsp;&nbsp;&nbsp;
+          <SiLinkedin />&nbsp;&nbsp;&nbsp;
+          <BsYoutube />&nbsp;&nbsp;&nbsp;
+          <FaFacebookF />&nbsp;&nbsp;&nbsp;
     <p>© 2024 Healthcare Plus. All rights reserved.</p>
     <nav class="footer-nav">
       <ul>
@@ -22,6 +23,7 @@ function Footer() {
         <li><a href="#contact">Contact Us</a></li>
       </ul>
     </nav>
+   <br></br>
   </div>
 </footer>
   );
