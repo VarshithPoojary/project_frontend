@@ -43,7 +43,7 @@ const CountryView = () => {
     }
 
     const handleDelete = (row) => {
-        let created_by_id = localStorage.getItem('id');
+        let admin_deleted_by_id = localStorage.getItem('id');
         Swal.fire({
             title: 'Are you sure?',
             text: 'You will not be able to recover this country!',
@@ -54,7 +54,7 @@ const CountryView = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                let query = { "_id": row._id, "created_by_id": created_by_id }
+                let query = { "_id": row._id, "admin_deleted_by_id": admin_deleted_by_id }
                 DeleteCountryDetails(query).then(data => {
                     loadCountryDetails();
                 setMsg(`Country "${row.admin_country_name}" deleted successfully.`);
@@ -69,10 +69,10 @@ const CountryView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit"  style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px",marginLeft:"20%"}}  onClick={() => handleEdit(row)}>
+                <button className="icons-edit"  style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px"}}  onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
-                <button className="icons-delete"  style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px",marginLeft:"20px" }} onClick={() => handleDelete(row)}>
+                <button className="icons-delete"  style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px",marginLeft:"10%" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -100,11 +100,11 @@ const CountryView = () => {
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={countrydetail} search={true} >
 
-                        <TableHeaderColumn dataField="sno" width="100" dataAlign="center" dataSort ><b>S.No</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_country_name" dataSort><b>Country Name</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_firstname" dataSort><b>Created Admin</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="actions" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="sno"  width="100" dataAlign="center" dataSort ><b>S.No</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="_id"  isKey hidden>ID</TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_country_name" dataAlign="center" dataSort><b>Country Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_firstname" dataAlign="center" dataSort><b>Created Admin</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="actions" dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
             </div>

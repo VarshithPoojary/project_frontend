@@ -23,10 +23,10 @@ const CountryEdit = () => {
 
 
     useEffect(() => {
-        loadStateDetails();
+        loadCountryDetails();
     }, [router.query._id]);
 
-    const loadStateDetails = () => {
+    const loadCountryDetails = () => {
         CountryListById(router.query._id).then(country => {
             if (country.error) {
                 console.log(country.error);

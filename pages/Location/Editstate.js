@@ -50,10 +50,12 @@ const StateEdit = () => {
     const handleSubmit =  (e) => {
         e.preventDefault();
         setLoading(true);
+        const adminId = localStorage.getItem('id');
         const stateData = {
             _id: router.query._id,
             admin_country_id,
-            admin_state_name
+            admin_state_name,
+            admin_updated_by_id: adminId
         };
 
         try {

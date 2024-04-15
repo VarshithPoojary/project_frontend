@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import { admin_details_by_id, DeleteAdminDetails } from '../actions/adminprofileAction';
 
 const AdminProfile = () => {
-  const defaultProfileImage = '/images/userLogo.jpeg';
+  const defaultProfileImage = '/images/userLogo.png';
   const [values, setValues] = useState({
     admin_list: [],
     admin_profile_image: '',

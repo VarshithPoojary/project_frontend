@@ -618,20 +618,17 @@ body {
     position: relative; 
     width: 100%;
     height: 850px;
-    margin-top: 0px;
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 5px;
     background-size: cover; 
-    background-repeat: no-repeat; 
-    box-shadow: 0 0 20px rgb(86, 152, 202);
     display: flex;
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
     /* background-color: #b0eff5; */
-    background: url('/images/registration.jpg') center/cover no-repeat;
-    z-index: 2;
+    /* background: url('/images/registration.jpg') center/cover no-repeat; */
+    z-index: -2;
+    top:50%;
 }
 
 .registration-container::before {
@@ -641,7 +638,6 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(253, 244, 244, 0.1); 
     border-radius: inherit;
     z-index: -1; 
 }
@@ -673,10 +669,9 @@ body {
 .registration-form {
     max-width: 800px;
     height: 750px;
-    margin: 2px auto 0 auto; 
+    margin: 60px auto 0 auto; 
     padding: 20px;
     border-radius: 5px;
-	box-shadow: 0 0 10px rgba(55, 159, 185, 0.3);
 	background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid white;
     /* background: transparent;
@@ -724,7 +719,7 @@ select {
 	height: 33px;
     padding: 2px;
 	/* box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff; */
-    border: 1px solid #65b6e5;
+    /* border: 1px solid #65b6e5; */
     border-radius: 5px;
 }
 
@@ -741,8 +736,25 @@ select {
     transition: background-color 0.3s ease;
 }
 
+.registration-cancel-button {
+    width: 50%;
+    padding: 10px;
+    background: linear-gradient(to left, #b0b3b4, #545556); 
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+	font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
 .registration-button:hover {
     background: linear-gradient(to left,  #b1d4f1, #509fcd);
+    color: #fff; 
+}
+
+.registration-cancel-button:hover {
+    background: linear-gradient(to left,  #d7d8d9, #7d7f80);
     color: #fff; 
 }
 
@@ -911,7 +923,8 @@ select {
     margin-top: 50%;
 	padding-top: 20px;
     position: fixed;
-    max-width: 600px;
+    max-width: 700px;
+   
 }
 
 .btn {
@@ -1058,7 +1071,7 @@ select {
     top: 12%;
     left: 50%;
     transform: translateX(-50%);
-    width: 60%;
+    width: 65%;
     display: flex;
     justify-content: center;
     align-items: center;

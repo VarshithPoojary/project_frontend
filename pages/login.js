@@ -120,12 +120,7 @@ const AdminSignin = () => {
                 {/* {loading ? (<div class="alert alert-success margin-top-10">Login Successfull</div>) : null} */}
                 {isSuccess && <div className="success-message">{successMessage}</div>}
                 {/* {loading && <div className="alert alert-info">Loading...</div>} */}
-                <div className="text-center fs-6 login-link">
-                    Don't have an account?{' '}
-                    <Link href="/Registration">
-                        <a>create an account</a>
-                    </Link>
-                </div>
+               
             </div>
         </div>
     );

@@ -1,6 +1,23 @@
 import { API } from '../config';
 import fetch from 'isomorphic-fetch';
 
+export const add_admin = formData => {
+    return fetch(`${API}/admin_add`, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            throw err; 
+        });
+};
+
 export const admin_list = () => {
     return fetch(`${API}/admin_list`,{
         method: 'GET',
@@ -32,6 +49,8 @@ export const admin_details_by_id = adminData => {
 };
 
 
+
+
 export const update_admin = formData => {
     return fetch(`${API}/admin_update`, {
         method: 'POST',
@@ -50,19 +69,18 @@ export const update_admin = formData => {
 };
 
 export const DeleteAdminDetails = (adminData) => {
-    var id={"_id":adminData};
     return fetch(`${API}/admin_delete`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(id)
+        body: JSON.stringify(adminData)
     })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
 };
 
 
