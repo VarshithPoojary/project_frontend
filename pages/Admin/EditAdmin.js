@@ -204,7 +204,7 @@ const UserProfileUpdate = () => {
                                     <div className="row gutters">
                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div className="text-right">
-                                                <button type="submit" className="btn btn-primary mr-2" style={{  background: "linear-gradient(to top, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"20px" }}>Update</button>
+                                                <button type="submit" className="btn btn-primary mr-2" style={{  background: "#3085d6", borderColor: "#0c9da8", marginTop:"20px" }}>Update</button>
                                                 {msg && <div className="alert alert-success margin-top-10">{msg}</div>}
                                                 {error && <div className="alert alert-danger margin-top-10">{error}</div>}
                                                 {/* {loading && <div className="alert alert-info">Loading...</div>} */}

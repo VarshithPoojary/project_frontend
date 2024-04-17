@@ -198,9 +198,9 @@ const handleSubmit = async (e) => {
                                         <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                             <div className="text-right">
                                                 <Link href="/Adminprofileui">
-                                                    <button type="button" className="btn btn-primary mr-2" style={{     background: "linear-gradient(to top, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Profile</button>
+                                                    <button type="button" className="btn btn-primary mr-2" style={{     background: "#3085d6", borderColor: "#0c9da8", marginTop:"10px" }}>Profile</button>
                                                 </Link>
-                                                <button type="submit" className="btn btn-primary mr-2" style={{  background: "linear-gradient(to top, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Update</button>
+                                                <button type="submit" className="btn btn-primary mr-2" style={{  background: "#3085d6", borderColor: "#0c9da8", marginTop:"10px" }}>Update</button>
                                                 {loading && <div className="alert alert-success margin-top-10">Edited Successfully</div>}
                                                 <button type="button" className="btn btn-secondary" onClick={Cancel} style={{ marginTop:"10px" }}>Cancel</button>
                                             </div>

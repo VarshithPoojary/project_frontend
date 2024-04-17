@@ -68,10 +68,10 @@ const CityView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit" style={{ backgroundColor: "#7ebce9",width:'50%', borderColor: "#1e7bb5"}} onClick={() => handleEdit(row)}>
+                <button className="icons-edit" style={{ backgroundColor: "#3085d6",width:'50%', borderColor: "#3085d6"}} onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
-                <button className="icons-delete" style={{ backgroundColor: "#7ebce9",width:'50%',marginLeft:'5%', borderColor: "#1e7bb5" }} onClick={() => handleDelete(row)}>
+                <button className="icons-delete" style={{ backgroundColor: "rgb(225, 76, 76)",width:'50%',marginLeft:'5%', borderColor: "rgb(225, 76, 76)" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -93,7 +93,7 @@ const CityView = () => {
                 <div className="center-table">
                     <center><h2><b>CITY LIST</b></h2></center>
                     <Link href="/Location/Addcity">
-                        <a className="btn btn-success mb-3" style={{   background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", width:'20%' }}>Add City</a>
+                        <a className="btn btn-success mb-3" style={{   background: "#3085d6", borderColor: "#0c9da8", width:'20%' }}>Add City</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={citydetail} search={true}>

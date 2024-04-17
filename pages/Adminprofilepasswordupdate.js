@@ -185,8 +185,8 @@ const AdminPasswordUpdate = () => {
                                     ></span>
                                 </div>
                             </div>
-                            {loading && <div className="alert alert-info margin-top-10">Updating password...</div>}
                             {error && <div className="alert alert-danger margin-top-10">{error}</div>}
+                            {loading && <div className="alert alert-info margin-top-10">Updating password...</div>}
                             {/* {successMessage && <div className="alert alert-success margin-top-10">{successMessage}</div>} */}
                             <div className="form-group row" >
                                 <div className="col-sm-12 text-left">
@@ -197,7 +197,7 @@ const AdminPasswordUpdate = () => {
                             </div>
                             <div className="form-group row mt-3">
                                 <div className="col-sm-12 text-right">
-                                    <button type="submit" className="btn btn-primary mr-2" style={{  background: "linear-gradient(to top, #7ebce9, #1e7bb5)", borderColor: "#0c9da8" }}>Update</button>
+                                    <button type="submit" className="btn btn-primary mr-2" style={{  background: "#3085d6", borderColor: "#0c9da8" }}>Update</button>
                                     <button type="button" className="btn btn-secondary" onClick={Cancel}>Cancel</button>
                                 </div>
                             </div>

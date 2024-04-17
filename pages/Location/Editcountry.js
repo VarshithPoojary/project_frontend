@@ -97,7 +97,7 @@ const CountryEdit = () => {
                                                     <input className="form-control" id="admin_country_name" type="text" placeholder="Enter Country Name" name="admin_country_name" value={values.admin_country_name} onChange={handleChange('admin_country_name')} required style={{ width: "105%" }} />
                                                 </div>
                                             </div>
-                                            <button className="btn btn-primary" type="submit" style={{  background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
+                                            <button className="btn btn-primary" type="submit" style={{  background: "#3085d6", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
                                         </form>
                                         {loading && <div className="alert alert-info">Loading...</div>}
                                         {msg && <div className="alert alert-success margin-top-10">{msg}</div>}

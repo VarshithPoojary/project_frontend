@@ -122,10 +122,10 @@ const AdminView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit"  style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"40px"}}  onClick={() => handleEdit(row)}>
+                <button className="icons-edit"  style={{ backgroundColor: "#3085d6", borderColor: "#1e7bb5",width:"40px"}}  onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
-                <button className="icons-delete"  style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"40px",marginLeft:"10%" }} onClick={() => handleDelete(row)}>
+                <button className="icons-delete"  style={{ backgroundColor: "rgb(225, 76, 76)", borderColor: "rgb(225, 76, 76)",width:"40px",marginLeft:"10%" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -146,7 +146,7 @@ const AdminView = () => {
                 <div className="center-table">
                     <center><h2><b>ADMIN LIST</b></h2></center>
                     <Link href="/Admin/AddAdmin">
-                        <a className="btn btn-success mb-3"  style={{  backgroundColor:'#4e80ecd9',borderColor: "#0c9da8", width:'20%' }}>Add Admin</a>
+                        <a className="btn btn-success mb-3"  style={{ background: "#3085d6",borderColor: "#0c9da8", width:'20%' }}>Add Admin</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     

@@ -201,7 +201,7 @@ const AdminPasswordUpdate = () => {
                            
                             <div className="form-group row mt-3">
                                 <div className="col-sm-12 text-right">
-                                    <button type="submit" className="btn btn-primary mr-2" style={{  background: "linear-gradient(to top, #7ebce9, #1e7bb5)", borderColor: "#0c9da8" }}>Update</button>
+                                    <button type="submit" className="btn btn-primary mr-2" style={{  background: "#3085d6", borderColor: "#0c9da8" }}>Update</button>
                                     <button type="button" className="btn btn-secondary" onClick={Cancel}>Cancel</button>
                                 </div>
                             </div>

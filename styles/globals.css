@@ -479,7 +479,7 @@ body {
     width: 100vw; 
     height: 100vh; 
     margin-top: 0px;
-    background:url('/images/login.jpg') center/cover no-repeat;
+    /* background:url('/images/login.jpg') center/cover no-repeat; */
     padding: 10px;
     background-size: cover; 
     background-repeat: no-repeat; 
@@ -488,6 +488,8 @@ body {
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
+    background-color: rgba(212, 209, 209, 0.416);
+    background: linear-gradient(to right,#3284b7,#66a7cf,#90c2e1, #afcde3, #90c2e1,#66a7cf,#3284b7);
 	
 	
 }
@@ -509,14 +511,14 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 5px 5px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 2px solid rgb(97, 178, 240,0.7);
-    /* box-shadow: 0 0 5px rgb(41, 113, 172,0.5); */
+    /* border: 2px solid rgba(17, 17, 17, 0.7); */
+    box-shadow: 10px 10px 5px rgb(41, 113, 172,0.2);
     /* background: transparent;
     backdrop-filter: blur(2px);
     border: 2px solid white; */
@@ -529,7 +531,8 @@ body {
     letter-spacing: 1.7px;
     text-align: center;
     color: #1f6da9;
-    font-family: "popins";
+    font-family: Georgia, serif;
+    
     
 }
 
@@ -551,19 +554,15 @@ body {
 }
 
 .login_wrapper .form-field {
-    /* padding-left: 10px;
-    margin-top: 5px;
-    border-radius: 50px;
-    box-shadow: inset 4px 3px 3px #129ead, inset -4px -3px 3px #94ffff; */
-	width: 100%;
-	height: 45px;
+    width: 100%;
+    height: 45px;
     padding: 10px;
-	background-color: rgb(242, 248, 255);
-	/* box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff; */
-    border: 1px solid #1b9de3;
-    border-radius: 5px;
-	margin-bottom: 10px;
+    background-color: rgb(234, 242, 250);
+    /* border: 1px black; */
+    border-bottom: 1px solid #9bb1c5; 
+    margin-bottom: 10px;
 }
+
 
 .login_wrapper .form-field .fas {
     color: #555;
@@ -576,11 +575,11 @@ body {
     color: #fff;
     border-radius: 5px;
     letter-spacing: 1.3px;
-    background: linear-gradient(to right, #7ebce9, #1e7bb5); 
+    background:#3085d6; 
 }
 
 .login_wrapper .btn:hover {
-    background: linear-gradient(to right, #b1d4f1, #2f8cc2);
+    background: #6cace8;
     color: #fff; 
 }
 
@@ -728,7 +727,7 @@ select {
 .registration-button {
     width: 50%;
     padding: 10px;
-    background: linear-gradient(to left, #7ebce9, #2787c2); 
+    background: #3085d6;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -740,7 +739,7 @@ select {
 .registration-cancel-button {
     width: 50%;
     padding: 10px;
-    background: linear-gradient(to left, #b0b3b4, #545556); 
+    background:   #a1a2a4; 
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -750,12 +749,12 @@ select {
 }
 
 .registration-button:hover {
-    background: linear-gradient(to left,  #b1d4f1, #509fcd);
+    background: #3f9cf3;
     color: #fff; 
 }
 
 .registration-cancel-button:hover {
-    background: linear-gradient(to left,  #d7d8d9, #7d7f80);
+    background: #c7c8c9; 
     color: #fff; 
 }
 
@@ -824,13 +823,13 @@ select {
   }
 
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item:hover{
-	color: #d7e7f8;
+	color: #797979;
     transition: color 0.3s ease; 
   }
   
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
-    background-color: #dcd7d7;
-    color: #000;
+    background-color: #b9b8b8;
+    color: #000000;
     border-radius: 3px;
   }
 
