@@ -160,42 +160,47 @@ const AdminProfile = () => {
                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                   <div className="row">
                     <div className="col-md-6" >
-                      <label>First Name</label>
+                      <label style={{color:'gray'}}>First Name :</label>
                     </div>
                     <div className="col-md-6 small-width-input">
-                      <input type="text" className="form-control" value={values.admin_firstname} readOnly />
+                    <label >{values.admin_firstname}</label>
+                      {/* <input type="text" className="form-control"  value={values.admin_firstname} readOnly /> */}
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label>Last Name</label>
+                      <label style={{color:'gray'}}>Last Name :</label>
                     </div>
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <input type="text" className="form-control" value={values.admin_lastname} readOnly />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label>Username</label>
-                    </div>
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <input type="text" className="form-control" value={values.admin_username} readOnly />
+                      <label>{values.admin_lastname}</label>
+                      {/* <input type="text" className="form-control" value={values.admin_lastname} readOnly /> */}
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label>Email</label>
+                      <label style={{color:'gray'}}>Username :</label>
                     </div>
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <input type="text" className="form-control" value={values.admin_email} readOnly />
+                    <label>{values.admin_username}</label>
+                      {/* <input type="text" className="form-control" value={values.admin_username} readOnly /> */}
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label>Mobile Number</label>
+                      <label style={{color:'gray'}}>Email :</label>
                     </div>
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <input type="text" className="form-control" value={values.admin_mobile_no} readOnly />
+                    <label>{values.admin_email}</label>
+                      {/* <input type="text" className="form-control" value={values.admin_email} readOnly /> */}
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6" style={{ marginTop: '10px' }}>
+                    <label style={{color:'gray'}}>Mobile Number:</label>
+                    </div>
+                    <div className="col-md-6" style={{ marginTop: '10px' }}>
+                    <label>{values.admin_mobile_no}</label>
+                      {/* <input type="text" className="form-control" value={values.admin_mobile_no} readOnly /> */}
                     </div>
                   </div>
                 </div>
