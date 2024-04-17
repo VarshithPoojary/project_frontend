@@ -128,9 +128,9 @@ const AdminPasswordUpdate = () => {
             </Head>
             <Topbar />
             <Header />
-            <div className="col-xl-8 col-lg-8 col-md-10 col-sm-12 col-12">
-                <form role="form" onSubmit={handleSubmit}>
-                    <div className="card" style={{ marginTop: '70px', padding: '20px', marginLeft: '250px', width: '700px', height: '400px', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
+            {/* <div className="col-xl-8 col-lg-8 col-md-10 col-sm-12 col-12"> */}
+                <form role="form" onSubmit={handleSubmit} style={{ top:'50%', padding: '20px', left:'50%', width: '700px', maxHeight: "70vh", minHeight: '400px' }}>
+                    <div className="card" style={{ marginTop: '90px', padding: '20px', left:'50%', width: '700px', height: '400px' }}>
                         <div className="card-body">
                             <h6 className="mb-3 text-primary">Password Details</h6>
                             <div className="form-group row">
@@ -204,7 +204,8 @@ const AdminPasswordUpdate = () => {
                         </div>
                     </div>
                 </form>
-            </div>
+            {/* </div> */}
+        
         </>
     );
 
