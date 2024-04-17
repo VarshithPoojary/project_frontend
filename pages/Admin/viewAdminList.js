@@ -146,7 +146,7 @@ const AdminView = () => {
                 <div className="center-table">
                     <center><h2><b>ADMIN LIST</b></h2></center>
                     <Link href="/Admin/AddAdmin">
-                        <a className="btn btn-success mb-3"  style={{  background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)",borderColor: "#0c9da8", width:'20%' }}>Add Admin</a>
+                        <a className="btn btn-success mb-3"  style={{  backgroundColor:'#4e80ecd9',borderColor: "#0c9da8", width:'20%' }}>Add Admin</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     

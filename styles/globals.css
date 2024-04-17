@@ -801,8 +801,8 @@ select {
     min-width: 80px;
   }
   #header .pro-sidebar-inner {
-    background-color: #51a2d4;
-    box-shadow: 2px 2px 2px 5px rgba(24, 172, 226, 0.15);
+    background-color: #ffffff;
+    /* box-shadow: 2px 2px 2px 5px rgba(167, 167, 167, 0.15); */
   }
   #header .pro-sidebar-inner .pro-sidebar-layout {
     overflow-y: hidden;
@@ -820,6 +820,7 @@ select {
     color: #000000;
     margin: 10px 0px;
     font-weight:normal;
+    font-style:normal;
   }
 
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item:hover{
@@ -828,7 +829,7 @@ select {
   }
   
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
-    background-color: #cfe1f8;
+    background-color: #dcd7d7;
     color: #000;
     border-radius: 3px;
   }
