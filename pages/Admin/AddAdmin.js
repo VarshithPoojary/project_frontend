@@ -206,13 +206,12 @@ const AddAdmin = () => {
 
             <div className="content-page">
                 <div className="content">
-                    <div className="container-fluid">
-                        <div className="card mb-4" style={{width: "900px", marginTop: "40px"}}>
-                            <div className="card-header">Add Admin here</div>
-                            <Scrollbars style={{ height: 300, maxHeight: 500}}>
-                                <div className="card-body" style={{ maxWidth: "700px" }}>
-                               
-                                    <form onSubmit={handleSubmit}>
+                <div className="container-fluid">
+                    <div className="card mb-4" style={{ width: "80%", maxWidth: "900px", marginTop: "40px" }}>
+                        <div className="card-header">Add Admin here</div>
+                        <Scrollbars style={{ height: "60vh", minHeight: '300px' }}>
+                            <div className="card-body" style={{ maxWidth: "90%", maxHeight: "70vh", minHeight: '300px' }}>
+                                <form onSubmit={handleSubmit}>
                                     
 
                                         <div className="row gx-3 mb-3">
