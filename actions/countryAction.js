@@ -22,13 +22,6 @@ export const add_country = countryData => {
 
 
 
-
-
-
-//export const country_list = () => {
-
-
-
 export const country_list = () => {
 
     return fetch(`${API}/admin_country_list`,{

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 html,
 body {
 	padding: 0;
@@ -454,7 +456,6 @@ td {
   }
 
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 
 * {
@@ -478,7 +479,7 @@ body {
     width: 100vw; 
     height: 100vh; 
     margin-top: 0px;
-    background:url('/images/login.jpg') center/cover no-repeat;
+    /* background:url('/images/login.jpg') center/cover no-repeat; */
     padding: 10px;
     background-size: cover; 
     background-repeat: no-repeat; 
@@ -487,6 +488,8 @@ body {
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
+    background-color: rgba(212, 209, 209, 0.416);
+    background: linear-gradient(to right,#3284b7,#66a7cf,#90c2e1, #afcde3, #90c2e1,#66a7cf,#3284b7);
 	
 	
 }
@@ -508,14 +511,14 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 5px 5px;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 2px solid rgb(97, 178, 240,0.7);
-    /* box-shadow: 0 0 5px rgb(41, 113, 172,0.5); */
+    /* border: 2px solid rgba(17, 17, 17, 0.7); */
+    box-shadow: 10px 10px 5px rgb(41, 113, 172,0.2);
     /* background: transparent;
     backdrop-filter: blur(2px);
     border: 2px solid white; */
@@ -528,7 +531,8 @@ body {
     letter-spacing: 1.7px;
     text-align: center;
     color: #1f6da9;
-    font-family: "popins";
+    font-family: Georgia, serif;
+    
     
 }
 
@@ -550,19 +554,15 @@ body {
 }
 
 .login_wrapper .form-field {
-    /* padding-left: 10px;
-    margin-top: 5px;
-    border-radius: 50px;
-    box-shadow: inset 4px 3px 3px #129ead, inset -4px -3px 3px #94ffff; */
-	width: 100%;
-	height: 45px;
+    width: 100%;
+    height: 45px;
     padding: 10px;
-	background-color: rgb(242, 248, 255);
-	/* box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff; */
-    border: 1px solid #1b9de3;
-    border-radius: 5px;
-	margin-bottom: 10px;
+    background-color: rgb(234, 242, 250);
+    /* border: 1px black; */
+    border-bottom: 1px solid #9bb1c5; 
+    margin-bottom: 10px;
 }
+
 
 .login_wrapper .form-field .fas {
     color: #555;
@@ -575,11 +575,11 @@ body {
     color: #fff;
     border-radius: 5px;
     letter-spacing: 1.3px;
-    background: linear-gradient(to right, #7ebce9, #1e7bb5); 
+    background:#3085d6; 
 }
 
 .login_wrapper .btn:hover {
-    background: linear-gradient(to right, #b1d4f1, #2f8cc2);
+    background: #6cace8;
     color: #fff; 
 }
 
@@ -618,20 +618,17 @@ body {
     position: relative; 
     width: 100%;
     height: 850px;
-    margin-top: 0px;
     padding: 10px;
-    border: 1px solid #ccc;
     border-radius: 5px;
     background-size: cover; 
-    background-repeat: no-repeat; 
-    box-shadow: 0 0 20px rgb(86, 152, 202);
     display: flex;
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
     /* background-color: #b0eff5; */
-    background: url('/images/registration.jpg') center/cover no-repeat;
-    z-index: 2;
+    /* background: url('/images/registration.jpg') center/cover no-repeat; */
+    z-index: -2;
+    top:50%;
 }
 
 .registration-container::before {
@@ -641,7 +638,6 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(253, 244, 244, 0.1); 
     border-radius: inherit;
     z-index: -1; 
 }
@@ -673,10 +669,9 @@ body {
 .registration-form {
     max-width: 800px;
     height: 750px;
-    margin: 2px auto 0 auto; 
+    margin: 60px auto 0 auto; 
     padding: 20px;
     border-radius: 5px;
-	box-shadow: 0 0 10px rgba(55, 159, 185, 0.3);
 	background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid white;
     /* background: transparent;
@@ -724,7 +719,7 @@ select {
 	height: 33px;
     padding: 2px;
 	/* box-shadow: inset 2px 2px 3px #129ead, inset -2px -2px 3px #94ffff; */
-    border: 1px solid #65b6e5;
+    /* border: 1px solid #65b6e5; */
     border-radius: 5px;
 }
 
@@ -732,7 +727,19 @@ select {
 .registration-button {
     width: 50%;
     padding: 10px;
-    background: linear-gradient(to left, #7ebce9, #2787c2); 
+    background: #3085d6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+	font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.registration-cancel-button {
+    width: 50%;
+    padding: 10px;
+    background:   #a1a2a4; 
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -742,7 +749,12 @@ select {
 }
 
 .registration-button:hover {
-    background: linear-gradient(to left,  #b1d4f1, #509fcd);
+    background: #3f9cf3;
+    color: #fff; 
+}
+
+.registration-cancel-button:hover {
+    background: #c7c8c9; 
     color: #fff; 
 }
 
@@ -788,8 +800,8 @@ select {
     min-width: 80px;
   }
   #header .pro-sidebar-inner {
-    background-color: #51a2d4;
-    box-shadow: 2px 2px 2px 5px rgba(24, 172, 226, 0.15);
+    background-color: #ffffff;
+    /* box-shadow: 2px 2px 2px 5px rgba(167, 167, 167, 0.15); */
   }
   #header .pro-sidebar-inner .pro-sidebar-layout {
     overflow-y: hidden;
@@ -806,17 +818,18 @@ select {
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
     color: #000000;
     margin: 10px 0px;
-    font-weight: bold;
+    font-weight:normal;
+    font-style:normal;
   }
 
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item:hover{
-	color: #d7e7f8;
+	color: #797979;
     transition: color 0.3s ease; 
   }
   
   #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
-    background-color: #cfe1f8;
-    color: #000;
+    background-color: #b9b8b8;
+    color: #000000;
     border-radius: 3px;
   }
 
@@ -911,7 +924,8 @@ select {
     margin-top: 50%;
 	padding-top: 20px;
     position: fixed;
-    max-width: 600px;
+    max-width: 700px;
+   
 }
 
 .btn {
@@ -1060,7 +1074,7 @@ select {
     top: 12%;
     left: 50%;
     transform: translateX(-50%);
-    width: 60%;
+    width: 65%;
     display: flex;
     justify-content: center;
     align-items: center;

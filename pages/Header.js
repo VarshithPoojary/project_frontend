@@ -53,10 +53,14 @@ const Header = () => {
     Router.push('/Admin/viewAdminList');
   };
 
+  const handlePatient = () => {
+    Router.push('/Patient/ViewPatientList');
+  };
+
 
   const handleLogout = () => {
     localStorage.removeItem('id');
-    Router.push('/Home');
+    Router.push('/login');
   };
 
 
@@ -102,7 +106,9 @@ const Header = () => {
                 <Link href='/Admin/viewAdminList'><span>Admin</span></Link>
                 </MenuItem>
                 <MenuItem icon={<BiClinic />} title="Doctor">Doctor</MenuItem>
-                <MenuItem icon={<BiUserPlus />} title="Patient">Patient</MenuItem>
+                <MenuItem icon={<BiUserPlus />} title="Patient" onClick={handlePatient}>
+                <Link href='/Patient/ViewPatientList'><span>Patient</span></Link>
+                </MenuItem>
                 <MenuItem icon={<BiBriefcase />} title="Department">Department</MenuItem>
                 <MenuItem icon={<BiCalendarPlus />} title="Appointment">Appointment</MenuItem>
                 <SubMenu title="Locations" icon={<FiMapPin />}  >

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mui/material": "^5.15.15",
     "@types/html2canvas": "^1.0.0",
     "axios": "^0.24.0",
     "bootstrap": "^5.2.3",

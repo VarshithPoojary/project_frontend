@@ -119,7 +119,7 @@ const handleSubmit = (e) => {
                                             <input className="form-control" id="admin_state_name" type="text" placeholder="Enter State Name" name="admin_state_name" onChange={handleChange('admin_state_name')} required style={{ width: "105%" }} />
                                         </div>
                                     </div>
-                                        <button className="btn btn-primary" type="submit" style={{   background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{   background: "#3085d6", borderColor: "#0c9da8" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Added Successfully</div>) : null}
                                         {msg ? (<div className="alert alert-success margin-top-10"> {msg}</div>) : null}
                                     </form>

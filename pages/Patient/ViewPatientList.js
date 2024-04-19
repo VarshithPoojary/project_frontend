@@ -7,40 +7,37 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import Router from 'next/router';
 import Header from '../Header';
 import Topbar from '../topbar';
-import { admin_list,DeleteAdminDetails } from '../../actions/adminprofileAction';
+import { patient_list,DeletePatientDetails } from '../../actions/patientprofileAction';
 
-const AdminView = () => {
-    const [adminDetail, setAdminDetail] = useState([]);
+const PatientView = () => {
+    const [patientDetail, setPatientDetail] = useState([]);
     const [values, setValues] = useState({
-        admin_profile_image:'',
-        admindetail: []
+        patient_profile:'',
+        patientdetail: []
     });
 
     const defaultProfileImage = '/images/userLogo.png';
     const [msg, setMsg] = useState('')
-    const {admin_profile_image, admindetail} = values;
+    const {patient_profile, patientdetail} = values;
     useEffect(() => {
-        loadAdminDetails();
+        loadPatientDetails();
     }, []);
 
-    const loadAdminDetails = () => {
-        admin_list().then(data => {
+    const loadPatientDetails = () => {
+        patient_list().then(data => {
             if (data.error) {
                 console.log(data.error);
             } else {
-                const loggedInAdminId = localStorage.getItem('id');
-                const filteredAdmins = data.admin_list.filter(admin => admin._id !== loggedInAdminId);
+                const loggedInPatientId = localStorage.getItem('id');
+                const filteredPatients = data.patient_list.filter(patient => patient._id !== loggedInPatientId);
                 setValues({
                     ...values,
-                    admin_profile_image: data.admin_list[0].admin_profile_image || defaultProfileImage,
-                    admindetail: filteredAdmins
+                    patient_profile: data.patient_list[0].patient_profile || defaultProfileImage,
+                    patientdetail: filteredPatients
                 });
             }
         });
     }
-
-
-
 
     const handleEdit = (row) => {
         Swal.fire({
@@ -56,21 +53,15 @@ const AdminView = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 Router.push({
-                    pathname: '/Admin/EditAdmin',
+                    pathname: '/Patient/EditPatient',
                     query: {
                         _id: row._id,
                     }
                 });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Router.push({
-                    pathname: '/Admin/EditAdminPassword',
-                    query: {
-                        _id: row._id,
-                    }
-                });            
+                    
             } else {
                 Router.push({
-                    pathname: '/Admin/viewAdminList' ,
+                    pathname: '/Patient/ViewPatientList' ,
                     query: {
                         _id: row._id,
                     }
@@ -82,10 +73,10 @@ const AdminView = () => {
 
 
     const handleDelete = (row) => {
-        const admin_deleted_by_id = localStorage.getItem('id');
+        const patient_deleted_by_id = localStorage.getItem('id');
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You will not be able to recover this admin!',
+            text: 'You will not be able to recover this patient!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -94,10 +85,10 @@ const AdminView = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                let query = { "_id": row._id, "admin_deleted_by_id": admin_deleted_by_id }
-                DeleteAdminDetails(query).then(data => {
-                    loadAdminDetails();
-                setMsg(`Admin "${row.admin_firstname}" deleted successfully.`);
+                let query = { "_id": row._id, "patient_deleted_by_id": patient_deleted_by_id }
+                DeletePatientDetails(query).then(data => {
+                    loadPatientDetails();
+                setMsg(`Patient "${row.patient_first_name}" deleted successfully.`);
                 setTimeout(() => {
                     setMsg('');
                 }, 2000); 
@@ -109,7 +100,7 @@ const AdminView = () => {
     function displayImage(cell, row) {
         return (
             <img
-                src={row.admin_profile_image ? row.admin_profile_image : defaultProfileImage}
+                src={row.patient_profile ? row.patient_profile : defaultProfileImage}
                 alt="Profile Image"
                 height="50px"
                 width="50px"
@@ -122,7 +113,7 @@ const AdminView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit"  style={{ backgroundColor: "#3085d6", borderColor: "#1e7bb5",width:"40px"}}  onClick={() => handleEdit(row)}>
+                <button className="icons-edit"  style={{ backgroundColor: "#3085d6", borderColor: "#3085d6",width:"40px"}}  onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
                 <button className="icons-delete"  style={{ backgroundColor: "rgb(225, 76, 76)", borderColor: "rgb(225, 76, 76)",width:"40px",marginLeft:"10%" }} onClick={() => handleDelete(row)}>
@@ -132,32 +123,32 @@ const AdminView = () => {
         );
     }
 
-    
-
     return (
         <Fragment>
             <Head>
-                <title>Admin List</title>
+                <title>Patient List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <Header/>
             <Topbar/>
             <div className="container-viewLocation">
                 <div className="center-table">
-                    <center><h2><b>ADMIN LIST</b></h2></center>
-                    <Link href="/Admin/AddAdmin">
-                        <a className="btn btn-success mb-3"  style={{ background: "#3085d6",borderColor: "#0c9da8", width:'20%' }}>Add Admin</a>
+                    <center><h2><b>PATIENT LIST</b></h2></center>
+                    <Link href="/Patient/AddPatient">
+                        <a className="btn btn-success mb-3"  style={{  background: "#3085d6",borderColor: "#0c9da8", width:'20%' }}>Add Patient</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     
-                    <BootstrapTable data={admindetail} search={true}>
+                    <BootstrapTable data={patientdetail} search={true}>
                         <TableHeaderColumn dataField="sno" width="70" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
-                        <TableHeaderColumn dataField='admin_profile_image'  dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_firstname" dataAlign="center" dataSort><b>Name</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_mobile_no" dataAlign="center" dataSort><b>Mobile No.</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_email" width='150px' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_type" width='100px' dataAlign="center" dataSort><b>Type</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_unique_number" dataAlign="center" dataSort><b>Unique Number</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField='patient_profile'  dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_first_name" dataAlign="center" dataSort><b>FirstName</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_phone_number" dataAlign="center" dataSort><b>Mobile No</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_gender" dataAlign="center" dataSort><b>Gender</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_email" width='150px' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_register_status" width='150px' dataAlign="center" dataSort><b>Status</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="actions" width='130px' dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
@@ -166,4 +157,4 @@ const AdminView = () => {
     );
 };
 
-export default AdminView;
+export default PatientView;

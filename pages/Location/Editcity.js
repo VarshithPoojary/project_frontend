@@ -162,7 +162,7 @@ return (
                                                 <input className="form-control" id="admin_pincode" type="number" placeholder="Enter Pincode" name="admin_pincode" value={admin_pincode} onChange={handleChange('admin_pincode')} required style={{ width: "105%" }} />
                                             </div>
                                         </div>
-                                        <button className="btn btn-primary" type="submit" style={{  background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
+                                        <button className="btn btn-primary" type="submit" style={{  background: "#3085d6", borderColor: "#0c9da8", marginTop:"10px" }}>Submit</button>
                                         {loading ? (<div className="alert alert-success margin-top-10">Edited Successfully</div>) : null}
                                     </form>
                                 </div>

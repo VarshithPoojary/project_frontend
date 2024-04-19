@@ -45,7 +45,7 @@ const StateView = () => {
         }
 
     const handleDelete = (row) => {
-        let created_by_id = localStorage.getItem('id');
+        let admin_deleted_by_id = localStorage.getItem('id');
         Swal.fire({
             title: 'Are you sure?',
             text: 'You will not be able to recover this country!',
@@ -56,7 +56,7 @@ const StateView = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                let query = { "_id": row._id, "created_by_id": created_by_id }
+                let query = { "_id": row._id, "admin_deleted_by_id": admin_deleted_by_id }
                 DeleteStateDetails(query).then(data => {
                     loadStateDetails();
                     setMsg(`State "${row.admin_state_name}" deleted successfully.`);
@@ -73,10 +73,10 @@ const StateView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit" style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px",marginLeft:"10px" }} onClick={() => handleEdit(row)}>
+                <button className="icons-edit" style={{ backgroundColor: "#3085d6", borderColor: "#3085d6",width:"50px" }} onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
-                <button className="icons-delete" style={{ backgroundColor: "#7ebce9", borderColor: "#1e7bb5",width:"50px",marginLeft:"20px" }} onClick={() => handleDelete(row)}>
+                <button className="icons-delete" style={{ backgroundColor: "rgb(225, 76, 76)", borderColor: "rgb(225, 76, 76)",width:"50px",marginLeft:"20px" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
@@ -99,18 +99,17 @@ const StateView = () => {
                 <div className="center-table">
                     <center><h2><b>STATE LIST</b></h2></center>
                     <Link href="/Location/Addstate">
-                        <a className="btn btn-success mb-3" style={{   background: "linear-gradient(to bottom, #7ebce9, #1e7bb5)", borderColor: "#0c9da8", width:'20%' }}>Add State</a>
+                        <a className="btn btn-success mb-3" style={{   background: "#3085d6", borderColor: "#0c9da8", width:'20%' }}>Add State</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     <BootstrapTable data={statedetail} search={true}>
                         <TableHeaderColumn dataField="sno" width="100" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
                        
-                        <TableHeaderColumn dataField="admin_state_name" dataSort><b>State Name</b></TableHeaderColumn>
-                        {/* <TableHeaderColumn dataField="admin_country_id" dataSort><b>Country id</b></TableHeaderColumn> */}
-                        <TableHeaderColumn dataField="admin_country_name" dataSort><b>Country Name</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_firstname" dataSort><b>Created Admin</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="actions" dataFormat={actionFormatter}><b>Actions</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_state_name" dataAlign="center" dataSort><b>State Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_country_name" dataAlign="center" dataSort><b>Country Name</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="admin_firstname" dataAlign="center" dataSort><b>Created Admin</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="actions" dataAlign="center" dataFormat={actionFormatter}><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
             </div>
