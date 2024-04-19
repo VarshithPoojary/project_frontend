@@ -7,9 +7,15 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import Header from '../Header';
 import Topbar from '../topbar';
 import { add_patient } from '../../actions/patientprofileAction';
+import { country_list } from '../../actions/countryAction';
+import { state_list_by_country_id } from '../../actions/stateAction';
+import { city_list_by_state_id } from '../../actions/cityAction';
 
 const AddPatient = () => {
     const defaultProfileImage = '/images/userLogo.jpeg';
+    const [countryList, setCountryList] = useState([]);
+    const [stateDetail, setStateDetail] = useState([]);
+    const [cityList, setCityList] = useState([]);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -22,7 +28,7 @@ const AddPatient = () => {
     const [area, setArea] = useState('');
     const [pincode, setPincode] = useState('');
     const [mainAddress, setMainAddress] = useState('');
-    const [profilePhoto, setProfilePhoto] = useState(null);
+    const [profileImage, setProfileImage] = useState(null);
     const [values,setValues]=useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -44,24 +50,60 @@ const AddPatient = () => {
         
     });
 
+    useEffect(() => {
+      loadCountryDetail();  
+  }, []);
+
+  const loadCountryDetail = () => {
+      country_list()
+          .then(response => {
+              if (response.error) {
+                  console.log(response.error);
+              } else {
+                  setCountryList(response.admin_country_list);
+              }
+          })
+          .catch(error => console.error(error));
+  };
+
+  const handleCountryChange = (admin_country_id) => {
+      state_list_by_country_id(admin_country_id)
+          .then(response => {
+              setCountry(admin_country_id)
+              setStateDetail(response.state_list);
+          })
+          .catch(error => {
+              console.error('Error fetching state list:', error);
+          });
+  };
+
+  const handleStateChange = (admin_state_id) => {
+      city_list_by_state_id(admin_state_id)
+          .then(response => {
+              setState(admin_state_id)
+              setCityList(response.city_list);
+          })
+          .catch(error => {
+              console.error('Error fetching city list:', error);
+          });
+  };
+  
+
+
     const onFileChange = (e) => {
-        setProfilePhoto(e.target.files[0]);
+      setProfileImage(e.target.files[0]);
     }
     const handleSubmit = async (e) => {
-        alert(JSON.stringify(e))
-        e.preventDefault();
-        setIsLoading(true);
+      e.preventDefault();
+      setIsLoading(true);
 
         const validationErrors = {};
-
-        if (!/^[a-zA-Z]+$/.test(firstName)) {
-            validationErrors.firstName = 'Please enter a valid first name.';
+        if (!firstName.trim()) {
+            validationErrors.firstName = 'Please enter your first name.';
         }
-    
-        if (!/^[a-zA-Z]+$/.test(lastName)) {
-            validationErrors.lastName = 'Please enter a valid last name.';
+        if (!lastName.trim()) {
+            validationErrors.lastName = 'Please enter your last name.';
         }
-
         if (!/^[6-9]\d{9}$/.test(phoneNumber)) {
             validationErrors.phoneNumber = 'Please enter a valid phone number.';
         }
@@ -101,6 +143,8 @@ const AddPatient = () => {
         if (!mainAddress.trim()) {
             validationErrors.mainAddress = 'Please enter your main address.';
         }
+    
+      
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -126,7 +170,7 @@ const AddPatient = () => {
             formData.append('patient_area_id', area);
             formData.append('patient_pincode', pincode);
             formData.append('patient_main_address', mainAddress);
-            formData.append('demoimg', profilePhoto);
+            formData.append('demoimg',  profileImage);
             formData.append('patient_created_by_id', patient_created_by_id);
 
             add_patient(formData).then(response => {
@@ -166,7 +210,7 @@ const AddPatient = () => {
             area,
             pincode,
             mainAddress,
-            profilePhoto,
+            profileImage,
         });
         
     
@@ -188,7 +232,7 @@ const AddPatient = () => {
             setArea('');
             setPincode('');
             setMainAddress('');
-            setProfilePhoto(null);
+            setProfileImage(null);
             setErrors({}); 
             setIsLoading(false);
             setIsSuccess(false);
@@ -228,10 +272,11 @@ const AddPatient = () => {
                               type="text"
                               id="firstName"
                               value={firstName}
-                              onChange={(e) => setFirstName(e.target.value)}
-                              required
-                            />
-                          </div>
+                              onChange={(e) => setFirstName(e.target.value)}/>
+                              {errors.firstName && <div className="error-message" style={{color:'red'}}>{errors.firstName}</div>}
+                            </div>
+
+                
                           <div className="col-md-6">
                             <label htmlFor="lastName" className="small mb-1">Last Name<span style={{ color: 'red' }}>*</span>:</label>
                             <input
@@ -239,9 +284,8 @@ const AddPatient = () => {
                               type="text"
                               id="lastName"
                               value={lastName}
-                              onChange={(e) => setLastName(e.target.value)}
-                              required
-                            />
+                              onChange={(e) => setLastName(e.target.value)}/>
+                               {errors.lastName && <div className="error-message" style={{color:'red'}}>{errors.lastName}</div>}
                           </div>
                         </div>
     
@@ -253,10 +297,11 @@ const AddPatient = () => {
                               type="text"
                               id="phoneNumber"
                               value={phoneNumber}
-                              onChange={(e) => setPhoneNumber(e.target.value)}
-                              required
-                            />
+                              onChange={(e) => setPhoneNumber(e.target.value)} />
+                              {errors.phoneNumber && <div className="error-message" style={{color:'red'}}>{errors.phoneNumber}</div>}
                           </div>
+
+
                           <div className="col-md-6">
                             <label htmlFor="dateOfBirth" className="small mb-1">Date of Birth<span style={{ color: 'red' }}>*</span>:</label>
                             <input
@@ -264,9 +309,8 @@ const AddPatient = () => {
                               type="date"
                               id="dateOfBirth"
                               value={dateOfBirth}
-                              onChange={(e) => setDateOfBirth(e.target.value)}
-                              required
-                            />
+                              onChange={(e) => setDateOfBirth(e.target.value)}/>
+                               {errors.dateOfBirth && <div className="error-message" style={{color:'red'}}>{errors.dateOfBirth}</div>}
                           </div>
                         </div>
     
@@ -277,9 +321,8 @@ const AddPatient = () => {
                               className='form-control'
                               id="gender"
                               value={gender}
-                              onChange={(e) => setGender(e.target.value)}
-                              required
-                            >
+                              onChange={(e) => setGender(e.target.value)}>
+                                {errors.gender && <div className="error-message" style={{color:'red'}}>{errors.gender}</div>}
                               <option value="">Select Gender</option>
                               <option value="male">Male</option>
                               <option value="female">Female</option>
@@ -293,9 +336,8 @@ const AddPatient = () => {
                               type="email"
                               id="email"
                               value={email}
-                              onChange={(e) => setEmail(e.target.value)}
-                              required
-                            />
+                              onChange={(e) => setEmail(e.target.value)}/>
+                             {errors.email && <div className="error-message" style={{color:'red'}}>{errors.email}</div>}
                           </div>
                         </div>
     
@@ -306,23 +348,26 @@ const AddPatient = () => {
                               className='form-control'
                               id="address"
                               value={address}
-                              onChange={(e) => setAddress(e.target.value)}
-                              required
-                            ></textarea>
+                              onChange={(e) => setAddress(e.target.value)}></textarea>
+                              {errors.address && <div className="error-message" style={{color:'red'}}>{errors.address}</div>}
                           </div>
+
                           <div className="col-md-6">
                             <label htmlFor="country" className="small mb-1">Country<span style={{ color: 'red' }}>*</span>:</label>
                             <select
                               className='form-control'
                               id="country"
-                              value={country}
-                              onChange={(e) => setCountry(e.target.value)}
-                              required
-                            >
-                              {/* Add country options */}
-                            </select>
+                              onChange={(e) => handleCountryChange(e.target.value)}>
+                              <option value="">Select Country</option>
+                              {countryList.map(country => (
+                                  <option key={country._id} value={country._id}>{country.admin_country_name}</option>
+                              ))}
+                          </select>
+                          {errors.country && <div className="error-message" style={{color:'red'}}>{errors.country}</div>}
                           </div>
-                        </div>
+                          </div>
+                     
+
     
                         <div className="row gx-3 mb-3">
                           <div className="col-md-6">
@@ -330,26 +375,35 @@ const AddPatient = () => {
                             <select
                               className='form-control'
                               id="state"
-                              value={state}
-                              onChange={(e) => setState(e.target.value)}
-                              required
-                            >
-                              {/* Add state options */}
+                              onChange={(e) => handleStateChange(e.target.value)}>
+                                <option value="">Select State</option>
+                                {stateDetail.map(state => (
+                                    <option key={state._id} value={state._id}>{state.admin_state_name}</option>
+                                ))}
                             </select>
-                          </div>
+                            {errors.state && <div className="error-message" style={{color:'red'}}>{errors.state}</div>}
+
+                            </div>
+                        
+
+
                           <div className="col-md-6">
-                            <label htmlFor="area" className="small mb-1">Area<span style={{ color: 'red' }}>*</span>:</label>
+                            <label htmlFor="" className="small mb-1">Area<span style={{ color: 'red' }}>*</span>:</label>
                             <select
                               className='form-control'
-                              id="area"
-                              value={area}
-                              onChange={(e) => setArea(e.target.value)}
-                              required
-                            >
-                              {/* Add area options */}
-                            </select>
-                          </div>
-                        </div>
+                              id="city"
+                              onChange={(e) => setArea(e.target.value)}>
+                                            <option value="">Select City</option>
+                                            {cityList.map(city => (
+                                                <option key={city._id} value={city._id}>{city.admin_city_name}</option>
+                                            ))}
+                                        </select>
+                                        {errors.area && <div className="error-message" style={{color:'red'}}>{errors.area}</div>}
+
+                                    </div>
+                                    </div>
+
+                       
     
                         <div className="row gx-3 mb-3">
                           <div className="col-md-6">
@@ -359,21 +413,24 @@ const AddPatient = () => {
                               type="text"
                               id="pincode"
                               value={pincode}
-                              onChange={(e) => setPincode(e.target.value)}
-                              required
-                            />
-                          </div>
+                              onChange={(e) => setPincode(e.target.value)}/>
+                                {errors.pincode && <div className="error-message" style={{color:'red'}}>{errors.pincode}</div>}
+                            </div>
+                        
+
+
                           <div className="col-md-6">
                             <label htmlFor="mainAddress" className="small mb-1">Main Address<span style={{ color: 'red' }}>*</span>:</label>
                             <textarea
                               className='form-control'
                               id="mainAddress"
                               value={mainAddress}
-                              onChange={(e) => setMainAddress(e.target.value)}
-                              required
-                            ></textarea>
+                              onChange={(e) => setMainAddress(e.target.value)}></textarea>
+                                {errors.mainAddress && <div className="error-message" style={{color:'red'}}>{errors.mainAddress}</div>}
+                             
                           </div>
                         </div>
+
     
                         <div className="row gx-3 mb-3">
                           <div className="col-md-6">
@@ -381,8 +438,8 @@ const AddPatient = () => {
                             <input
                               type="file"
                               className='form-control'
-                              id="profilePhoto"
-                              onChange={(e) => setProfilePhoto(e.target.value)}
+                             
+                              onChange={onFileChange}
                             />
                           </div>
                         </div>
@@ -393,7 +450,7 @@ const AddPatient = () => {
                               <button className='registration-button' type="submit" disabled={isLoading}>
                                 {isLoading ? 'Loading...' : 'Submit'}
                               </button>
-                              {isSuccess && <div className="success-message">Form submitted successfully!</div>}
+                              {isSuccess && <div className="success-message">{successMessage}</div>}
                               {errorMessage && <div className="error-message">{errorMessage}</div>}
                             </div>
                           </div>

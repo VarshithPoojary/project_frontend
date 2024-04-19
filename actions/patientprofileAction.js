@@ -69,7 +69,7 @@ export const update_patient = formData => {
 };
 
 export const DeletePatientDetails = (patientData) => {
-    return fetch(`${API}/admin_delete`, {
+    return fetch(`${API}/patient_delete`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
