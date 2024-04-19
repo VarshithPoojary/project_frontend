@@ -69,12 +69,7 @@ const AdminProfile = () => {
     }
   };
 
-  const handleBioChange = (e) => {
-    const newBio = e.target.value;
-    setBio(newBio);
-    const user_id = localStorage.getItem('id');
-    localStorage.setItem(`adminBio_${user_id}`, newBio);
-  };
+
 
  
   const handleDelete = () => {
@@ -146,13 +141,7 @@ const AdminProfile = () => {
           <div className="row">
             <div className="col-md-4">
               <div className="col-md-8">
-                <textarea
-                  className="form-control"
-                  rows="4"
-                  placeholder="Add Bio"
-                  value={bio}
-                  onChange={handleBioChange}
-                ></textarea>
+                
               </div>
             </div>
             <div className="col-md-8">

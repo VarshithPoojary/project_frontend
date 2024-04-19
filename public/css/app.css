@@ -356,7 +356,7 @@ body.enlarged {
  
   left: 0px;
   right: 0;
-  height: 70px;
+  height: 80px;
   /* z-index: 2; */
   /* Search */ }
   .navbar-custom .topnav-menu > li {
@@ -364,7 +364,7 @@ body.enlarged {
   }
 
   .topbar-nav-link {
-    color: #333;
+    color: #545454;
     text-decoration: none; 
     font-family: Arial, sans-serif; 
     position: relative; 
@@ -372,7 +372,11 @@ body.enlarged {
 }
 
 .topbar-nav-link:hover {
-    color: #ffffff; 
+    color: #000000; 
+    border-bottom: 2px solid #535252; 
+    /* border: 2px solid #535252;  */
+    margin-bottom: 50px;
+    /* transition: color 0.5s ease-in;  */
 }
 
 .topbar-nav-link:hover::after {

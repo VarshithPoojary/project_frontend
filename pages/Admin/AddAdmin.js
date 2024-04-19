@@ -287,9 +287,9 @@ const AddAdmin = () => {
                                                 onChange={(e) => setUserType(e.target.value)}
                                                 >
                                                 <option value="Select type">Select type</option>
-                                                <option value="admin">Admin</option>
-                                                <option value="doctor">Doctor</option>
-                                                <option value="patient">Patient</option>
+                                                <option value="Admin1">Admin1</option>
+                                                <option value="Admin2">Admin2</option>
+                                                <option value="Admin3">Admin3</option>
                                                 </select>
                                
                                             </div>
