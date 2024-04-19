@@ -3001,3 +3001,47 @@ h3.timeline-title {
     .home_footer-nav a:hover {
       color: #ff6600;
     }
+    .emergency-info {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .emergency-info p {
+      margin-right: 10px;
+      margin: 0; /* Remove default margin */
+    }
+    
+    .emergency-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e74c3c;
+      margin-left: 10px; 
+    }
+
+    
+    .subsection-title {
+      color: #555;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    
+    
+    
+    .choose-us-list {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .choose-us-list li {
+      margin-bottom: 10px;
+    }
+    
+    .choose-us-list li:before {
+      content: "•";
+      color: #007bff; /* Bullet color */
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+    
