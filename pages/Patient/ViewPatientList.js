@@ -142,13 +142,13 @@ const PatientView = () => {
                     <BootstrapTable data={patientdetail} search={true}>
                         <TableHeaderColumn dataField="sno" width="70" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_unique_number" dataAlign="center" dataSort><b>Unique Number</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField='patient_profile_image'  dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_first_name" dataAlign="center" dataSort><b>FirstName</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_phone_number" dataAlign="center" dataSort><b>Mobile No</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_gender" dataAlign="center" dataSort><b>Gender</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_email" width='150px' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_register_status" width='150px' dataAlign="center" dataSort><b>Status</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_unique_number" width="150" dataAlign="center" dataSort><b>Unique Number</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField='patient_profile_image' width="90" dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_first_name" width="150" dataAlign="center" dataSort><b>FirstName</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_phone_number" width="150" dataAlign="center" dataSort><b>Mobile No</b></TableHeaderColumn>
+                        {/* <TableHeaderColumn dataField="patient_gender" dataAlign="center" dataSort><b>Gender</b></TableHeaderColumn> */}
+                        <TableHeaderColumn dataField="patient_email" width='250' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="patient_register_status" width='90' dataAlign="center" dataSort><b>Status</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="actions" width='130px' dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>

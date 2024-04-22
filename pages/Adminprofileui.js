@@ -110,7 +110,7 @@ const AdminProfile = () => {
             <div className="col-md-4">
               <div className="profile-img" style={{ width: '150px', height: '150px', borderRadius: '50%', overflow: 'hidden' }}>
                 <label htmlFor="fileInput">
-                  <img src={admin_profile_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', cursor: 'pointer' }}></img>
+                  <img src={admin_profile_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover'}}></img>
                 </label>
                 <input id="fileInput" name="file" style={{ display: 'none' }} />
               </div>
