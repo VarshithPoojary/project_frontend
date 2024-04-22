@@ -94,7 +94,9 @@ const handleChange = name => e => {
             console.log(data1.error);
         } else {
            
-        setValues({ ...values,statedetail:data1.state_list,admin_country_id:e.target.value});
+        setValues({ ...values,
+            statedetail:data1.state_list,
+            admin_country_id:e.target.value});
                      
             
       

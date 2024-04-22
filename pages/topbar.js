@@ -23,7 +23,7 @@ const Topbar = () => {
     showForm: true
   });
 
-  const {admin_list,admin_profile_image, error, loading, message, showForm } = values;
+  const {admin_list,admin_firstname,admin_profile_image, error, loading, message, showForm } = values;
 
     useEffect(() => {
       if (typeof window !== 'undefined') {
@@ -65,6 +65,7 @@ const loadUserDetails = (user_id) => {
     } else {
       const adminData = data.admin_list[0];
       setValues({ ...values,
+        admin_firstname:adminData.admin_firstname,
         admin_profile_image: adminData.admin_profile_image || defaultProfileImage,     
          loading: false });
     }
@@ -117,10 +118,13 @@ const loadUserDetails = (user_id) => {
               <Link href='/Adminprofileui'>
               <a  className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" role="button" aria-haspopup="false" >
                 <span className="ml-1" style={{ color: "black" }}>
+                  
                   <img src={admin_profile_image} alt="Profile" style={{ width: '40px', height: '40px', borderRadius: '50%' }} />
+                  
                 </span>
               </a>
               </Link>
+              
            
             </li>
           </ul>

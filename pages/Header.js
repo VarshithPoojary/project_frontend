@@ -11,7 +11,8 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
-import { FiHome, FiLogOut, FiMenu, FiUser, FiMapPin, FiSettings } from "react-icons/fi";
+import { FiHome, FiLogOut, FiMenu, FiUser, FiMapPin, FiSettings, FiUsers } from "react-icons/fi";
+import { FaRegImage, FaBriefcase, FaGraduationCap, FaUserMd } from 'react-icons/fa';
 import { BiCog, BiUser, BiBook, BiCalendar, BiMap, BiListCheck, BiClinic, BiUserPlus, BiBriefcase, BiCalendarPlus } from "react-icons/bi";
 import "react-pro-sidebar/dist/css/styles.css";
 import { admin_details_by_id } from "../actions/adminprofileAction";
@@ -109,8 +110,20 @@ const Header = () => {
                 <MenuItem icon={<BiUserPlus />} title="Patient" onClick={handlePatient}>
                 <Link href='/Patient/ViewPatientList'><span>Patient</span></Link>
                 </MenuItem>
-                <MenuItem icon={<BiBriefcase />} title="Department">Department</MenuItem>
+                <MenuItem icon={<FaUserMd />} title="Department">Specialist</MenuItem>
                 <MenuItem icon={<BiCalendarPlus />} title="Appointment">Appointment</MenuItem>
+                <MenuItem icon={<FaRegImage />} title="Banner" onClick={handlePatient}>
+                <Link href='/Patient/ViewPatientList'><span>Banner</span></Link>
+                </MenuItem>
+                <MenuItem icon={<FaBriefcase  />} title="Work Experience" onClick={handlePatient}>
+                <Link href='/Patient/ViewPatientList'><span>Work Experience</span></Link>
+                </MenuItem>
+                <MenuItem icon={<FaGraduationCap  />} title="Year of Passing" onClick={handlePatient}>
+                <Link href='/Patient/ViewPatientList'><span>Year of Passing</span></Link>
+                </MenuItem>
+                <MenuItem icon={<FiUsers  />} title="Specialist Type" onClick={handlePatient}>
+                <Link href='/Patient/ViewPatientList'><span>Specialist Type</span></Link>
+                </MenuItem>
                 <SubMenu title="Locations" icon={<FiMapPin />}  >
                   <MenuItem title="Country" icon={<BiMap />} >
                   <Link href='/Location/viewCountry'><span >Country</span></Link></MenuItem>
