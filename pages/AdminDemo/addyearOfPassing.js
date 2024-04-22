@@ -40,7 +40,7 @@ const YearOfPassingAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/AdminDemo/addyearOfPassing`);
+                    Router.push(`/dashboard`);
                 }, 1000);
             }
         } catch (error) {

@@ -58,6 +58,21 @@ const Header = () => {
     Router.push('/Patient/ViewPatientList');
   };
 
+  const handleBanner = () => {
+    Router.push('/AdminDemo/addBanner');
+  };
+
+  const handleSpecialist = () => {
+    Router.push('/AdminDemo/addspecialistTypes');
+  };
+
+  const handleYearOfPassing = () => {
+    Router.push('/AdminDemo/addyearOfPassing');
+  };
+  const handleWorkExperience = () => {
+    Router.push('/AdminDemo/addWorkexperience');
+  };
+
 
   const handleLogout = () => {
     localStorage.removeItem('id');
@@ -112,17 +127,17 @@ const Header = () => {
                 </MenuItem>
                 <MenuItem icon={<FaUserMd />} title="Department">Specialist</MenuItem>
                 <MenuItem icon={<BiCalendarPlus />} title="Appointment">Appointment</MenuItem>
-                <MenuItem icon={<FaRegImage />} title="Banner" onClick={handlePatient}>
-                <Link href='/Patient/ViewPatientList'><span>Banner</span></Link>
+                <MenuItem icon={<FaRegImage />} title="Banner" onClick={handleBanner}>
+                <Link href='/AdminDemo/addBanner'><span>Banner</span></Link>
                 </MenuItem>
-                <MenuItem icon={<FaBriefcase  />} title="Work Experience" onClick={handlePatient}>
-                <Link href='/Patient/ViewPatientList'><span>Work Experience</span></Link>
+                <MenuItem icon={<FaBriefcase  />} title="Work Experience" onClick={handleWorkExperience}>
+                <Link href='/AdminDemo/addWorkexperience'><span>Work Experience</span></Link>
                 </MenuItem>
-                <MenuItem icon={<FaGraduationCap  />} title="Year of Passing" onClick={handlePatient}>
-                <Link href='/Patient/ViewPatientList'><span>Year of Passing</span></Link>
+                <MenuItem icon={<FaGraduationCap  />} title="Year of Passing" onClick={handleYearOfPassing}>
+                <Link href='/AdminDemo/addyearOfPassing'><span>Year of Passing</span></Link>
                 </MenuItem>
-                <MenuItem icon={<FiUsers  />} title="Specialist Type" onClick={handlePatient}>
-                <Link href='/Patient/ViewPatientList'><span>Specialist Type</span></Link>
+                <MenuItem icon={<FiUsers  />} title="Specialist Type" onClick={handleSpecialist}>
+                <Link href='/AdminDemo/addspecialistTypes'><span>Specialist Type</span></Link>
                 </MenuItem>
                 <SubMenu title="Locations" icon={<FiMapPin />}  >
                   <MenuItem title="Country" icon={<BiMap />} >

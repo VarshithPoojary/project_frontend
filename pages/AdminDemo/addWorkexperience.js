@@ -37,7 +37,7 @@ const WorkexperienceAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/AdminDemo/addWorkexperience`);
+                    Router.push(`/dashboard`);
                 }, 1000);
             }
         } catch (error) {

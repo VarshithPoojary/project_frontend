@@ -43,7 +43,7 @@ const SpecialistTypeAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/AdminDemo/addspecialistTypes`);
+                    Router.push(`/dashboard`);
                 }, 1000);
             }
         } catch (error) {

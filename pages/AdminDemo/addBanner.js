@@ -37,7 +37,7 @@ const BannerImageAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/AdminDemo/addBanner`);
+                    Router.push(`/dashboard`);
                 }, 1000);
             }
         } catch (error) {
