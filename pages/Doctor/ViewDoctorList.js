@@ -7,34 +7,34 @@ import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import Router from 'next/router';
 import Header from '../Header';
 import Topbar from '../topbar';
-import { patient_list,DeletePatientDetails } from '../../actions/patientprofileAction';
+import { doctor_list,DeleteDoctorDetails } from '../../actions/doctorprofileAction';
 
-const PatientView = () => {
-    const [patientDetail, setPatientDetail] = useState([]);
+const caretakerView = () => {
+    const [caretakerDetail, setcaretakerDetail] = useState([]);
     const [values, setValues] = useState({
-        patient_profile_image:'',
-        patientdetail: []
+        caretaker_profile_image:'',
+        caretakerdetail: []
     });
 
     const defaultProfileImage = '/images/userLogo.png';
     const [msg, setMsg] = useState('')
-    const {patient_profile_image, patientdetail} = values;
+    const {caretaker_profile_image, caretakerdetail} = values;
     useEffect(() => {
-        loadPatientDetails();
+        loadcaretakerDetails();
     }, []);
 
-    const loadPatientDetails = () => {
-        patient_list().then(data => {
+    const loadcaretakerDetails = () => {
+        doctor_list().then(data => {
             if (data.error) {
                 console.log(data.error);
             } 
             else {
-                const loggedInPatientId = localStorage.getItem('id');
-                const filteredPatients = data.patient_list.filter(patient => patient._id !== loggedInPatientId);
+                const loggedInDoctorId = localStorage.getItem('id');
+                const filteredcaretaker = data.caretaker_list.filter(doctor => doctor._id !== loggedInDoctorId);
                 setValues({
                     ...values,
-                    patient_profile_image: data.patient_list[0].patient_profile_image || defaultProfileImage,
-                    patientdetail: filteredPatients
+                    caretaker_profile_image: data.caretaker_list[0].caretaker_profile_image || defaultProfileImage,
+                    caretakerdetail: filteredcaretaker
                 });
             }
         });
@@ -54,7 +54,7 @@ const PatientView = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 Router.push({
-                    pathname: '/Patient/EditPatient',
+                    pathname: '/Doctor/EditDoctor',
                     query: {
                         _id: row._id,
                     }
@@ -62,7 +62,7 @@ const PatientView = () => {
                     
             } else {
                 Router.push({
-                    pathname: '/Patient/ViewPatientList' ,
+                    pathname: '/Doctor/ViewDoctorList' ,
                     query: {
                         _id: row._id,
                     }
@@ -74,10 +74,10 @@ const PatientView = () => {
 
 
     const handleDelete = (row) => {
-        const patient_deleted_by_id = localStorage.getItem('id');
+        const caretaker_deleted_by_id = localStorage.getItem('id');
         Swal.fire({
             title: 'Are you sure?',
-            text: 'You will not be able to recover this patient!',
+            text: 'You will not be able to recover this DOCTOR!!!!!',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -86,10 +86,10 @@ const PatientView = () => {
         }).then((result) => {
             if (result.isConfirmed) {
 
-                let query = { "_id": row._id, "patient_deleted_by_id": patient_deleted_by_id }
-                DeletePatientDetails(query).then(data => {
-                    loadPatientDetails();
-                setMsg(`Patient "${row.patient_first_name}" deleted successfully.`);
+                let query = { "_id": row._id, "caretaker_deleted_by_id": caretaker_deleted_by_id }
+                DeleteDoctorDetails(query).then(data => {
+                    loadcaretakerDetails();
+                setMsg(`Doctor "${row.doctor_first_name}" deleted successfully.`);
                 setTimeout(() => {
                     setMsg('');
                 }, 2000); 
@@ -101,7 +101,7 @@ const PatientView = () => {
     function displayImage(cell, row) {
         return (
             <img
-                src={row.patient_profile_image ? row.patient_profile_image : defaultProfileImage}
+                src={row.caretaker_profile_image ? row.caretaker_profile_image : defaultProfileImage}
                 alt="Profile Image"
                 height="50px"
                 width="50px"
@@ -127,29 +127,29 @@ const PatientView = () => {
     return (
         <Fragment>
             <Head>
-                <title>Patient List</title>
+                <title>Doctors List</title>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
             </Head>
             <Header/>
             <Topbar/>
             <div className="container-viewLocation">
                 <div className="center-table">
-                    <center><h2><b>PATIENT LIST</b></h2></center>
-                    <Link href="/Patient/AddPatient">
-                        <a className="btn btn-success mb-3"  style={{  background: "#3085d6",borderColor: "#0c9da8", width:'20%' }}>Add Patient</a>
+                    <center><h2><b>Doctors LIST</b></h2></center>
+                    <Link href="/Doctor/AddDoctor">
+                        <a className="btn btn-success mb-3"  style={{  background: "#3085d6",borderColor: "#0c9da8", width:'20%' }}>Add Doctors</a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
                     
-                    <BootstrapTable data={patientdetail} search={true}>
+                    <BootstrapTable data={caretakerdetail} search={true}>
                         <TableHeaderColumn dataField="sno" width="70" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_unique_number" width="150" dataAlign="center" dataSort><b>Unique Number</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField='patient_profile_image' width="90" dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_first_name" width="150" dataAlign="center" dataSort><b>FirstName</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_phone_number" width="150" dataAlign="center" dataSort><b>Mobile No</b></TableHeaderColumn>
-                        {/* <TableHeaderColumn dataField="patient_gender" dataAlign="center" dataSort><b>Gender</b></TableHeaderColumn> */}
-                        <TableHeaderColumn dataField="patient_email" width='250' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="patient_register_status" width='90' dataAlign="center" dataSort><b>Status</b></TableHeaderColumn>
+                        {/* <TableHeaderColumn dataField="doctor_unique_number" width="150" dataAlign="center" dataSort><b>Unique Number</b></TableHeaderColumn> */}
+                        <TableHeaderColumn dataField='caretaker_profile_image' width="90" dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_firstname" width="150" dataAlign="center" dataSort><b>FirstName</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_phone_number" width="150" dataAlign="center" dataSort><b>Mobile No</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_gender" dataAlign="center" dataSort><b>Gender</b></TableHeaderColumn> 
+                        <TableHeaderColumn dataField="caretaker_email" width='250' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_register_status" width='90' dataAlign="center" dataSort><b>Status</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="actions" width='130px' dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
@@ -158,4 +158,4 @@ const PatientView = () => {
     );
 };
 
-export default PatientView;
+export default caretakerView;

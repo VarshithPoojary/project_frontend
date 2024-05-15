@@ -54,6 +54,11 @@ const Header = () => {
     Router.push('/Admin/viewAdminList');
   };
 
+  const handleDoctor = () => {
+    Router.push('/Doctor/ViewDoctorList');
+  };
+
+
   const handlePatient = () => {
     Router.push('/Patient/ViewPatientList');
   };
@@ -121,7 +126,10 @@ const Header = () => {
                 <MenuItem icon={<BiUser />} title="Admin" onClick={handleAdmin}>
                 <Link href='/Admin/viewAdminList'><span>Admin</span></Link>
                 </MenuItem>
-                <MenuItem icon={<BiClinic />} title="Doctor">Doctor</MenuItem>
+                <MenuItem icon={<BiClinic />} title="Doctor" onClick={handleDoctor}>
+                <Link href='/Doctor/ViewDoctorList'><span>Doctor</span></Link>
+                </MenuItem>
+
                 <MenuItem icon={<BiUserPlus />} title="Patient" onClick={handlePatient}>
                 <Link href='/Patient/ViewPatientList'><span>Patient</span></Link>
                 </MenuItem>
