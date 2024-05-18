@@ -68,6 +68,21 @@ export const update_patient = formData => {
         });
 };
 
+export const patient_personal_update = patientData => {
+    return fetch(`${API}/patient_personal_update`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(patientData)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
 export const DeletePatientDetails = (patientData) => {
     return fetch(`${API}/patient_delete`, {
         method: 'POST',
