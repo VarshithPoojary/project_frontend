@@ -44,6 +44,7 @@ const DoctorProfileUpdate = () => {
             countrydetail: [],
         statedetail: [],
         citydetail:[],
+        
     });
     
     const { caretaker_firstname, caretaker_lastname,  caretaker_phone_number, caretaker_dob,caretaker_gender,caretaker_email,caretaker_address,caretaker_country_id,caretaker_state_id,caretaker_city_id,caretaker_pincode, caretaker_year_of_passing,caretaker_work_experience,caretaker_main_address,caretaker_profile_image,countrydetail,statedetail,citydetail,error, loading } = values;
@@ -356,12 +357,12 @@ const DoctorProfileUpdate = () => {
                                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                 <div className="doctor-profile-form-group  mt-2">
                                                     <label htmlFor="country" className="small mb-1">Work Experience</label>
-                                                    <select className="form-control" id="workExperience" value={caretaker_country_id} onChange={handleCountryChange('caretaker_country_id')}>
-                                                    {/* {countrydetail.map(country => (
+                                                    <select className="form-control" id="workExperience" value={caretaker_work_experience} onChange={handleCountryChange('caretaker_work_experience')}>
+                                                    {countrydetail.map(country => (
                                                         <option key={country._id} value={country._id}>
                                                             {country.admin_country_name}
                                                         </option>
-                                                    ))} */}
+                                                    ))}
                                                         
                                                 </select>
                                                 </div>
@@ -419,3 +420,4 @@ const DoctorProfileUpdate = () => {
     export default DoctorProfileUpdate;
     
         
+

@@ -145,11 +145,13 @@ const caretakerView = () => {
                         <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
                         {/* <TableHeaderColumn dataField="doctor_unique_number" width="150" dataAlign="center" dataSort><b>Unique Number</b></TableHeaderColumn> */}
                         <TableHeaderColumn dataField='caretaker_profile_image' width="90" dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
-                        <TableHeaderColumn dataField="caretaker_firstname" width="150" dataAlign="center" dataSort><b>FirstName</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="caretaker_phone_number" width="150" dataAlign="center" dataSort><b>Mobile No</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_firstname" width="120" dataAlign="center" dataSort><b>FirstName</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_phone_number" width="120" dataAlign="center" dataSort><b>Mobile No</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="caretaker_gender" dataAlign="center" dataSort><b>Gender</b></TableHeaderColumn> 
-                        <TableHeaderColumn dataField="caretaker_email" width='250' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="caretaker_register_status" width='90' dataAlign="center" dataSort><b>Status</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_email" width='200' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_register_status" width='90' dataAlign="center" dataSort><b>RegisterStatus</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="caretaker_approvedStatus" width='90' dataAlign="center" dataSort><b> ApprovedStatus</b></TableHeaderColumn>
+                        
                         <TableHeaderColumn dataField="actions" width='130px' dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
