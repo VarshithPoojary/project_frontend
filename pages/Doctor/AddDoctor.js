@@ -10,12 +10,27 @@ import { add_doctor } from '../../actions/doctorprofileAction';
 import { country_list } from '../../actions/countryAction';
 import { state_list_by_country_id } from '../../actions/stateAction';
 import { city_list_by_state_id } from '../../actions/cityAction';
+import {YearOfPassing_List} from  '../../actions/YearOfPassingAction';
+import { workExperience_list } from '../../actions/workexperienceAction';
 
 const AddDoctor = () => {
     const defaultProfileImage = '/images/userLogo.jpeg';
+    // const [countryList, setCountryList] = useState([]);
+    // const [stateDetail, setStateDetail] = useState([]);
+    // const [cityList, setCityList] = useState([]);
+    
+    // const [work_list, setWorkList] = useState([]);
+    // const [yearOfPassing_list, setyearOfPassinglist] = useState([]);
     const [countryList, setCountryList] = useState([]);
+    const [workList, setWorkList] = useState([]);
+    const [yearOfPassingList, setYearOfPassingList] = useState([]);
     const [stateDetail, setStateDetail] = useState([]);
     const [cityList, setCityList] = useState([]);
+    // const [state, setState] = useState('');
+    // const [country, setCountry] = useState('');
+   
+  
+
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [referralCode, setreferralCode] = useState('');
@@ -32,6 +47,10 @@ const AddDoctor = () => {
     const [area, setArea] = useState('');
     const [pincode, setPincode] = useState('');
     const [mainAddress, setMainAddress] = useState('');
+
+    const [workExperience,setworkExperience]=useState('');
+    const [yearOfPassing, setyearOfPassing]=useState('');
+   
     const [profileImage, setProfileImage] = useState(null);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -55,6 +74,10 @@ const AddDoctor = () => {
         area: '',
         pincode: '',
         mainAddress: '',
+        workExperience: '',
+        yearOfPassing: '',
+
+
         status:'',
         doctor_password:''
         
@@ -68,43 +91,157 @@ const AddDoctor = () => {
       length: false,
   });
 
-    useEffect(() => {
-      loadCountryDetail();  
-  }, []);
+//     useEffect(() => {
+//       loadCountryDetail();  
+//      loadWorkExperienceList(); 
+//      loadYearOfPassingList(); 
+//     // loadDetail();  
+      
+//   }, []);
+ 
 
-  const loadCountryDetail = () => {
-      country_list()
-          .then(response => {
-              if (response.error) {
-                  console.log(response.error);
-              } else {
-                  setCountryList(response.admin_country_list);
-              }
-          })
-          .catch(error => console.error(error));
+
+//   const loadCountryDetail = () => {
+//       country_list()
+//           .then(response => {
+//               if (response.error) {
+//                   console.log(response.error);
+//               } else {
+//                   setCountryList(response.admin_country_list);
+//               }
+//           })
+//           .catch(error => console.error(error));
+//   };
+
+//   const handleCountryChange = (admin_country_id) => {
+//       state_list_by_country_id(admin_country_id)
+//           .then(response => {
+//               setCountry(admin_country_id)
+//               setStateDetail(response.state_list);
+//           })
+//           .catch(error => {
+//               console.error('Error fetching state list:', error);
+//           });
+//   };
+
+//   const handleStateChange = (admin_state_id) => {
+//       city_list_by_state_id(admin_state_id)
+//           .then(response => {
+//               setState(admin_state_id)
+//               setCityList(response.city_list);
+//           })
+//           .catch(error => {
+//               console.error('Error fetching city list:', error);
+//           });
+//   };
+
+
+  
+//   const loadWorkExperienceList = () => {
+//     workExperience_list()
+//         .then(response => {
+//             console.log("Work Experience List:", response); 
+//             if (response.error) {
+//                 console.log(response.error);
+//             } else {
+//               setWorkList(response);
+//             }
+//         })
+//         .catch(error => {
+//             console.error('Error fetching work experience list:', error);
+//         });
+// };
+
+
+// const handleWorkExperienceChange = (e) => {
+  
+// };
+
+
+// const loadYearOfPassingList = () => {
+//   YearOfPassing_List()
+//       .then(response => {
+//           console.log("Year Of Passing List:", response); 
+//           if (response.error) {
+//               console.log(response.error);
+//           } else {
+//             setyearOfPassinglist(response);
+//           }
+//       })
+//       .catch(error => {
+//           console.error('Error fetching work experience list:', error);
+//       });
+// };
+
+
+useEffect(() => {
+  const loadDetail = async () => {
+    try {
+      const countryResponse = await country_list();
+      if (countryResponse.error) {
+        console.error(countryResponse.error);
+        return;
+      }
+      setCountryList(countryResponse.admin_country_list);
+
+      const workResponse = await workExperience_list();
+      console.log("Work Experience List:", workResponse);
+      if (workResponse.error) {
+        console.error(workResponse.error);
+        return;
+      }
+      setWorkList(workResponse.admin_workexperience_list);
+      
+
+      const yearOfPassingResponse = await YearOfPassing_List();
+      console.log("Year Of Passing List:", yearOfPassingResponse);
+      if (yearOfPassingResponse.error) {
+        console.error(yearOfPassingResponse.error);
+        return;
+      }
+      setYearOfPassingList(yearOfPassingResponse.admin_yearofpassing_list);
+    } 
+    catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleCountryChange = (admin_country_id) => {
-      state_list_by_country_id(admin_country_id)
-          .then(response => {
-              setCountry(admin_country_id)
-              setStateDetail(response.state_list);
-          })
-          .catch(error => {
-              console.error('Error fetching state list:', error);
-          });
-  };
+  loadDetail();
+}, []);
 
-  const handleStateChange = (admin_state_id) => {
-      city_list_by_state_id(admin_state_id)
-          .then(response => {
-              setState(admin_state_id)
-              setCityList(response.city_list);
-          })
-          .catch(error => {
-              console.error('Error fetching city list:', error);
-          });
-  };
+const handleCountryChange = (admin_country_id) => {
+  state_list_by_country_id(admin_country_id)
+    .then(response => {
+      setCountry(admin_country_id);
+      setStateDetail(response.state_list);
+    })
+    .catch(error => {
+      console.error('Error fetching state list:', error);
+    });
+};
+
+const handleStateChange = (admin_state_id) => {
+  city_list_by_state_id(admin_state_id)
+    .then(response => {
+      setState(admin_state_id);
+      setCityList(response.city_list);
+    })
+    .catch(error => {
+      console.error('Error fetching city list:', error);
+    });
+};
+
+
+const handleWorkExperienceChange = () => {
+  setWorkExperience(value);
+};
+
+
+
+const handleYearOfPassingChange = (value) => {
+  setYearOfPassingList(value);
+};
+
 
 
 
@@ -225,6 +362,9 @@ const AddDoctor = () => {
             formData.append('caretaker_state_id', state);
             formData.append('caretaker_area_id', area);
             formData.append('caretaker_pincode', pincode);
+            formData.append('caretaker_work_experience',workExperience );
+            formData.append('caretaker_year_of_passing',yearOfPassing );
+
             formData.append('caretaker_register_status', status);
             formData.append('caretaker', password);
             formData.append('demoimg',  profileImage);
@@ -268,6 +408,9 @@ const AddDoctor = () => {
             state,
             area,
             pincode,
+            workExperience,
+            yearOfPassing,
+
             profileImage,
             status
         });
@@ -293,6 +436,9 @@ const AddDoctor = () => {
             setArea('');
             setPincode('');
             setMainAddress('');
+            setworkExperience('');
+            setyearOfPassing('');
+
             setProfileImage(null);
             setErrors({}); 
             setIsLoading(false);
@@ -488,7 +634,7 @@ const AddDoctor = () => {
 
 
                           <div className="col-md-6">
-                            <label htmlFor="" className="small mb-1">City<span style={{ color: 'red' }}>*</span>:</label>
+                            <label htmlFor="city" className="small mb-1">City<span style={{ color: 'red' }}>*</span>:</label>
                             <select
                               className='form-control'
                               id="city"
@@ -527,9 +673,49 @@ const AddDoctor = () => {
                               value={mainAddress}
                               onChange={(e) => setMainAddress(e.target.value)}></textarea>
                                 {errors.mainAddress && <div className="error-message" style={{color:'red'}}>{errors.mainAddress}</div>}
-                             
-                          </div>
+                             </div>
                         </div>
+                       
+                         <div className="row gx-3 mb-3">
+                          <div className="col-md-6">
+                            <label htmlFor="workExperience" className="small mb-1">work Experience<span style={{ color: 'red' }}>*</span>:</label>
+                            <select
+                              className='form-control'
+                              id="workExperience"
+                              onChange={(e) => handleWorkExperienceChange(e.target.value)}>
+                               <option value="">Select Work Experience</option>
+                               { workList.map(workExperience => (
+                                  <option key={workExperience._id} value={workExperience._id}>{workExperience.admin_work_experience}</option>
+                                ))}
+                            </select>
+                            {errors.workExperience && <div className="error-message" style={{color:'red'}}>{errors.workExperience}</div>}
+
+                            </div>
+                        
+
+
+                          <div className="col-md-6">
+                          <label htmlFor="YearOfPassing" className="small mb-1">Year Of Passing<span style={{ color: 'red' }}>*</span>:</label>
+                            <select
+                              className='form-control'
+                              id="YearOfPassing"
+                              onChange={(e) => handleYearOfPassingChange(e.target.value)}>
+                               <option value="">Select Year Of Passing</option>
+                               { yearOfPassingList.map(year => (
+                                  <option key={year._id} value={year._id}>{year.admin_year_of_passing}</option>
+                                ))}
+                            </select>
+                            {errors.year && <div className="error-message" style={{color:'red'}}>{errors.year}</div>}
+
+                            </div>
+                        </div>
+
+
+
+                    
+
+
+
 
                         <div className="row gx-3 mb-3">
                           <div className="col-md-6">
@@ -633,5 +819,3 @@ const AddDoctor = () => {
 }
 
 export default AddDoctor;
-
-    
