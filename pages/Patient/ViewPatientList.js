@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Swal from 'sweetalert2';
-import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import { FiEdit, FiTrash2 ,FiEye } from 'react-icons/fi';
 import Router from 'next/router';
 import Header from '../Header';
 import Topbar from '../topbar';
@@ -27,7 +27,8 @@ const PatientView = () => {
         patient_list().then(data => {
             if (data.error) {
                 console.log(data.error);
-            } else {
+            } 
+            else {
                 const loggedInPatientId = localStorage.getItem('id');
                 const filteredPatients = data.patient_list.filter(patient => patient._id !== loggedInPatientId);
                 setValues({
@@ -38,6 +39,17 @@ const PatientView = () => {
             }
         });
     }
+
+    const handleView = (row) => {
+        Router.push({
+            pathname: '/Patient/ViewPatientProfile',
+            query: {
+                patientId: row._id,
+                patientProfile: JSON.stringify(row),
+            }
+        });
+    };
+    
 
     const handleEdit = (row) => {
         Swal.fire({
@@ -113,12 +125,16 @@ const PatientView = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="icons-edit"  style={{ backgroundColor: "#3085d6", borderColor: "#3085d6",width:"40px"}}  onClick={() => handleEdit(row)}>
+                <button className="icons-view"  style={{ backgroundColor: "#3085d6", borderColor: "#3085d6",width:"40px" }} onClick={() => handleView(row)}>
+                    <FiEye />
+                </button>
+                <button className="icons-edit"  style={{ backgroundColor: "#3085d6", borderColor: "#3085d6",width:"40px",marginLeft:"10%"}}  onClick={() => handleEdit(row)}>
                     <FiEdit  />
                 </button>
                 <button className="icons-delete"  style={{ backgroundColor: "rgb(225, 76, 76)", borderColor: "rgb(225, 76, 76)",width:"40px",marginLeft:"10%" }} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
+                
             </div>
         );
     }
@@ -149,7 +165,7 @@ const PatientView = () => {
                         {/* <TableHeaderColumn dataField="patient_gender" dataAlign="center" dataSort><b>Gender</b></TableHeaderColumn> */}
                         <TableHeaderColumn dataField="patient_email" width='250' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
                         <TableHeaderColumn dataField="patient_register_status" width='90' dataAlign="center" dataSort><b>Status</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="actions" width='130px' dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
+                        <TableHeaderColumn dataField="actions" width='200px' dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
                     </BootstrapTable>
                 </div>
             </div>

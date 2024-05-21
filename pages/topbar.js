@@ -3,6 +3,7 @@ import Link from 'next/link';
 import $ from 'jquery';
 import Router from 'next/router';
 import { FiHome, FiBell, FiSettings, FiUser } from 'react-icons/fi'; 
+import { FaHome,FaBell,FaCog,FaUser } from 'react-icons/fa';
 import { admin_details_by_id } from '../actions/adminprofileAction';
 
 const Topbar = () => {
@@ -87,30 +88,30 @@ const loadUserDetails = (user_id) => {
   const signupForm = () => {
     return (
       <div id="wrapper">
-        <div className="navbar-custom">
+        <div className="navbar-custom" style={{ position: 'fixed' }}>
           <ul className="list-unstyled topnav-menu float-right mb-0">
             <li className="dropdown notification-list">
             <Link href="/dashboard">
               <a className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown"  role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1 topbar-nav-link" ><FiHome /> Dashboard</span>
+                <span className="ml-1 topbar-nav-link" ><FaHome /> Dashboard</span>
               </a>
               </Link>
             </li>
             <li className="dropdown notification-list">
               
               <a href="#" className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1 topbar-nav-link" ><FiBell /> Notification</span>
+                <span className="ml-1 topbar-nav-link" ><FaBell /> Notification</span>
               </a>
             </li>
             <li className="dropdown notification-list">
               <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1 topbar-nav-link" ><FiSettings /> Settings</span>
+                <span className="ml-1 topbar-nav-link" ><FaCog /> Settings</span>
               </a>
             </li>
             <li className="dropdown notification-list">
             <Link href="/Adminprofileui">
               <a  className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-                <span className="ml-1 topbar-nav-link" ><FiUser /> Profile</span>
+                <span className="ml-1 topbar-nav-link" ><FaUser /> Profile</span>
               </a>
               </Link>
             </li>

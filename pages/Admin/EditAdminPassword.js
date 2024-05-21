@@ -152,7 +152,7 @@ const AdminPasswordUpdate = () => {
             <Header />
             <div className="col-xl-8 col-lg-8 col-md-10 col-sm-12 col-12">
                 <form role="form" onSubmit={handleSubmit}>
-                    <div className="card" style={{ marginTop: '80px', padding: '20px', marginLeft: '250px', width: '700px', height: '400px', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
+                    <div className="card" style={{ marginTop: '100px', padding: '20px', marginLeft: '250px', width: '700px', height: '400px', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
                         <div className="card-body">
                         <div className="card-header">Edit Admin Password Here</div>
                             

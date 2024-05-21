@@ -10,13 +10,12 @@ import Router from 'next/router';
 import { patient_details_by_id, update_patient } from '../../actions/patientprofileAction';
 import { CountryListById, update_country,country_list } from '../../actions/countryAction';
 import { state_list,StateListById,state_list_by_country_id } from '../../actions/stateAction';
-import { CityListById, update_city,city_list_by_state_id } from '../../actions/cityAction';
+import { city_list, update_city,city_list_by_state_id } from '../../actions/cityAction';
 
 
 
 const PatientProfileUpdate = () => {
     const router = useRouter();
-
     const [profilePhoto, setProfilePhoto] = useState(null);
     // const [countryList, setCountryList] = useState([]);
     // const [stateDetail, setStateDetail]=useState([]);
@@ -31,9 +30,9 @@ const PatientProfileUpdate = () => {
             patient_gender:'',
             patient_email:'',
             patient_address:'',
-            admin_country_id:'',
-            admin_state_id:'',
-            admin_city_id:'',
+            patient_country_id:'',
+            patient_state_id:'',
+            patient_area_id:'',
             patient_pincode:'',
             patient_main_address:'',
             patient_profile:'',
@@ -44,7 +43,7 @@ const PatientProfileUpdate = () => {
         citydetail:[],
     });
     
-    const { patient_first_name, patient_last_name,  patient_phone_number, patient_dob,patient_gender,patient_email,patient_address,admin_country_id,admin_state_id, patient_area_id,patient_pincode,patient_main_address,patient_profile,countrydetail,statedetail,citydetail,error, loading } = values;
+    const { patient_first_name, patient_last_name,  patient_phone_number, patient_dob,patient_gender,patient_email,patient_address,patient_country_id,patient_state_id, patient_area_id,patient_pincode,patient_main_address,patient_profile,countrydetail,statedetail,citydetail,error, loading } = values;
     const [msg, setMsg] = useState('');
  
 
@@ -60,22 +59,22 @@ const PatientProfileUpdate = () => {
         }
     }, [router.query._id]);
 
-    const loadCountryDetails = () => {
-    CountryListById(router.query._id).then(country => {
-        if (country.error) {
-            console.log(country.error);
-        } else {
-            if (country.admin_country_list && country.admin_country_list.length > 0) {
-                setValues({
-                    ...values,
-                    patient_country_id: country.admin_country_list[0].patient_country_id
-                });
-            } else {
-                console.log('No country details found.');
-            }
-        }
-    });
-};
+//     const loadCountryDetails = () => {
+//     CountryListById(router.query._id).then(country => {
+//         if (country.error) {
+//             console.log(country.error);
+//         } else {
+//             if (country.admin_country_list && country.admin_country_list.length > 0) {
+//                 setValues({
+//                     ...values,
+//                     patient_country_id: country.admin_country_list[0].patient_country_id
+//                 });
+//             } else {
+//                 console.log('No country details found.');
+//             }
+//         }
+//     });
+// };
 
     
     const loadPatientDetails = () => {
@@ -87,7 +86,7 @@ const PatientProfileUpdate = () => {
                     if(state.error){
                         console.log(state.error);
                     }else {
-                        CityListById(router.query._id).then(city => {
+                        city_list().then(city => {
                             if (city.error) {
                                 console.log(city.error);
                             } else {
@@ -107,7 +106,7 @@ const PatientProfileUpdate = () => {
                         patient_gender: patientData. patient_gender,
                         patient_email: patientData. patient_email,
                         patient_address: patientData. patient_address,
-                        admin_country_id: patientData. admin_country_id,
+                        patient_country_id: patientData. patient_country_id,
                         patient_state_id: patientData. patient_state_id,
                         patient_area_id: patientData. patient_area_id,
                         patient_pincode: patientData. patient_pincode,
@@ -134,27 +133,42 @@ const PatientProfileUpdate = () => {
             }
 });
     };
-    const handleCountryChange = (admin_country_id) => {
-        // state_list_by_country_id(admin_country_id)
-        //     .then(response => {
-        //         setCountry(admin_country_id)
-        //         statedetail(response.state_list);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching state list:', error);
-        //     });
-    };
-  
-    const handleStateChange = (admin_state_id) => {
-        // city_list_by_state_id(admin_state_id)
-        //     .then(response => {
-        //         setState(admin_state_id)
-        //         setCityList(response.city_list);
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching city list:', error);
-        //     });
-    };
+    const handleChange = name => e => {
+        setValues({ ...values, [name]: e.target.value });
+        const value = e.target.value;
+        if (name === 'patient_gender') {
+          setValues({ ...values, patient_gender: value });
+        } else {
+          setValues({ ...values, [name]: value });
+        }
+        if (name === "patient_country_id") {
+          state_list_by_country_id(value).then(data1 => {
+            if (data1.error) {
+              console.log(data1.error);
+            } else {
+              setValues({ ...values, stateList: data1.state_list, patient_country_id: value });
+            }
+          });
+        }
+        if (name === "patient_state_id") {
+          city_list_by_state_id(value).then(data2 => {
+            if (data2.error) {
+              console.log(data2.error);
+            } else {
+              setValues({ ...values, areaList: data2.city_list, patient_state_id: value });
+            }
+          });
+        }
+        if (name === "patient_area_id") {
+          CityListById(value).then(data3 => {
+            if (data3.error) {
+              console.log(data3.error);
+            } else {
+              setValues({ ...values,  patient_area_id: value });
+            }
+          });
+        }
+      };
     
 
     const onFileChange = (e) => {
@@ -164,6 +178,9 @@ const PatientProfileUpdate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const patient_updated_by_id = localStorage.getItem('id');
+        const countryId = document.getElementById('country').value;
+    const stateId = document.getElementById('patient_state_id').value;
+    const areaId = document.getElementById('patient_area_id').value;  
         var patient_id = router.query._id;
         const formData = new FormData();
         formData.append('patient_id', patient_id);
@@ -174,9 +191,9 @@ const PatientProfileUpdate = () => {
             formData.append('patient_gender', patient_gender);
             formData.append('patient_email', patient_email);
             formData.append('patient_address', patient_address);
-            formData.append('patient_country_id', patient_country_id);
-            formData.append('patient_state_id', patient_state_id);
-            formData.append('patient_area_id', patient_area_id);
+            formData.append('patient_country_id', countryId);
+            formData.append('patient_state_id', stateId);
+            formData.append('patient_area_id', areaId);
             formData.append('patient_pincode', patient_pincode);
             formData.append('patient_main_address', patient_main_address);
             formData.append('demoimg', profilePhoto);
@@ -188,34 +205,33 @@ const PatientProfileUpdate = () => {
                 if (response.error) {
                     setValues({ ...values, error: response.error });
                 } else {
-                    const countryData = {
-                        country_id: patient_id,
-                        patient_country_id,
-                        admin_updated_by_id:patient_updated_by_id,
-                    };
-                    const countryRes = await update_country(countryData);
-                    if (countryRes.error) {
-                        setValues({ ...values, error: countryRes.error });
-                    } else {
-                        setMsg('Edited Successfully');
-                        setTimeout(() => {
-                            setMsg('');
+                    // const countryData = {
+                    //     country_id: patient_id,
+                    //     patient_country_id,
+                    //     admin_updated_by_id:patient_updated_by_id,
+                    // };
+                    // const countryRes = await update_country(countryData);
+                    // if (countryRes.error) {
+                    //     setValues({ ...values, error: countryRes.error });
+                    // } else {
+                    //     setMsg('Edited Successfully');
+                    //     setTimeout(() => {
+                    //         setMsg('');
                             Router.push(`/Patient/ViewPatientList`);
-                        }, 2000);
-                    }
-                }
+                //         }, 2000);
+                     }
+                // }
             } catch (error) {
                 console.error('Error:', error);
                 setValues({ ...values, error: 'Error updating profile', loading: false });
             }
         };
     
-        const handleChange = name => e => {
-            setValues({ ...values, [name]: e.target.value });
-        };
+        
     
         const Cancel = () => {
-            loadUserDetails();
+            const user_id = localStorage.getItem("id");
+            loadUserDetails(user_id);
         };
     
         return (
@@ -231,9 +247,9 @@ const PatientProfileUpdate = () => {
                 <div className="content-page">
             <div className="content">
               <div className="container-fluid">
-                <div className="card mb-4" style={{ width: "900px", marginTop: "40px" }}>
-                  <div className="card-header">Add Patient here</div>
-                  <Scrollbars style={{ height: 300, maxHeight: 500 }}>
+                <div className="card mb-4" style={{ width: "1000px", marginTop: "40px" , height:'500px',minHeight:'400px'}}>
+                  <div className="card-header">Edit Patient here</div>
+                  <Scrollbars style={{ height: 900, maxHeight: 1000 }}>
                     <div className="card-body" style={{ maxWidth: "900px",width:'800px' }}>
     
                     <form role="form" onSubmit={handleSubmit}>
@@ -243,7 +259,7 @@ const PatientProfileUpdate = () => {
                                         
                                         <label htmlFor="fileInput">
                                             <div className="user-avatar mt-4" style={{ position: 'relative', display: 'inline-block' }}>
-                                                <img src={patient_profile} alt="Patient Profile" style={{ width: '50px', height: '50px', borderRadius: '50%', cursor: 'pointer' }} />
+                                                <img src={values.patient_profile} alt="Patient Profile" style={{ width: '50px', height: '50px', borderRadius: '50%', cursor: 'pointer' }} />
                                                 <div style={{ position: 'absolute', bottom: '0', left: '0', zIndex: '1' }}>
                                                     <span style={{ color: 'black', cursor: 'pointer', width: '100%' }}><FiCamera /></span>
                                                 </div>
@@ -302,7 +318,7 @@ const PatientProfileUpdate = () => {
                                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                 <div className="patient-profile-form-group  mt-2">
                                                     <label htmlFor="country" className="small mb-1">Country</label>
-                                                    <select className="form-control" id="country" value={admin_country_id} onChange={handleCountryChange('admin_country_id')}>
+                                                    <select className="form-control" id="country" value={patient_country_id} onChange={handleChange('patient_country_id')}>
                                                     {countrydetail.map(country => (
                                                         <option key={country._id} value={country._id}>
                                                             {country.admin_country_name}
@@ -315,7 +331,7 @@ const PatientProfileUpdate = () => {
                                             <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                                 <div className="patient-profile-form-group  mt-2">
                                                     <label htmlFor="state" className="small mb-1">State</label>
-                                                    <select className="form-control" id="state" value={admin_state_id} onChange={handleStateChange('patient_state_id')}>
+                                                    <select className="form-control" id="state" value={patient_state_id} onChange={handleChange('patient_state_id')}>
                                                     {statedetail.map(state => (
                                                         <option key={state._id} value={state._id}>
                                                             {state.admin_state_name}
