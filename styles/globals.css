@@ -1205,63 +1205,15 @@ select {
 
   /*patient profile*/
 
-  .page-header {
-    background-color: #fdece5;
-    padding: 20px;
-    text-align: center;
-    font-family: Arial, sans-serif;
-}
 
-.page-header img {
-    height: 50px;
-}
-
-.page-header h1 {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.client-info, .overview, .info-notes, .task-files, .contract {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-.client-info img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-
-.client-info h2, .overview h2, .info-notes h2, .task-files h2, .contract h2 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.overview {
-    background-color: #f8f9fa;
-}
-
-.info-notes {
-    background-color: #e9f7ef;
-}
-
-.task-files {
-    background-color: #e8f1f9;
-}
-
-.contract {
-    background-color: #fff3e0;
-}
-  
-  
   
 
   
 
+
+
+
+       
+  
 
 

@@ -27,7 +27,8 @@ const PatientView = () => {
         patient_list().then(data => {
             if (data.error) {
                 console.log(data.error);
-            } else {
+            } 
+            else {
                 const loggedInPatientId = localStorage.getItem('id');
                 const filteredPatients = data.patient_list.filter(patient => patient._id !== loggedInPatientId);
                 setValues({
