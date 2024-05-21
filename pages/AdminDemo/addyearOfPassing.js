@@ -22,13 +22,16 @@ const YearOfPassingAdd = () => {
         admin_year_of_passing: ''
     });
 
+    const { admin_year_of_passing } = values;
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         const adminId = localStorage.getItem('id');
         try {
-            const data = { admin_created_by_id: adminId, admin_year_of_passing: values.admin_year_of_passing };
+            const data = { admin_created_by_id: adminId, admin_year_of_passing };
             const res = await add_yearOfPassing(data); 
             setLoading(false);
             if (res.msg) {
@@ -50,9 +53,10 @@ const YearOfPassingAdd = () => {
         }
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setValues({ ...values, [name]: value });
+ 
+    const handleChange = name => e => {
+        setValues({ ...values, [name]: e.target.value });
+        
     };
 
     return (
@@ -77,7 +81,7 @@ const YearOfPassingAdd = () => {
                                             <div className="form-group row">
                                                 <label htmlFor="year_of_passing" className="col-sm-3 col-form-label">Year of Passing</label>
                                                 <div className="col-sm-9">
-                                                    <input type="text" className="form-control" id="year_of_passing" name="year_of_passing" value={values.year_of_passing} onChange={handleChange} required pattern="[0-9]*" />
+                                                    <input type="text" className="form-control" id="year_of_passing" name="year_of_passing"  onChange={handleChange('admin_year_of_passing')} required pattern="[0-9]*" />
                                                     <small className="text-muted">Enter a number only</small>
                                                 </div>
                                             </div>
