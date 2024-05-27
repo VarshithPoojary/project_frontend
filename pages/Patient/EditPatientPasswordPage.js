@@ -5,20 +5,19 @@ import Router from 'next/router';
 import { useRouter } from 'next/router';
 import Topbar from '../topbar';
 import Header from '../Header';
-import { update_admin,admin_details_by_id } from '../../actions/adminprofileAction';
+import { update_patient, patient_details_by_id } from '../../actions/patientprofileAction';
 
 const PatientPasswordUpdate = () => {
     const router = useRouter();
     const defaultProfileImage = '/images/userLogo.jpeg'; 
     const [values, setValues] = useState({
-        admin_firstname: '',
-        admin_lastname: '',
-        admin_password: '',
-        admin_mobile_no: '',
-        admin_email: '',
-        admin_username: '',
-        admin_type: '',
-        admin_profile_image: '',
+        patient_firstname: '',
+        patient_lastname: '',
+        patient_password: '',
+        patient_mobile_no: '',
+        patient_email: '',
+        patient_username: '',
+        patient_profile_image: '',
         error: '',
         loading: false,
         confirmpassword: '',
@@ -27,9 +26,7 @@ const PatientPasswordUpdate = () => {
         successMessage: ''
     });
     const [msg, setMsg] = useState('');
-    const { admin_password, confirmpassword, showPassword, showConfirmPassword, error, loading, successMessage } = values;
-    
-   
+    const { patient_password, confirmpassword, showPassword, showConfirmPassword, error, loading, successMessage } = values;
 
     useEffect(() => {
         const user_id = localStorage.getItem('id');
@@ -40,26 +37,22 @@ const PatientPasswordUpdate = () => {
         }
     }, [router.query._id]);
 
-
-  
-
     const loadPassword = () => {
-        admin_details_by_id(router.query._id)
+        patient_details_by_id(router.query._id)
             .then(data => {
                 if (data.error) {
                     setValues({ ...values, error: data.error, loading: false });
                 } else {
-                    const adminData = data.admin_list[0];
+                    const patientData = data.patient_list[0];
                     setValues({
                         ...values,
-                        admin_firstname: adminData.admin_firstname,
-                        admin_lastname: adminData.admin_lastname,
-                        admin_username: adminData.admin_username,
-                        admin_type: adminData.admin_type,
-                        admin_email: adminData.admin_email,
-                        admin_profile_image: adminData.admin_profile_image || defaultProfileImage,
-                        admin_mobile_no: adminData.admin_mobile_no,
-                        admin_current_password: adminData.admin_password,
+                        patient_firstname: patientData.patient_firstname,
+                        patient_lastname: patientData.patient_lastname,
+                        patient_username: patientData.patient_username,
+                        patient_email: patientData.patient_email,
+                        patient_profile_image: patientData.patient_profile_image || defaultProfileImage,
+                        patient_mobile_no: patientData.patient_mobile_no,
+                        patient_current_password: patientData.patient_password,
                         loading: false
                     });
                 }
@@ -73,14 +66,14 @@ const PatientPasswordUpdate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = {};
-        var admin_id = router.query._id;
+        var patient_id = router.query._id;
     
-        if (!admin_password && !confirmpassword) {
+        if (!patient_password && !confirmpassword) {
             setValues({ ...values, error: 'Enter Password and Confirm Password' });
             return;
         }
     
-        if (!admin_password) {
+        if (!patient_password) {
             setValues({ ...values, error: 'Enter Password' });
             return;
         }
@@ -90,18 +83,18 @@ const PatientPasswordUpdate = () => {
             return;
         }
     
-        if (admin_password !== confirmpassword) {
+        if (patient_password !== confirmpassword) {
             setValues({ ...values, error: 'New password and confirm password do not match' });
             return;
         }
     
         const formData = new FormData();
-        formData.append('admin_id', admin_id);
-        formData.append('demoimg', values.admin_profile_image);
-        formData.append('admin_password', admin_password);
+        formData.append('patient_id', patient_id);
+        formData.append('demoimg', values.patient_profile_image);
+        formData.append('patient_password', patient_password);
     
         try {
-            const response = await update_admin(formData);
+            const response = await update_patient(formData);
             if (response.error) {
                 setValues({ ...values, error: response.error });
             } else {
@@ -133,7 +126,7 @@ const PatientPasswordUpdate = () => {
         setValues({
             ...values,
             oldpassword: '',
-            admin_password: '',
+            patient_password: '',
             confirmpassword: '',
             error: '',
             successMessage: ''
@@ -154,7 +147,7 @@ const PatientPasswordUpdate = () => {
                 <form role="form" onSubmit={handleSubmit}>
                     <div className="card" style={{ marginTop: '100px', padding: '20px', marginLeft: '250px', width: '700px', height: '400px', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
                         <div className="card-body">
-                        <div className="card-header">Edit Admin Password Here</div>
+                            <div className="card-header">Edit Patient Password Here</div>
                             
                             <div className="form-group row">
                                 <label htmlFor="newpassword" className="col-sm-3 col-form-label">New Password:</label>
@@ -162,9 +155,9 @@ const PatientPasswordUpdate = () => {
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         className="form-control"
-                                        id="admin_password"
-                                        value={admin_password}
-                                        onChange={handleChange('admin_password')}
+                                        id="patient_password"
+                                        value={patient_password}
+                                        onChange={handleChange('patient_password')}
                                         placeholder="Enter new password"
                                         style={{ width: '300px' }}
                                     />
@@ -211,8 +204,6 @@ const PatientPasswordUpdate = () => {
             </div>
         </>
     );
-    
-
 };
 
 export default PatientPasswordUpdate;

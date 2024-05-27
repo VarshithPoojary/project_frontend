@@ -63,6 +63,8 @@ const Header = () => {
     Router.push('/Patient/ViewPatientList');
   };
 
+  
+
   const handleDepartment = () => {
     Router.push('/ViewDepartment');
   };
@@ -73,8 +75,12 @@ const Header = () => {
   };
 
   const handleSpecialist = () => {
-    Router.push('/AdminDemo/addspecialistTypes');
+    Router.push('/SpecialistPage');
   };
+
+  // const handleSpecialistType = () => {
+  //   Router.push('/SpecialistPage');
+  // };
 
   const handleYearOfPassing = () => {
     Router.push('/AdminDemo/addyearOfPassing');
@@ -135,14 +141,18 @@ const Header = () => {
                 <MenuItem icon={<FaUser />} title="Admin" onClick={handleAdmin}>
                 <Link href='/Admin/viewAdminList'><span>Admin</span></Link>
                 </MenuItem>
-                <MenuItem icon={<BiClinic />} title="Doctor">Doctor</MenuItem>
+                <MenuItem icon={<BiUserPlus />} title="Doctor" onClick={handleDoctor}>
+                <Link href='/Doctor/ViewDoctorList'><span>Doctor</span></Link>
+                </MenuItem>
                 <MenuItem icon={<BiUserPlus />} title="Patient" onClick={handlePatient}>
                 <Link href='/Patient/ViewPatientList'><span>Patient</span></Link>
                 </MenuItem>
                 <MenuItem icon={<FaBuilding />} title="Department" onClick={handleDepartment}>
                 <Link href='/Department'><span>Department</span></Link> 
                 </MenuItem>
-                <MenuItem icon={<FaUserMd />} title="Department">Specialist</MenuItem>
+                <MenuItem icon={<FaUserMd />} title="Specialist" onClick={handleSpecialist}>
+                <Link href='/SpecialistPage'><span>Specialist</span></Link>
+                </MenuItem>
                 <MenuItem icon={<FaCalendar />} title="Appointment">Appointment</MenuItem>
                 <MenuItem icon={<FaImage />} title="Banner" onClick={handleBanner}>
                 <Link href='/AdminDemo/addBanner'><span>Banner</span></Link>
@@ -153,9 +163,9 @@ const Header = () => {
                 <MenuItem icon={<FaGraduationCap  />} title="Year of Passing" onClick={handleYearOfPassing}>
                 <Link href='/AdminDemo/addyearOfPassing'><span>Year of Passing</span></Link>
                 </MenuItem>
-                <MenuItem icon={<FaUsers  />} title="Specialist Type" onClick={handleSpecialist}>
-                <Link href='/AdminDemo/addspecialistTypes'><span>Specialist Type</span></Link>
-                </MenuItem>
+                {/* <MenuItem icon={<FaUsers  />} title="Specialist Type" onClick={handleSpecialistType}>
+                <Link href='/SpecialistPage'><span>Specialist Type</span></Link>
+                </MenuItem> */}
                 <MenuItem icon={<FaFileInvoice  />} title="Invoice" onClick={handleInvoice}>
                 <Link href='/Invoice'><span>Invoice</span></Link>
                 </MenuItem>

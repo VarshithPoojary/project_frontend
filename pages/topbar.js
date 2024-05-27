@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import $ from 'jquery';
 import Router from 'next/router';
+import {  Badge } from 'react-bootstrap';
 import { FiHome, FiBell, FiSettings, FiUser } from 'react-icons/fi'; 
-import { FaHome,FaBell,FaCog,FaUser } from 'react-icons/fa';
+import { FaHome,FaBell,FaCog,FaUser,  FaCommentAlt } from 'react-icons/fa';
 import { admin_details_by_id } from '../actions/adminprofileAction';
 
 const Topbar = () => {
@@ -25,6 +26,9 @@ const Topbar = () => {
   });
 
   const {admin_list,admin_firstname,admin_profile_image, error, loading, message, showForm } = values;
+
+  const notificationCount = 4; 
+  const messageCount = 2;
 
     useEffect(() => {
       if (typeof window !== 'undefined') {
@@ -100,9 +104,24 @@ const loadUserDetails = (user_id) => {
             <li className="dropdown notification-list">
               
               <a href="#" className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+              <Badge pill bg="danger" className="position-absolute top-0 start-50 translate-middle"  style={{marginTop:'20px',marginLeft:'100px', fontSize: '0.6em' }}>
+                {notificationCount}
+              </Badge>
                 <span className="ml-1 topbar-nav-link" ><FaBell /> Notification</span>
               </a>
             </li>
+
+            <li className="dropdown notification-list">
+              
+              <a href="#" className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+              <Badge pill bg="danger" className="position-absolute top-0 start-50 translate-middle"  style={{marginTop:'20px',marginLeft:'80px', fontSize: '0.6em' }}>
+                {messageCount}
+              </Badge>
+                <span className="ml-1 topbar-nav-link" ><FaCommentAlt /> Message</span>
+              </a>
+            </li>
+
+            
             <li className="dropdown notification-list">
               <a href='#' className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
                 <span className="ml-1 topbar-nav-link" ><FaCog /> Settings</span>

@@ -43,7 +43,7 @@ const SpecialistTypeAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/dashboard`);
+                    Router.push(`/SpecialistPage`);
                 }, 1000);
             }
         } catch (error) {

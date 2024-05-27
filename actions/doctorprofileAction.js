@@ -84,6 +84,22 @@ export const DeleteDoctorDetails = (patientData) => {
     .catch(err => console.log(err));
 };
 
+export const caretaker_list_by_specialist = patientData => {
+    var id={"caretaker_type":patientData};
+    return fetch(`${API}/caretaker_list_by_specialist`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
 
 
 

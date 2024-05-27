@@ -71,6 +71,13 @@ const PatientView = () => {
                     }
                 });
                     
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Router.push({
+                    pathname: '/Patient/EditPatientPasswordPage',
+                    query: {
+                        _id: row._id,
+                    }
+                });            
             } else {
                 Router.push({
                     pathname: '/Patient/ViewPatientList' ,
@@ -81,7 +88,6 @@ const PatientView = () => {
             }
         });
     };
-    
 
 
     const handleDelete = (row) => {
