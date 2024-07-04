@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
-// Import or define add_banner_image function here
 import Topbar from '../topbar';
 import Header from '../Header';
 import { add_banner } from '../../actions/bannerAction';
-
 
 const BannerImageAdd = () => {
     const [loading, setLoading] = useState(false);
@@ -21,12 +19,8 @@ const BannerImageAdd = () => {
             const formData = new FormData();
             formData.append('admin_created_by_id', adminId);
             formData.append('bannerImg', image);
-            
-            // Call the add_banner_image function here with formData
-             const res = await add_banner(formData);
-            // Below is a placeholder response
-           // const res = { msg: 'Banner image added successfully' };
-            
+            const res = await add_banner(formData);
+
             setLoading(false);
             if (res.msg) {
                 setMsg(res.msg);
@@ -37,7 +31,7 @@ const BannerImageAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/dashboard`);
+                    Router.push(`/AdminDemo/viewBannerList`);
                 }, 1000);
             }
         } catch (error) {
@@ -62,33 +56,98 @@ const BannerImageAdd = () => {
             </Head>
             <Topbar />
             <Header />
-            <div className="content-page">
-                <div className="content">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card mb-4" style={{ width: "600px", marginTop: "70px" }}>
-                                    <div className="card-header">Add Banner Image here</div>
-                                    <div className="card-body" style={{ maxWidth: "400px" }}>
-                                        <form onSubmit={handleSubmit}>
-                                            <div className="form-group row">
-                                                <label htmlFor="banner_image" className="col-sm-3 col-form-label">Select Image</label>
-                                                <div className="col-sm-9">
-                                                    <input type="file" className="form-control-file" id="banner_image" name="banner_image" accept="image/*" onChange={handleImageChange} required />
-                                                </div>
-                                            </div>
-                                            
-                                            <button className="btn btn-primary" type="submit" style={{  background: "#3085d6", borderColor: "#0c9da8" }}>Submit</button>
-                                            {loading ? (<div className="alert alert-success margin-top-10">Added successfully</div>) : null}
-                                            {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
-                                        </form>
+            <div className="container-viewLocation">
+                <div className="center-table">
+                    <center><h2><b>Add Banner Image</b></h2></center>
+                    <div className="card mb-4" style={{ width: "600px", marginTop: "70px" }}>
+                        <div className="card-header">Add Banner Image here</div>
+                        <div className="card-body" style={{ maxWidth: "400px" }}>
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group row">
+                                    <label htmlFor="banner_image" className="col-sm-3 col-form-label">Select Image</label>
+                                    <div className="col-sm-9">
+                                        <input type="file" className="form-control-file" id="banner_image" name="banner_image" accept="image/*" onChange={handleImageChange} required />
                                     </div>
                                 </div>
-                            </div>
+                                
+                                <button className="btn-submit" type="submit">Submit</button>
+                                {loading ? (<div className="alert alert-success margin-top-10">Added successfully</div>) : null}
+                                {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <style jsx>{`
+                .container-viewLocation {
+                    padding: 20px;
+                    margin-left: -50px;
+                    margin-top: 10px;
+                }
+                .center-table {
+                    margin: auto;
+                    width: 90%;
+                }
+                .card {
+                    border-radius: 5px;
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                }
+                .card-header {
+                    background-color: #B4A3E1;
+                    color: white;
+                    font-size: 1.25em;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: white;
+                }
+                .form-group {
+                    margin-bottom: 15px;
+                }
+                .form-control-file {
+                    border: 2px solid #B4A3E1;
+                    border-radius: 4px;
+                    padding: 10px;
+                    font-size: 1em;
+                    width: 100%;
+                }
+                .form-control-file:focus {
+                    border-color: #9575CD;
+                    box-shadow: none;
+                }
+                .btn-submit {
+                    display: inline-flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: white;
+                    background-color: #B4A3E1;
+                    border: none;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    transition: background-color 0.3s;
+                    cursor: pointer;
+                }
+                .btn-submit:hover {
+                    background-color: #9575CD;
+                }
+                .alert-success {
+                    color: #3c763d;
+                    background-color: #dff0d8;
+                    border-color: #d6e9c6;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                }
+                .margin-top-10 {
+                    margin-top: 10px;
+                }
+            `}</style>
         </div>
     );
 };

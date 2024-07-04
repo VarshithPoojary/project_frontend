@@ -95,14 +95,32 @@ const SpecialistTypeAdd = () => {
                                                     <small className="text-muted">Enter a text representing the color code</small>
                                                 </div>
                                             </div>
-                                            <div className="form-group row">
+                                            {/* <div className="form-group row">
                                                 <label htmlFor="admin_priority" className="col-sm-3 col-form-label">Priority</label>
                                                 <div className="col-sm-9">
                                                     <input type="text" className="form-control" id="admin_priority" name="admin_priority" value={values.admin_priority} onChange={handleChange} required />
                                                     <small className="text-muted">Enter a text representing the priority</small>
                                                 </div>
-                                            </div>
-                                            <div className="form-group row">
+                                            </div> */}
+                         
+                                         <div className="form-group row">
+                                                <label htmlFor="admin_priority" className="col-sm-3 col-form-label">Priority</label>
+                                                <div className="col-sm-9">
+                                                <select
+                                                    className="form-control" id="admin_priority" name="admin_priority" value={values.admin_priority} onChange={handleChange} required >
+                                                       <option value="" disabled>Select priority</option>
+                                                       <option value="first">First</option>
+                                                       <option value="second">Second</option>
+                                                       <option value="third">Third</option>
+                                                       <option value="fourth">Fourth</option>
+                                                       <option value="fifth">Fifth</option>
+                                               </select>
+                                              <small className="text-muted">Select a priority level</small>
+                                              </div>
+                                              </div>
+
+
+                                                <div className="form-group row">
                                                 <label htmlFor="admin_icon" className="col-sm-3 col-form-label">Icon</label>
                                                 <div className="col-sm-9">
                                                     <input type="file" className="form-control-file" id="admin_icon" name="admin_icon" onChange={handleIconChange} accept="image/*" required />

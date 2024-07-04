@@ -20,7 +20,7 @@ export const add_doctor = formData => {
 
 
 export const doctor_list = () => {
-    return fetch(`${API}/caretaker_list`,{
+    return fetch(`${API}/caretaker_registered_list`,{
         method: 'GET',
         headers: {
             Accept: 'application/json',
@@ -69,14 +69,76 @@ export const update_doctor = formData => {
         });
 };
 
-export const DeleteDoctorDetails = (patientData) => {
+export const DeleteDoctorDetails = (doctorData) => {
     return fetch(`${API}/caretaker_delete`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(patientData)
+        body: JSON.stringify(doctorData)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => console.log(err));
+};
+
+
+export const updateDoctorAproveStatus = doctorData => {
+    return fetch(`${API}/caretaker_aprove_update`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(doctorData)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+
+// export const doctor_list = () => {
+//     return fetch(`${API}/caretaker_registered_list`,{
+//         method: 'GET',
+//         headers: {
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json'
+//         },
+//     })
+//         .then(response => {
+//             return response.json();
+//         })
+//         .catch(err => console.log(err));
+// };
+
+
+export const caretaker_list_by_specialist = doctorData => {
+    return fetch(`${API}/caretaker_list_by_specialist`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(doctorData)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const reject_caretaker1 = (doctorData) => {
+    return fetch(`${API}/reject_caretaker1`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(doctorData)
     })
     .then(response => {
         return response.json();

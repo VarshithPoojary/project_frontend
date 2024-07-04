@@ -12,6 +12,7 @@ import { state_list_by_country_id } from '../../actions/stateAction';
 import { city_list_by_state_id } from '../../actions/cityAction';
 import {YearOfPassing_List} from  '../../actions/YearOfPassingAction';
 import { workExperience_list } from '../../actions/workexperienceAction';
+import { specialistType_list } from '../../actions/SpeciaListTypeAction';
 
 const AddDoctor = () => {
     const defaultProfileImage = '/images/userLogo.jpeg';
@@ -26,6 +27,8 @@ const AddDoctor = () => {
     const [yearOfPassingList, setYearOfPassingList] = useState([]);
     const [stateDetail, setStateDetail] = useState([]);
     const [cityList, setCityList] = useState([]);
+    const [caretakerList, setcaretakerList] = useState([]);
+
     // const [state, setState] = useState('');
     // const [country, setCountry] = useState('');
    
@@ -37,6 +40,8 @@ const AddDoctor = () => {
     const [DoctorType, setDoctorType] = useState('');
     const [countryCode, setCountryCode] = useState('91'); 
     const [status, setStatus] = useState('true'); 
+
+    
     const [phoneNumber, setPhoneNumber] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState('');
@@ -46,10 +51,23 @@ const AddDoctor = () => {
     const [state, setState] = useState('');
     const [area, setArea] = useState('');
     const [pincode, setPincode] = useState('');
-    const [mainAddress, setMainAddress] = useState('');
+    const [caretakeraptnum, setCaretakeraptnum] = useState('');
 
-    const [workExperience,setworkExperience]=useState('');
-    const [yearOfPassing, setyearOfPassing]=useState('');
+    const [workExperience,setWorkExperience]=useState('');
+    const [yearOfPassing, setYearOfPassing]=useState('');
+
+    const [degreename, setDegreename] = useState('');
+    const [uniname, setUniname] = useState('');
+
+    const [longitude, setLongitude] = useState('');
+    const [latitude, setLatitude] = useState('');
+
+    const [Emgname, setEmgname] = useState('');
+    const [Emgphone, setEmgphone] = useState('');
+     const [licenceimage, setlicenceimage] = useState(null);
+    const [licenseexpirydate, setlicenseexpirydate] = useState('');
+    const [description, setdescription] = useState('');
+
    
     const [profileImage, setProfileImage] = useState(null);
     const [password, setPassword] = useState('');
@@ -73,10 +91,19 @@ const AddDoctor = () => {
         state: '',
         area: '',
         pincode: '',
-        mainAddress: '',
+        caretakeraptnum:'',
         workExperience: '',
         yearOfPassing: '',
+        degreename:'',
+        uniname:'',
+        longitude:'',
+        latitude:'',
 
+        Emgname: '',
+        Emgphone: '',
+          licenceimage:'',
+         description:'',
+         licenseexpirydate:'',
 
         status:'',
         doctor_password:''
@@ -200,6 +227,17 @@ useEffect(() => {
         return;
       }
       setYearOfPassingList(yearOfPassingResponse.admin_yearofpassing_list);
+
+      const specialistTypeResponse = await specialistType_list();
+      console.log("specialist Type  List:", specialistTypeResponse);
+      if (specialistTypeResponse.error) {
+        console.error(specialistTypeResponse.error);
+        return;
+      }
+      setcaretakerList(specialistTypeResponse.admin_specialist_type_list);
+
+
+
     } 
     catch (error) {
       console.error(error);
@@ -232,21 +270,29 @@ const handleStateChange = (admin_state_id) => {
 };
 
 
-const handleWorkExperienceChange = () => {
-  setWorkExperience(value);
-};
+// const handleWorkExperienceChange = () => {
+//   setWorkExperience(value);
+// };
 
 
 
-const handleYearOfPassingChange = (value) => {
-  setYearOfPassingList(value);
-};
+// const handleYearOfPassingChange = (value) => {
+//   setYearOfPassingList(value);
+// };
 
+// const handleWorkExperienceChange = e => {
+//   setWorkExperience(e.target.value);
+// };
+
+// const handleYearOfPassingChange = e => {
+//   setYearOfPassing(e.target.value);
+// };
 
 
 
     const onFileChange = (e) => {
       setProfileImage(e.target.files[0]);
+      setlicenceimage(e.target.files[0]);
     }
 
     useEffect(() => {
@@ -278,8 +324,8 @@ const handleYearOfPassingChange = (value) => {
         if (!referralCode.trim()) {
             validationErrors.referralCode = 'Please enter your referral code.';
         }
-        if (!DoctorType.trim()) {
-            validationErrors.DoctorType = 'Please enter doctor type.';
+        if (!DoctorType) {
+            validationErrors.DoctorType = 'Please enter caretaker type.';
         }
        if (!/^[6-9]\d{9}$/.test(phoneNumber)) {
             validationErrors.phoneNumber = 'Please enter a valid phone number.';
@@ -317,9 +363,35 @@ const handleYearOfPassingChange = (value) => {
             validationErrors.pincode = 'Please enter a valid pincode.';
         }
     
-        if (!mainAddress.trim()) {
-            validationErrors.mainAddress = 'Please enter your main address.';
+         if (!caretakeraptnum) {
+             validationErrors.caretakeraptnum = 'Please enter your apartment number.';
+         }
+
+         if (!workExperience) {
+          validationErrors.workExperience = 'Please enter your work experience.';
+         }
+         if (!yearOfPassing) {
+          validationErrors.yearOfPassing = 'Please enter your Year of Passing.';
+         }
+         if (!degreename) {
+         validationErrors.degreename = 'Please enter your Degree Name.';
+         }
+        if (!uniname) {
+        validationErrors.uniname = 'Please enter your University name.';
         }
+       if (!longitude) {
+       validationErrors.longitude = 'Please enter your  longitude.';
+       }
+       if (!latitude) {
+       validationErrors.latitude = 'Please enter your latitude .';
+       }
+
+       if (!Emgname) {
+        validationErrors.Emgname = 'Please enter emergency name';
+    }
+    if (!Emgphone) {
+        validationErrors.Emgphone = 'Please enter emergency phone numbner';
+    }
 
         if (!password) {
           validationErrors.password = 'Please enter your password.';
@@ -360,13 +432,24 @@ const handleYearOfPassingChange = (value) => {
             formData.append('caretaker_address', address);
             formData.append('caretaker_country_id', country);
             formData.append('caretaker_state_id', state);
-            formData.append('caretaker_area_id', area);
+            formData.append('caretaker_city_id', area);
             formData.append('caretaker_pincode', pincode);
+            formData.append('caretaker_apt_number', caretakeraptnum);
             formData.append('caretaker_work_experience',workExperience );
             formData.append('caretaker_year_of_passing',yearOfPassing );
+            formData.append('degree_name', degreename);
+            formData.append('university_name', uniname);
+            formData.append('caretaker_longitude', longitude);
+            formData.append('caretaker_latitude', latitude);
+            formData.append('emergency_name',Emgname);
+            formData.append('emergency_phone',Emgphone);
+           // formData.append('demo',licenceimage);
+            formData.append('description',description);
+            formData.append('driving_license_expiry_date',licenseexpirydate);
 
             formData.append('caretaker_register_status', status);
-            formData.append('caretaker', password);
+            formData.append('caretaker_approvedStatus', status);
+            formData.append('password', password);
             formData.append('demoimg',  profileImage);
             formData.append('caretaker_created_by_id', caretaker_created_by_id);
 
@@ -408,8 +491,10 @@ const handleYearOfPassingChange = (value) => {
             state,
             area,
             pincode,
+            caretakeraptnum,
             workExperience,
             yearOfPassing,
+            degreename,
 
             profileImage,
             status
@@ -435,9 +520,9 @@ const handleYearOfPassingChange = (value) => {
             setState('');
             setArea('');
             setPincode('');
-            setMainAddress('');
-            setworkExperience('');
-            setyearOfPassing('');
+            setCaretakeraptnum('');
+            setWorkExperience('');
+            setYearOfPassing('');
 
             setProfileImage(null);
             setErrors({}); 
@@ -469,15 +554,13 @@ const handleYearOfPassingChange = (value) => {
           <Header />
     
           <div className="content-page">
-            <div className="content">
-              <div className="container-fluid">
-                <div className="card mb-4" style={{ width: "700px", marginTop: "40px" }}>
-                  <div className="card-header">Add Doctors Here....</div>
-                  <Scrollbars style={{ height: 300, maxHeight: 500 }}>
-                    <div className="card-body" style={{ maxWidth: "900px" }}>
-    
-                      <form onSubmit={handleSubmit}>
-    
+      <div className="content">
+        <div className="container-fluid">
+          <div className="card mb-4" style={{ width: "1400px", marginTop: "40px" }}>
+            <div className="card-header">Add Doctors Here....</div>
+            <Scrollbars style={{ height: 500, maxHeight: 600 }}>
+              <div className="card-body" style={{ maxWidth: "1300px" }}>
+                <form onSubmit={handleSubmit}>
     
                         <div className="row gx-3 mb-3">
                           <div className="col-md-6">
@@ -519,14 +602,16 @@ const handleYearOfPassingChange = (value) => {
 
                           
                         <div className="col-md-6">
-                            <label htmlFor="DoctorType" className="small mb-1">Doctor Type<span style={{ color: 'red' }}>*</span>:</label>
-                            <input
-                              className='form-control'
-                              type="text"
-                              id="DoctorType"
-                              value={DoctorType}
-                              onChange={(e) => setDoctorType(e.target.value)} />
-                              {errors.DoctorType && <div className="error-message" style={{color:'red'}}>{errors.DoctorType}</div>}
+                        <label htmlFor="caretakertype" className="small mb-1">Caretaker Type<span style={{ color: 'red' }}>*</span>:</label>
+                            <select
+                              className='form-control' id="caretakertype"
+                              onChange={(e) => setDoctorType(e.target.value)}>
+                               <option value="">Select caretaker type</option>
+                               { caretakerList.map(caretakertype => (
+                                  <option key={caretakertype.admin_specialist_type_name} value={caretakertype.admin_specialist_type_name}>{caretakertype.specialist_type_name}</option>
+                                ))}
+                            </select>
+                            {errors.DoctorType && <div className="error-message" style={{color:'red'}}>{errors.DoctorType}</div>}
                           </div>
                           </div>
                           
@@ -566,12 +651,13 @@ const handleYearOfPassingChange = (value) => {
                               id="gender"
                               value={gender}
                               onChange={(e) => setGender(e.target.value)}>
-                                {errors.gender && <div className="error-message" style={{color:'red'}}>{errors.gender}</div>}
+                               
                               <option value="">Select Gender</option>
                               <option value="male">Male</option>
                               <option value="female">Female</option>
                               <option value="other">Other</option>
                             </select>
+                            {errors.gender && <div className="error-message" style={{color:'red'}}>{errors.gender}</div>}
                           </div>
 
                           
@@ -666,26 +752,23 @@ const handleYearOfPassingChange = (value) => {
 
 
                           <div className="col-md-6">
-                            <label htmlFor="mainAddress" className="small mb-1">Main Address<span style={{ color: 'red' }}>*</span>:</label>
-                            <textarea
-                              className='form-control'
-                              id="mainAddress"
-                              value={mainAddress}
-                              onChange={(e) => setMainAddress(e.target.value)}></textarea>
-                                {errors.mainAddress && <div className="error-message" style={{color:'red'}}>{errors.mainAddress}</div>}
-                             </div>
-                        </div>
+                          <label className="small mb-1" htmlFor="caretakeraptnum">Apartment Number*</label>
+                                        <input className="form-control" id="caretakeraptnum" type="text" placeholder="Enter your apt number" value={caretakeraptnum}
+                                    onChange={(e) => setCaretakeraptnum(e.target.value)}/>
+                                        {errors.caretakeraptnum && <div className="error-message" style={{color:'red'}}>{errors.caretakeraptnum}</div>}
+                                    </div>
+                                </div>
                        
                          <div className="row gx-3 mb-3">
                           <div className="col-md-6">
                             <label htmlFor="workExperience" className="small mb-1">work Experience<span style={{ color: 'red' }}>*</span>:</label>
                             <select
                               className='form-control'
-                              id="workExperience"
-                              onChange={(e) => handleWorkExperienceChange(e.target.value)}>
+                              id="caretaker_work_experience"
+                              onChange={(e) => setWorkExperience(e.target.value)}>
                                <option value="">Select Work Experience</option>
                                { workList.map(workExperience => (
-                                  <option key={workExperience._id} value={workExperience._id}>{workExperience.admin_work_experience}</option>
+                                  <option key={workExperience.admin_work_experience} value={workExperience.admin_work_experience}>{workExperience.admin_work_experience}</option>
                                 ))}
                             </select>
                             {errors.workExperience && <div className="error-message" style={{color:'red'}}>{errors.workExperience}</div>}
@@ -698,26 +781,86 @@ const handleYearOfPassingChange = (value) => {
                           <label htmlFor="YearOfPassing" className="small mb-1">Year Of Passing<span style={{ color: 'red' }}>*</span>:</label>
                             <select
                               className='form-control'
-                              id="YearOfPassing"
-                              onChange={(e) => handleYearOfPassingChange(e.target.value)}>
+                              id="yearOfPassing"
+                              onChange={(e) =>  setYearOfPassing(e.target.value)}>
                                <option value="">Select Year Of Passing</option>
                                { yearOfPassingList.map(year => (
-                                  <option key={year._id} value={year._id}>{year.admin_year_of_passing}</option>
+                                  <option key={year.admin_year_of_passing} value={year.admin_year_of_passing}>{year.admin_year_of_passing}</option>
                                 ))}
                             </select>
-                            {errors.year && <div className="error-message" style={{color:'red'}}>{errors.year}</div>}
+                            {errors.yearOfPassing && <div className="error-message" style={{color:'red'}}>{errors.yearOfPassing}</div>}
 
                             </div>
                         </div>
 
+                        <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="degreename">Degree Name*</label>
+                                        <input className="form-control" id="degreename" type="text" placeholder="Enter your Degree" value={degreename}
+                                    onChange={(e) => setDegreename(e.target.value)} />
+                                        {errors.degreename && <div className="error-message" style={{color:'red'}}>{errors.degreename}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="uniname">University Name*</label>
+                                        <input className="form-control" id="uniname" type="text" placeholder="Enter your university name" value={uniname}
+                                    onChange={(e) => setUniname(e.target.value)}/>
+                                        {errors.uniname && <div className="error-message" style={{color:'red'}}>{errors.uniname}</div>}
+                                    </div>
+                                </div>
+
+
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="caretakerlongitude">Longitude*</label>
+                                        <input className="form-control" id="longitude" type="text" placeholder="Enter the longitude" value={longitude}
+                                    onChange={(e) => setLongitude(e.target.value)} />
+                                        {errors.longitude && <div className="error-message" style={{color:'red'}}>{errors.longitude}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="caretakerlatitude">Latitude*</label>
+                                        <input className="form-control" id="latitude" type="text" placeholder="Enter the latitude" value={latitude}
+                                    onChange={(e) => setLatitude(e.target.value)}/>
+                                        {errors.latitude && <div className="error-message" style={{color:'red'}}>{errors.latitude}</div>}
+                                    </div>
+                                </div>
+                                
+
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="Emgname">Emergency name*</label>
+                                        <input className="form-control" id="Emgname" type="text" placeholder="Enter your emergency name"  value={Emgname} onChange={(e) => setEmgname(e.target.value)} />
+                                        {errors.Emgname && <div className="error-message" style={{color:'red'}}>{errors.Emgname}</div>}
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="Emgphone">Emergency phone number*</label>
+                                        <input className="form-control" id="Emgphone" type="text" placeholder="Enter your emergency phone number" value={Emgphone}
+                                    onChange={(e) => setEmgphone(e.target.value)}/>
+                                        {errors.Emgphone && <div className="error-message" style={{color:'red'}}>{errors.Emgphone}</div>}
+                                    </div>
+                                </div>
+
+
+                                <div className="row gx-3 mb-3">
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="licenceimage">driving_licence_image</label>
+                                        <input className="form-control" id="licenceimage" type="file" onChange={onFileChange} />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <label className="small mb-1" htmlFor="licenseexpirydate">Driving license expiry date</label>
+                                        <input className="form-control" id="licenseexpirydate" type="date" value={licenseexpirydate} onChange={(e) => setlicenseexpirydate(e.target.value)} />
+                                    </div>
+                                </div>
+
+                                <div className="mb-3">
+                                    <label className="small mb-1" htmlFor="description">Description</label>
+                                    <textarea className="form-control" id="description" rows="3" placeholder="Enter description about you" value={description} onChange={(e) => setdescription(e.target.value)}></textarea>
+                                    
+                                </div>
+                                
 
 
                     
-
-
-
-
-                        <div className="row gx-3 mb-3">
+                         <div className="row gx-3 mb-3">
                           <div className="col-md-6">
                           <label htmlFor="password" className="small mb-1">Password<span>*</span>:</label>
                                     <input
@@ -812,6 +955,91 @@ const handleYearOfPassingChange = (value) => {
               </div>
             </div>
           </div>
+          <style jsx>{`
+        .content-page {
+          padding: 20px;
+        }
+
+        .custom-card {
+          width: 100%;
+          margin: 0 auto;
+          margin-top: 40px;
+          max-width: 1400px;
+        }
+
+        .custom-card-body {
+          max-width: 1300px;
+          overflow-y: auto;
+        }
+
+        .card-header {
+          background-color: #B4A3E1;
+          color: #ffffff;
+          padding: 10px 15px;
+          font-weight: bold;
+        }
+
+        .form-control {
+          width: 100%;
+          padding: 10px;
+          font-size: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          margin-bottom: 10px;
+        }
+
+        .small {
+          font-size: 0.875rem;
+        }
+
+        .error-message {
+          color: red;
+          font-size: 0.875rem;
+          margin-top: 5px;
+        }
+
+        .registration-button {
+           background-color: #B4A3E1;
+          color: #ffffff;
+          border: none;
+          padding: 10px 20px;
+          font-size: 1rem;
+          cursor: pointer;
+          border-radius: 5px;
+          margin-top: 10px;
+        }
+
+        .registration-button:hover {
+          background-color: #B4A3E1;
+        }
+
+        .registration-cancel-button {
+           background-color: #B4A3E1;
+          color: #ffffff;
+          border: none;
+          padding: 10px 20px;
+          font-size: 1rem;
+          cursor: pointer;
+          border-radius: 5px;
+          margin-top: 10px;
+        }
+
+        .registration-cancel-button:hover {
+          background-color: #B4A3E1;
+        }
+
+        .success-message {
+          color: #5cb85c;
+          font-size: 1rem;
+          margin-top: 10px;
+        }
+
+        .error-message {
+          color: #d9534f;
+          font-size: 1rem;
+          margin-top: 10px;
+        }
+      `}</style>
         </>
       );
 

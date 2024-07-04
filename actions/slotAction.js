@@ -5,14 +5,14 @@ const cookies = new Cookies();
 
 
 
-export const add_yearOfPassing = passingData => {
-    return fetch(`${API}/add_yearOfPassing`, {
+export const add_slot = slotData => {
+    return fetch(`${API}/add_slot`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(passingData)
+        body:JSON.stringify(slotData)
     })
         .then(response => {
             return response.json();
@@ -20,9 +20,8 @@ export const add_yearOfPassing = passingData => {
         .catch(err => console.log(err));
 };
 
-
-export const YearOfPassing_List = () => {
-    return fetch(`${API}/yearOfPassing_list`,{
+export const slot_list = () => {
+    return fetch(`${API}/slot_list`,{
         method: 'GET',
         headers: {
             Accept: 'application/json',
@@ -35,10 +34,56 @@ export const YearOfPassing_List = () => {
         .catch(err => console.log(err));
 };
 
+export const slot_list_by_id = slotData => {
+    return fetch(`${API}/slot_list_by_id`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(slotData)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
 
-export const yearOfPassing_list_by_id = yearPass => {
-    var id={"_id":yearPass};
-    return fetch(`${API}/yearOfPassing_list_by_id`, {
+// export const slot_listby_caretaker_id = slotData => {
+//     return fetch(`${API}/slot_listby_caretaker_id`, {
+//         method: 'POST',
+//         headers: {
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json'
+//         },
+//         body:JSON.stringify(slotData)
+//     })
+//         .then(response => {
+//             return response.json();
+//         })
+//         .catch(err => console.log(err));
+// };
+
+
+export const slot_listby_date = slotData => {
+    return fetch(`${API}/slot_listby_date`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(slotData)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+
+export const slot_listby_caretaker_id = caretakerData => {
+    var id={"caretaker_id":caretakerData };
+    return fetch(`${API}/slot_listby_caretaker_id`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -47,45 +92,7 @@ export const yearOfPassing_list_by_id = yearPass => {
         body: JSON.stringify(id)
     })
         .then(response => {
-            return response.json();
+            return response.json(id);
         })
         .catch(err => console.log(err));
 };
-
-
-export const yearOfPassing_update= countryData => {
-    return fetch(`${API}/yearOfPassing_update`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(countryData)
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
-};
-
-
-
-export const yearOfPassing_delete = (query) => {
-    return fetch(`${API}/yearOfPassing_delete`, {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(query)
-    })
-        .then(response => {
-            return response.json();
-        })
-        .catch(err => console.log(err));
-};
-
-
-
-
-

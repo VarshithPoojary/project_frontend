@@ -53,3 +53,37 @@ export const workexperience_list_by_id = workExp => {
         .catch(err => console.log(err));
 };
 
+
+export const workexperience_update= countryData => {
+    return fetch(`${API}/workexperience_update`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(countryData)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+
+
+export const workexperience_delete = (query) => {
+    return fetch(`${API}/workexperience_delete`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(query)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+

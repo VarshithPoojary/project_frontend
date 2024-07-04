@@ -19,3 +19,38 @@ export const add_specialistTypes = formData => {
             throw err; 
         });
 };
+
+export const specialistType_list = () => {
+    return fetch(`${API}/specialistType_list`,{
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const specialistType_list_by_id = careType => {
+    var id={"_id":careType};
+    return fetch(`${API}/specialistType_list_by_id`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+

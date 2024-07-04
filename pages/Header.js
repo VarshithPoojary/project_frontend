@@ -62,9 +62,13 @@ const Header = () => {
   const handlePatient = () => {
     Router.push('/Patient/ViewPatientList');
   };
+  const handleSlot = () => {
+    Router.push('/Slot/slotList');
+  };
+
 
   const handleBanner = () => {
-    Router.push('/AdminDemo/addBanner');
+    Router.push('/AdminDemo/viewBannerList');
   };
 
   const handleSpecialist = () => {
@@ -72,10 +76,10 @@ const Header = () => {
   };
 
   const handleYearOfPassing = () => {
-    Router.push('/AdminDemo/addyearOfPassing');
+    Router.push('/AdminDemo/viewYearOfPassingList');
   };
   const handleWorkExperience = () => {
-    Router.push('/AdminDemo/addWorkexperience');
+    Router.push('/AdminDemo/viewWorkexperienceList');
   };
 
 
@@ -135,14 +139,18 @@ const Header = () => {
                 </MenuItem>
                 <MenuItem icon={<FaUserMd />} title="Department">Specialist</MenuItem>
                 <MenuItem icon={<BiCalendarPlus />} title="Appointment">Appointment</MenuItem>
+                <MenuItem icon={<BiCalendarPlus />} title="Slot" onClick={handleSlot}>
+                <Link href='/Slot/slotList'><span>Slot</span></Link>
+                </MenuItem>
+               
                 <MenuItem icon={<FaRegImage />} title="Banner" onClick={handleBanner}>
-                <Link href='/AdminDemo/addBanner'><span>Banner</span></Link>
+                <Link href='/AdminDemo/viewBannerList'><span>Banner</span></Link>
                 </MenuItem>
                 <MenuItem icon={<FaBriefcase  />} title="Work Experience" onClick={handleWorkExperience}>
-                <Link href='/AdminDemo/addWorkexperience'><span>Work Experience</span></Link>
+                <Link href='/AdminDemo/viewWorkexperienceList'><span>Work Experience</span></Link>
                 </MenuItem>
                 <MenuItem icon={<FaGraduationCap  />} title="Year of Passing" onClick={handleYearOfPassing}>
-                <Link href='/AdminDemo/addyearOfPassing'><span>Year of Passing</span></Link>
+                <Link href='/AdminDemo/viewYearOfPassingList'><span>Year of Passing</span></Link>
                 </MenuItem>
                 <MenuItem icon={<FiUsers  />} title="Specialist Type" onClick={handleSpecialist}>
                 <Link href='/AdminDemo/addspecialistTypes'><span>Specialist Type</span></Link>

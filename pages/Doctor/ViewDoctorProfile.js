@@ -1,313 +1,233 @@
-// import React from 'react';
-
-// const DoctorProfileCard = () => {
-//   return (
-//     <div className="container d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
-//       <div className="row">
-//         {/* Profile Photo Card */}
-//         <div className="col-md-4">
-//           <div className="profile-card card h-100">
-//             <div className="card-body d-flex align-items-center justify-content-center">
-//               <img
-//                 src="https://bootdey.com/img/Content/avatar/avatar7.png"
-//                 alt="Doctor"
-//                 className="rounded-circle"
-//                 width="100"
-//                 style={{ position: 'absolute', top: 150 }}/>
-//                   <div style={{ position: 'absolute', top: 300 }} > <b>Doctor Profile</b></div> 
-//             </div>
-//             </div>
-//             </div>
-
-            
-//         {/* Profile Details Card */}
-//         <div className="col-md-7">
-//           <div className="profile-details-card card h-100">
-//             <div className="card-body">
-//               <form>
-//                 <div className="row mb-3">
-//                   <div className="col-md-6">
-//                     <label htmlFor="firstName" className="form-label">First Name:</label>
-//                     <input type="text" className="form-control" id="firstName" />
-//                   </div>
-//                   <div className="col-md-6">
-//                     <label htmlFor="lastName" className="form-label">Last Name:</label>
-//                     <input type="text" className="form-control" id="lastName" />
-//                   </div>
-//                 </div>
-//                 <div className="row mb-3">
-//                   <div className="col-md-6">
-//                     <label htmlFor="referralCode" className="form-label">Referral Code:</label>
-//                     <input type="text" className="form-control" id="referralCode" />
-//                   </div>
-//                   <div className="col-md-6">
-//                     <label htmlFor="mobile" className="form-label">Mobile Number:</label>
-//                     <input type="tel" className="form-control" id="mobile" />
-//                   </div>
-//                 </div>
-//                 <div className="row mb-3">
-//                     <div className="col-md-6">
-//                       <label htmlFor="doctorType" className="form-label">Doctor Type:</label>
-//                       <input type="text" className="form-control" id="doctorType" />
-//                     </div>
-//                     <div className="col-md-6">
-//                       <label htmlFor="dob" className="form-label">Date of Birth:</label>
-//                       <input type="text" className="form-control" id="dob" />
-//                     </div>
-//                   </div>
-//                   <div className="row mb-3">
-//                     <div className="col-md-6">
-//                       <label htmlFor="gender" className="form-label">Gender:</label>
-//                       <input type="text" className="form-control" id="gender" />
-//                     </div>
-//                     <div className="col-md-6">
-//                       <label htmlFor="email" className="form-label">Email:</label>
-//                       <input type="email" className="form-control" id="email" />
-//                     </div>
-//                   </div>
-//                   <div className="row mb-3">
-//                     <div className="col-md-6">
-//                       <label htmlFor="address" className="form-label">Address:</label>
-//                       <textarea className="form-control" id="address" rows="3"></textarea>
-//                     </div>
-//                     </div>
-//                     <div className="row mb-3">
-//                     <div className="col-md-6">
-//                       <label htmlFor="pincode" className="form-label">Pincode:</label>
-//                       <input type="text" className="form-control" id="pincode" />
-//                     </div>
-//                     <div className="col-md-6">
-//                       <label htmlFor="yearOfPassing" className="form-label">Year of Passing:</label>
-//                       <input type="text" className="form-control" id="yearOfPassing" />
-//                     </div>
-//                   </div>
-//                   <div className="row mb-3">
-//                     <div className="col-md-6">
-//                       <label htmlFor="workExperience" className="form-label">Work Experience:</label>
-//                       <input type="text" className="form-control" id="workExperience" />
-//                     </div>
-//                   </div>
-
-//                 <div className="text-center">
-//                   <button type="submit" className="btn btn-primary">Submit</button>
-//                 </div>
-//               </form>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default DoctorProfileCard;
-
-
-
-
-
-import React, { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Topbar from '../topbar';
-import Header from '../Header';
-import { useRouter } from 'next/router';
-import { FiCamera } from 'react-icons/fi'; 
-import { Scrollbars } from 'react-custom-scrollbars';
 import Head from 'next/head';
+import Header from '../Header';
+import Topbar from '../topbar';
 import Router from 'next/router';
-//import { doctor_details_by_id } from '../actions/doctorprofileAction';
-import { doctor_details_by_id, update_doctor,DeleteDoctorDetails } from '../../actions/doctorprofileAction';
-import { doctor_list } from '../../actions/doctorprofileAction';
+import Swal from 'sweetalert2';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { doctor_details_by_id, DeleteDoctorDetails } from '../../actions/doctorprofileAction';
+import { slot_listby_caretaker_id } from '../../actions/slotAction';
 
 const DoctorProfile = () => {
   const defaultProfileImage = '/images/userLogo.png';
+  const caretakerId = '66791a77c1a2b276f5f3b109';
+
   const [values, setValues] = useState({
-    doctor_list: [],
-    caretaker_profile_image: '',
-    
-    //admin_type: '',
+    caretaker_firstname: '',
+    caretaker_lastname: '',
+    caretaker_phone_number: '',
+    caretaker_email: '',
+    caretaker_referralcode: '',
+    caretaker_type: '',
+    caretaker_dob: '',
+    caretaker_gender: '',
+    caretaker_address: '',
+    caretaker_apt_number: '',
+    caretaker_work_experience: '',
+    caretaker_year_of_passing: '',
+    degree_name: '',
+    university_name: '',
+    caretaker_longitude: '',
+    caretaker_latitude: '',
+    caretaker_profile_image: defaultProfileImage,
     error: '',
     loading: false,
     message: '',
-    showForm: true
+    showForm: true,
   });
 
+  const [slotTiming, setSlotTiming] = useState([]);
   const [bio, setBio] = useState('');
-  const { doctor_list, caretaker_profile_image, error, loading } = values;
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const doctor_id = localStorage.getItem('id');
-      if (doctor_id === "" || doctor_id === null || doctor_id === undefined) {
-        Router.push('/login');
-      } else {
-        loadcaretakerDetails(doctor_id);
-        loadBio(doctor_id);
-      }
-    }
+    loadCaretakerDetail(caretakerId);
+    loadBio(caretakerId);
+    loadSlotDetails(caretakerId);
   }, []);
 
-  const loadcaretakerDetails = (doctor_id) => {
-    doctor_details_by_id(doctor_id)
+  const loadCaretakerDetail = (_id) => {
+    setValues({ ...values, loading: true });
+    doctor_details_by_id(_id)
       .then(data => {
         if (data.error) {
-          console.log(data.error);
           setValues({ ...values, error: data.error, loading: false });
         } else {
           const doctorData = data.caretaker_list[0];
+          const dob = new Date(doctorData.caretaker_dob);
+          const day = dob.getDate();
+          const month = dob.toLocaleString('default', { month: 'long' });
+          const year = dob.getFullYear();
           setValues({
             ...values,
             caretaker_firstname: doctorData.caretaker_firstname,
             caretaker_lastname: doctorData.caretaker_lastname,
             caretaker_phone_number: doctorData.caretaker_phone_number,
-          
             caretaker_email: doctorData.caretaker_email,
-           
-            caretaker_profile: doctorData.caretaker_profile_image || defaultProfileImage,
-            loading: false
+            caretaker_referralcode: doctorData.caretaker_referralcode,
+            caretaker_type: doctorData.caretaker_type,
+            caretaker_dob: `${day} ${month} ${year}`,
+            caretaker_gender: doctorData.caretaker_gender,
+            caretaker_address: doctorData.caretaker_address,
+            caretaker_apt_number: doctorData.caretaker_apt_number,
+            caretaker_work_experience: doctorData.caretaker_work_experience,
+            caretaker_year_of_passing: doctorData.caretaker_year_of_passing,
+            degree_name: doctorData.degree_name,
+            university_name: doctorData.university_name,
+            caretaker_longitude: doctorData.caretaker_longitude,
+            caretaker_latitude: doctorData.caretaker_latitude,
+            caretaker_profile_image: doctorData.caretaker_profile_image || defaultProfileImage,
+            loading: false,
           });
         }
       })
       .catch(error => {
-        console.error('Error:', error);
         setValues({ ...values, error: 'Error: Network request failed', loading: false });
       });
   };
 
-  const loadBio = (doctor_id) => {
-    const savedBio = localStorage.getItem(`doctorBio_${doctor_id}`);
+  const loadBio = (caretakerId) => {
+    const savedBio = localStorage.getItem(`doctorBio_${caretakerId}`);
     if (savedBio) {
       setBio(savedBio);
     }
   };
 
-
-
- 
   const handleDelete = () => {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'You will not be able to recover this Profile!',
+      text: 'You will not be able to recover this profile!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, delete it!'
-  }).then((result) => {
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
       if (result.isConfirmed) {
-    const doctor_id = localStorage.getItem("id");
-    DeleteDoctorDetails(doctor_id);
-    localStorage.removeItem('id');
-    Router.push('/login');
+        DeleteDoctorDetails(caretakerId).then(() => {
+          Router.push('/login');
+        });
+      }
+    });
+  };
 
-  }
-});
-}
+  const loadSlotDetails = (caretakerId) => {
+    slot_listby_caretaker_id(caretakerId)
+      .then(data => {
+        if (!data.error && data.slot_list.length > 0) {
+          const timings = data.slot_list.reduce((acc, slot) => {
+            const date = new Date(slot.slot_date);
+            const formattedDate = `${date.getDate()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
+            const timeSlots = slot.slot_timings.map(timing => ({
+              slot_time: timing.slot_time,
+              slot_timing_id: timing._id,
+            }));
+            if (!acc[formattedDate]) {
+              acc[formattedDate] = [];
+            }
+            acc[formattedDate] = acc[formattedDate].concat(timeSlots);
+            return acc;
+          }, {});
+          setSlotTiming(Object.entries(timings));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const {
+    caretaker_firstname,
+    caretaker_lastname,
+    caretaker_phone_number,
+    caretaker_email,
+    caretaker_referralcode,
+    caretaker_type,
+    caretaker_dob,
+    caretaker_gender,
+    caretaker_address,
+    caretaker_apt_number,
+    caretaker_work_experience,
+    caretaker_year_of_passing,
+    degree_name,
+    university_name,
+    caretaker_longitude,
+    caretaker_latitude,
+    caretaker_profile_image,
+    error,
+    loading,
+  } = values;
 
   return (
     <div>
       <Head>
         <title>Doctor Profile</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="title" content='caretaker_profile' />
+        <meta name="title" content="caretaker_profile" />
         <link rel="icon" href="/images/title_logo.png" />
       </Head>
 
       <Topbar />
       <Header />
 
-      <div className=" emp-profile">
-        <form method="post">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="profile-img" style={{ width: '150px', height: '150px', borderRadius: '50%', overflow: 'hidden' }}>
-                <label htmlFor="fileInput">
-                  <img src={caretaker_profile_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover'}}></img>
-                </label>
-                <input id="fileInput" name="file" style={{ display: 'none' }} />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="profile-head">
-                <h4>{doctor_list ? `${values.caretaker_firstname} ${values.caretaker_lastname}` : 'Admin Name'}</h4>
-               
-                <ul className="nav nav-tabs" id="myTab" role="tablist">
-                  <li className="nav-item">
-                    <a className="nav-link active" id="home-tab" data-toggle="tab" href="" role="tab" aria-controls="home" aria-selected="true">Personal Details</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div className="col-md-2">
-              <Link href="/Doctor/EditDoctor">
-                <input type="button" className="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
-              </Link>
-              
-              <input type="button" className="profile-edit-btn" name="btnAddMore" value="Delete Profile" onClick={() => handleDelete()} />
-
-            </div>
-
+      <div className="container mt-5 d-flex justify-content-center">
+        <div className="card shadow" style={{ maxWidth: '800px' }}>
+          <div className="card-header text-center">
+            <h4>Doctor Profile</h4>
           </div>
-          <div className="row">
-            <div className="col-md-4">
-              <div className="col-md-8">
-                
+          <div className="card-body text-center">
+            <div className="profile-img mx-auto mb-3" style={{ width: '180px', height: '180px', borderRadius: '50%', overflow: 'hidden' }}>
+              <label htmlFor="fileInput">
+                <img src={caretaker_profile_image} alt="Profile Image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </label>
+              <input id="fileInput" name="file" style={{ display: 'none' }} />
+            </div>
+            <h3>{`${caretaker_firstname} ${caretaker_lastname}`}</h3>
+          </div>
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <p><strong>Doctor referralCode:</strong> {caretaker_referralcode}</p>
+                <p><strong>Caretaker Type:</strong> {caretaker_type}</p>
+                <p><strong>Mobile Number:</strong> {caretaker_phone_number}</p>
+                <p><strong>Date of Birth:</strong> {caretaker_dob}</p>
+                <p><strong>Gender:</strong> {caretaker_gender}</p>
+                <p><strong>Email:</strong> {caretaker_email}</p>
+                <p><strong>Address:</strong> {caretaker_address}</p>
+                <p><strong>Apartment number:</strong> {caretaker_apt_number}</p>
+                <p><strong>Work Experience:</strong> {caretaker_work_experience}</p>
+                <p><strong>Passing Year:</strong> {caretaker_year_of_passing}</p>
+                <p><strong>Degree name:</strong> {degree_name}</p>
+                <p><strong>University name:</strong> {university_name}</p>
+                <p><strong>Longitude:</strong> {caretaker_longitude}</p>
+                <p><strong>Latitude:</strong> {caretaker_latitude}</p>
+              </div>
+              <div className="col-md-6">
+                {slotTiming.length > 0 ? (
+                  slotTiming.map(([date, slots], index) => (
+                    <div key={index}>
+                      <p><strong>Slot Date:</strong> {date}</p>
+                      <div className="d-flex flex-wrap">
+                        {slots.map((slot, idx) => (
+                          <div key={idx} className="card m-2" style={{ width: 'auto', padding: '3px', fontSize: '0.8rem' }}>
+                            <div className="card-body p-1">
+                              <p className="card-text">{slot.slot_time}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No Slots</p>
+                )}
               </div>
             </div>
-            <div className="col-md-8">
-              <div className="tab-content profile-tab" id="myTabContent">
-                <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                  <div className="row">
-                    <div className="col-md-6" >
-                      <label style={{color:'gray'}}>First Name :</label>
-                    </div>
-                    <div className="col-md-6 small-width-input">
-                    <label >{values.caretaker_firstname}</label>
-                      {/* <input type="text" className="form-control"  value={values.admin_firstname} readOnly /> */}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label style={{color:'gray'}}>Last Name :</label>
-                    </div>
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label>{values.caretaker_lastname}</label>
-                      {/* <input type="text" className="form-control" value={values.admin_lastname} readOnly /> */}
-                    </div>
-                   </div>
-                  {/* <div className="row">
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label style={{color:'gray'}}>Username :</label>
-                    </div> 
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label>{values.admin_username}</label>
-                     
-                    </div>
-                  </div> */}
-                  <div className="row">
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label style={{color:'gray'}}>Email :</label>
-                    </div>
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label>{values.caretaker_email}</label>
-                      {/* <input type="text" className="form-control" value={values.admin_email} readOnly /> */}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label style={{color:'gray'}}>Mobile Number:</label>
-                    </div>
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label>{values.caretaker_phone_number}</label>
-                      {/* <input type="text" className="form-control" value={values.admin_mobile_no} readOnly /> */}
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="text-center">
+              {/* <button className="btn btn-danger mt-3" onClick={handleDelete}>Delete</button> */}
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -56,11 +56,30 @@ const CountryView = () => {
             if (result.isConfirmed) {
                 let query = { "_id": row._id, "admin_deleted_by_id": admin_deleted_by_id }
                 DeleteCountryDetails(query).then(data => {
-                    loadCountryDetails();
-                setMsg(`Country "${row.admin_country_name}" deleted successfully.`);
+                    if(data.error)
+                        {
+                            setMsg(data.error);
+                            setTimeout(() => {
+                                setMsg('');
+                            }, 2000); 
+                        }
+                    else if(data.message)
+                        {
+                            setMsg(data.message);
+                            setTimeout(() => {
+                                setMsg('');
+                            }, 2000); 
+
+                        }
+                        else{
+                            setMsg(`Country "${row.admin_country_name}" deleted successfully.`);
+                            loadCountryDetails();
                 setTimeout(() => {
                     setMsg('');
                 }, 2000); 
+                        }
+                
+
             });
          }
         });

@@ -1,15 +1,10 @@
 import Link from 'next/link';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
 import Router from 'next/router';
-import Cookies from 'universal-cookie';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Topbar from '../topbar';
 import Header from '../Header';
-import axios from 'axios';
-import { API } from '../../config';
 import { add_workexperience } from '../../actions/workexperienceAction';
 
 const WorkexperienceAdd = () => {
@@ -37,7 +32,7 @@ const WorkexperienceAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/dashboard`);
+                    Router.push(`/AdminDemo/viewWorkexperienceList`);
                 }, 1000);
             }
         } catch (error) {
@@ -53,50 +48,108 @@ const WorkexperienceAdd = () => {
     };
 
     return (
-        <div id="wrapper">
-    <Head>
-      <title>Add Workexperience</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      <meta name="title" content='Add Workexperience' />
-      <link rel="icon" href="/images/title_logo.png" />
-    </Head>
-    <Topbar/>
-    <Header/>
-    <div className="content-page">
-                <div className="content">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card mb-4" style={{ width: "600px", marginTop: "70px" }}>
-                                    <div className="card-header">Add Work Experience  here</div>
-                                    <div className="card-body" style={{ maxWidth: "400px" }}>
-                                        <form onSubmit={handleSubmit}>
-                                            <div className="form-group row">
-                                                <label htmlFor="admin_work_experience" className="col-sm-3 col-form-label">Years of Experience</label>
-                                                <div className="col-sm-9">
-                                                    <input type="text" className="form-control" id="admin_work_experience" name="admin_work_experience" value={values.admin_work_experience} onChange={handleChange} required pattern="[0-9]*" />
-                                                    <small className="text-muted">Enter a number only</small>
-                                                </div>
-                                            </div>
-                                            {/* <div className="form-group row">
-                                                <div className="col-sm-9 offset-sm-3">
-                                                    <button type="submit" className="btn btn-primary" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
-                                                </div>
-                                            </div> */}
-                                           
-                                            {/* {msg && <div className={`alert ${res.error ? 'alert-danger' : 'alert-success'}`}>{msg}</div>} */}
-                                            <button className="btn btn-primary" type="submit" style={{  background: "#3085d6", borderColor: "#0c9da8" }}>Submit</button>
-                                            {loading ? (<div className="alert alert-success margin-top-10">Added successfully</div>) : null}
-                                            {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
-                                        </form>
+        <Fragment>
+            <Head>
+                <title>Add Work Experience</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="title" content='Add Work Experience' />
+                <link rel="icon" href="/images/title_logo.png" />
+            </Head>
+            <Topbar />
+            <Header />
+            <div className="container-viewLocation">
+                <div className="center-table">
+                    <center><h2><b>Add Work Experience</b></h2></center>
+                    <div className="card mb-4" style={{ width: "600px", marginTop: "70px" }}>
+                        <div className="card-header">Add Work Experience here</div>
+                        <div className="card-body" style={{ maxWidth: "400px" }}>
+                            <form onSubmit={handleSubmit}>
+                                <div className="form-group row">
+                                    <label htmlFor="admin_work_experience" className="col-sm-3 col-form-label">Years of Experience</label>
+                                    <div className="col-sm-9">
+                                        <input type="text" className="form-control" id="admin_work_experience" name="admin_work_experience" value={values.admin_work_experience} onChange={handleChange} required pattern="[0-9]*" />
+                                        <small className="text-muted">Enter a number only</small>
                                     </div>
                                 </div>
-                            </div>
+                                <button className="btn-submit" type="submit">Submit</button>
+                                {loading ? (<div className="alert alert-success margin-top-10">Added successfully</div>) : null}
+                                {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <style jsx>{`
+                .container-viewLocation {
+                    padding: 20px;
+                    margin-left: -50px;
+                    margin-top: 10px;
+                }
+                .center-table {
+                    margin: auto;
+                    width: 90%;
+                }
+                .card {
+                    border-radius: 5px;
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                }
+                .card-header {
+                    background-color: #B4A3E1;
+                    color: white;
+                    font-size: 1.25em;
+                    font-weight: bold;
+                    text-align: center;
+                }
+                .card-body {
+                    padding: 20px;
+                    background-color: white;
+                }
+                .form-group {
+                    margin-bottom: 15px;
+                }
+                .form-control {
+                    border: 2px solid #B4A3E1;
+                    border-radius: 4px;
+                    padding: 10px;
+                    font-size: 1em;
+                    width: 100%;
+                }
+                .form-control:focus {
+                    border-color: #9575CD;
+                    box-shadow: none;
+                }
+                .btn-submit {
+                    display: inline-flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: white;
+                    background-color: #B4A3E1;
+                    border: none;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    transition: background-color 0.3s;
+                    cursor: pointer;
+                }
+                .btn-submit:hover {
+                    background-color: #9575CD;
+                }
+                .alert-success {
+                    color: #3c763d;
+                    background-color: #dff0d8;
+                    border-color: #d6e9c6;
+                    padding: 10px;
+                    border-radius: 5px;
+                    margin-top: 20px;
+                }
+                .margin-top-10 {
+                    margin-top: 10px;
+                }
+            `}</style>
+        </Fragment>
     );
 };
 
