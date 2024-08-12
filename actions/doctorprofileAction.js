@@ -100,6 +100,23 @@ export const caretaker_list_by_specialist = patientData => {
         .catch(err => console.log(err));
 };
 
+export const slot_listby_caretaker_id = caretakerId => {
+    var id = { "caretaker_id": caretakerId };
+    return fetch(`${API}/slot_listby_caretaker_id`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(id)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+
 
 
 

@@ -1,13 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import Swal from 'sweetalert2';
-import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiEye } from 'react-icons/fi';
 import Router from 'next/router';
 import Header from '../Header';
 import Topbar from '../topbar';
-import { admin_list,DeleteAdminDetails } from '../../actions/adminprofileAction';
+import { admin_list, DeleteAdminDetails } from '../../actions/adminprofileAction';
+import moment from 'moment';
 
 const AdminView = () => {
     const [adminDetail, setAdminDetail] = useState([]);
@@ -17,8 +17,9 @@ const AdminView = () => {
     });
 
     const defaultProfileImage = '/images/userLogo.png';
-    const [msg, setMsg] = useState('')
-    const {admin_profile_image, admindetail} = values;
+    const [msg, setMsg] = useState('');
+    const { admin_profile_image, admindetail } = values;
+
     useEffect(() => {
         loadAdminDetails();
     }, []);
@@ -37,10 +38,19 @@ const AdminView = () => {
                 });
             }
         });
-    }
+    };
 
-
-
+    const handleView = (row) => {
+        Router.push({
+            pathname: '/AdminProfile',
+            query: {
+                _id: row._id,
+             adminProfile: JSON.stringify(row),
+             
+            }
+        });
+    };
+    
 
     const handleEdit = (row) => {
         Swal.fire({
@@ -63,14 +73,14 @@ const AdminView = () => {
                 });
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Router.push({
-                    pathname: '/Admin/EditAdminPassword',
+                    pathname: '/Adminpasswordedit',
                     query: {
                         _id: row._id,
                     }
                 });            
             } else {
                 Router.push({
-                    pathname: '/Admin/viewAdminList' ,
+                    pathname: '/Admin/viewAdminList',
                     query: {
                         _id: row._id,
                     }
@@ -78,8 +88,6 @@ const AdminView = () => {
             }
         });
     };
-    
-
 
     const handleDelete = (row) => {
         const admin_deleted_by_id = localStorage.getItem('id');
@@ -93,20 +101,19 @@ const AdminView = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-
-                let query = { "_id": row._id, "admin_deleted_by_id": admin_deleted_by_id }
+                let query = { "_id": row._id, "admin_deleted_by_id": admin_deleted_by_id };
                 DeleteAdminDetails(query).then(data => {
                     loadAdminDetails();
-                setMsg(`Admin "${row.admin_firstname}" deleted successfully.`);
-                setTimeout(() => {
-                    setMsg('');
-                }, 2000); 
-            });
-         }
+                    setMsg(`Admin "${row.admin_firstname}" deleted successfully.`);
+                    setTimeout(() => {
+                        setMsg('');
+                    }, 2000); 
+                });
+            }
         });
-    }
+    };
 
-    function displayImage(cell, row) {
+    const displayImage = (cell, row) => {
         return (
             <img
                 src={row.admin_profile_image ? row.admin_profile_image : defaultProfileImage}
@@ -116,23 +123,54 @@ const AdminView = () => {
                 style={{ borderRadius: "50%" }}
             />
         );
-    }
-    
+    };
 
     const actionFormatter = (cell, row) => {
+        const buttonStyle = {
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            border: 'none',
+            cursor: 'pointer',
+            marginLeft: '10px',
+            transition: 'background-color 0.3s'
+        };
+
+        const viewStyle = {
+            ...buttonStyle,
+            backgroundColor: 'rgba(90, 155, 212, 0.2)', 
+            color: '#5A9BD4'
+        };
+
+        const editStyle = {
+            ...buttonStyle,
+            backgroundColor: 'rgba(160, 212, 104, 0.2)', 
+            color: '#A0D468'
+        };
+
+        const deleteStyle = {
+            ...buttonStyle,
+            backgroundColor: 'rgba(229, 115, 115, 0.2)', 
+            color: '#E57373'
+        };
+
         return (
             <div>
-                <button className="icons-edit"  style={{ backgroundColor: "#3085d6", borderColor: "#1e7bb5",width:"40px"}}  onClick={() => handleEdit(row)}>
-                    <FiEdit  />
+                <button style={viewStyle} onClick={() => handleView(row)}>
+                    <FiEye />
                 </button>
-                <button className="icons-delete"  style={{ backgroundColor: "rgb(225, 76, 76)", borderColor: "rgb(225, 76, 76)",width:"40px",marginLeft:"10%" }} onClick={() => handleDelete(row)}>
+                <button style={editStyle} onClick={() => handleEdit(row)}>
+                    <FiEdit />
+                </button>
+                <button style={deleteStyle} onClick={() => handleDelete(row)}>
                     <FiTrash2 />
                 </button>
             </div>
         );
-    }
-
-    
+    };
 
     return (
         <Fragment>
@@ -142,26 +180,165 @@ const AdminView = () => {
             </Head>
             <Header/>
             <Topbar/>
-            <div className="container-viewLocation">
+            <div className="container-admin-list">
                 <div className="center-table">
                     <center><h2><b>ADMIN LIST</b></h2></center>
                     <Link href="/Admin/AddAdmin">
-                        <a className="btn btn-success mb-3"  style={{ background: "#3085d6",borderColor: "#0c9da8", width:'20%' }}>Add Admin</a>
+                        <a className="btn-add-admin">
+                            <FiEdit style={{ marginRight: '8px' }} />
+                            Add Admin
+                        </a>
                     </Link>
                     {msg && <div className="alert alert-success">{msg}</div>}
-                    
-                    <BootstrapTable data={admindetail} search={true}>
-                        <TableHeaderColumn dataField="sno" width="70" dataAlign="center" dataSort><b>S.No</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
-                        <TableHeaderColumn dataField='admin_profile_image'  dataAlign="center" editable={false} dataFormat={displayImage} dataSort>Profile</TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_firstname" dataAlign="center" dataSort><b>Name</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_mobile_no" dataAlign="center" dataSort><b>Mobile No.</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_email" width='150px' dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="admin_type" width='100px' dataAlign="center" dataSort><b>Type</b></TableHeaderColumn>
-                        <TableHeaderColumn dataField="actions" width='130px' dataAlign="center" dataFormat={actionFormatter}  ><b>Actions</b></TableHeaderColumn>
-                    </BootstrapTable>
+                    <div className="custom-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Profile</th>
+                                    <th>Name</th>
+                                    <th>Mobile No.</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {admindetail.map((admin, index) => (
+                                    <tr key={admin._id}>
+                                        <td>{index + 1}</td>
+                                        <td>{displayImage(null, admin)}</td>
+                                        <td>{admin.admin_firstname}</td>
+                                        <td>{admin.admin_mobile_no}</td>
+                                        <td>{admin.admin_email}</td>
+                                        <td>{admin.admin_type}</td>
+                                        <td>{actionFormatter(null, admin)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
+            <style jsx>{`
+                .container-admin-list {
+                    padding: 20px;
+                    margin: 0 auto;
+                    margin-top: 100px;
+                    width: 65%;
+                }
+                .center-table {
+                    margin: auto;
+                    width: 100%;
+                }
+                .custom-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 50px 0;
+                    font-size: 1em;
+                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+                }
+                .custom-table th,
+                .custom-table td {
+                    padding: 15px 15px;
+                    text-align: left;
+                }
+                .custom-table thead tr {
+                    background-color: #B4A3E1;
+                    color: #ffffff;
+                    text-align: left;
+                }
+                .custom-table tbody tr {
+                    border-bottom: 1px solid #dddddd;
+                }
+                .custom-table tbody tr:nth-of-type(even) {
+                    background-color: #f3f3f3;
+                }
+                .custom-table tbody tr:last-of-type {
+                    border-bottom: 2px solid #009879;
+                }
+                .alert {
+                    margin-top: 20px;
+                }
+                .btn-add-admin {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: white;
+                    border: 1px solid #9575CD;
+                    color: #6F42C1;
+                    padding: 0.375rem 0.75rem;
+                    font-size: 15px;
+                    border-radius: 10%;
+                    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                    text-decoration: none;
+                }
+                .btn-add-admin:hover {
+                    background-color: #9575CD;
+                    border-color: #6F42C1;
+                    color: white;
+                }
+                    /* Media Queries */
+    @media (max-width: 1024px) {
+        .container-admin-list {
+            width: 80%;
+        }
+        .custom-table th, .custom-table td {
+            padding: 10px;
+            font-size: 0.9em;
+        }
+    }
+    @media (max-width: 768px) {
+        .container-admin-list {
+            width: 90%;
+            padding: 10px;
+        }
+        .btn-add-admin {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.85em;
+        }
+    }
+    @media (max-width: 480px) {
+        .container-admin-list {
+            width: 100%;
+            margin-top: 50px;
+            padding: 10px 5px;
+        }
+        .custom-table th, .custom-table td {
+            font-size: 0.8em;
+            padding: 8px;
+        }
+        .btn-add-admin {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75em;
+        }
+        .custom-table thead {
+            display: none;
+        }
+        .custom-table, .custom-table tbody, .custom-table tr, .custom-table td {
+            display: block;
+            width: 100%;
+        }
+        .custom-table tr {
+            margin-bottom: 15px;
+        }
+        .custom-table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+        }
+        .custom-table td:before {
+            content: attr(data-label);
+            position: absolute;
+            left: 0;
+            width: 50%;
+            padding-left: 15px;
+            font-weight: bold;
+            text-align: left;
+        }
+    }
+            `}</style>
         </Fragment>
     );
 };

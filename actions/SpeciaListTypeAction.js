@@ -85,4 +85,21 @@ export const DeleteSpecialistDetails = (specialistData) => {
     .catch(err => console.log(err));
 };
 
+export const check_doctors_for_specialist = async (specialistTypeId) => {
+    try {
+        const response = await fetch(`${API}/check_doctors_for_specialist`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ specialistTypeId })
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 

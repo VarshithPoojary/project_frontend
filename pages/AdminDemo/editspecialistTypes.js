@@ -14,7 +14,7 @@ const SpecialistTypeEdit = () => {
         admin_color_code: '',
         admin_priority: '',
         admin_icon: '',
-        admin_icon_preview: '', // To store the preview URL of the selected image
+        admin_icon_preview: '', 
     });
 
     const { admin_specialist_type_name, admin_color_code, admin_priority, admin_icon } = values;
@@ -42,7 +42,7 @@ const SpecialistTypeEdit = () => {
                         admin_color_code: specialistData.admin_color_code,
                         admin_priority: specialistData.admin_priority,
                         admin_icon: specialistData.admin_icon,
-                        admin_icon_preview: specialistData.admin_icon, // Set the preview URL
+                        admin_icon_preview: specialistData.admin_icon, 
                     });
                 }
             })
@@ -116,7 +116,7 @@ const SpecialistTypeEdit = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="card mb-4" style={{ width: "600px", marginTop: "70px" }}>
-                                    <div className="card-header">Edit Specialist Type</div>
+                                    <div className="card-header" style={{background: "#D3C8F1" ,color:"black"}}>Edit Specialist Type</div>
                                     <div className="card-body" style={{ maxWidth: "400px" }}>
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-group row">
@@ -151,7 +151,7 @@ const SpecialistTypeEdit = () => {
                                             <div className="form-group row">
                                                 <div className="col-sm-4"></div>
                                                 <div className="col-sm-8">
-                                                    <button className="btn btn-primary mr-3" type="submit" disabled={loading} style={{ background: "#3085d6", borderColor: "#0c9da8" }}>Update</button>
+                                                    <button className="btn btn-primary mr-3" type="submit" disabled={loading} style={{ backgroundColor: '#9370DB' }}>Update</button>
                                                     <button className="btn btn-secondary" type="button" onClick={Cancel}>Cancel</button>
                                                 </div>
                                             </div>

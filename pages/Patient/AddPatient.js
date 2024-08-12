@@ -29,6 +29,8 @@ const AddPatient = () => {
     const [state, setState] = useState('');
     const [area, setArea] = useState('');
     const [pincode, setPincode] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
     const [mainAddress, setMainAddress] = useState('');
     const [profileImage, setProfileImage] = useState(null);
     const [password, setPassword] = useState('');
@@ -50,6 +52,8 @@ const AddPatient = () => {
         state: '',
         area: '',
         pincode: '',
+        latitude:'',
+        longitude:'',
         mainAddress: '',
         status:'',
         patient_password:''
@@ -212,6 +216,8 @@ const AddPatient = () => {
             formData.append('patient_state_id', state);
             formData.append('patient_area_id', area);
             formData.append('patient_pincode', pincode);
+            formData.append('patient_latitude', latitude);
+            formData.append('patient_longitude', longitude);
             formData.append('patient_register_status', status);
             formData.append('patient_main_address', mainAddress);
             formData.append('password', password);
@@ -254,6 +260,8 @@ const AddPatient = () => {
             state,
             area,
             pincode,
+            latitude,
+            longitude,
             mainAddress,
             profileImage,
             status
@@ -277,6 +285,8 @@ const AddPatient = () => {
             setState('');
             setArea('');
             setPincode('');
+            setLatitude('');
+            setLongitude('');
             setMainAddress('');
             setProfileImage(null);
             setErrors({}); 
@@ -310,9 +320,9 @@ const AddPatient = () => {
           <div className="content-page">
             <div className="content">
               <div className="container-fluid">
-                <div className="card mb-4" style={{ width: "900px", marginTop: "40px" }}>
-                  <div className="card-header">Add Patient here</div>
-                  <Scrollbars style={{ height: 300, maxHeight: 500 }}>
+                <div className="card mb-4" style={{ backgroundColor:"white",width: "900px", marginTop: "40px" }}>
+                  <div className="card-header" style={{ background: "#D3C8F1" ,color:"black"}}>Add Patient here</div>
+                  <Scrollbars style={{ height: 500, maxHeight: 450 }}>
                     <div className="card-body" style={{ maxWidth: "700px" }}>
     
                       <form onSubmit={handleSubmit}>
@@ -470,8 +480,31 @@ const AddPatient = () => {
                               onChange={(e) => setPincode(e.target.value)}/>
                                 {errors.pincode && <div className="error-message" style={{color:'red'}}>{errors.pincode}</div>}
                             </div>
+
+                            <div className="col-md-6">
+                            <label htmlFor="latitude" className="small mb-1">Latitude<span style={{ color: 'red' }}>*</span>:</label>
+                            <input
+                              className='form-control'
+                              type="text"
+                              id="latitude"
+                              value={latitude}
+                              onChange={(e) => setLatitude(e.target.value)}/>
+                                {errors.latitude && <div className="error-message" style={{color:'red'}}>{errors.latitude}</div>}
+                            </div>
+                            </div>
                         
 
+                            <div className="row gx-3 mb-3">
+                            <div className="col-md-6">
+                            <label htmlFor="longitude" className="small mb-1">Longitude<span style={{ color: 'red' }}>*</span>:</label>
+                            <input
+                              className='form-control'
+                              type="text"
+                              id="longitude"
+                              value={longitude}
+                              onChange={(e) => setLongitude(e.target.value)}/>
+                                {errors.longitude && <div className="error-message" style={{color:'red'}}>{errors.longitude}</div>}
+                            </div>
 
                           <div className="col-md-6">
                             <label htmlFor="mainAddress" className="small mb-1">Main Address<span style={{ color: 'red' }}>*</span>:</label>

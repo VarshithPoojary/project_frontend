@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Link from 'next/link'; // Import Link from Next.js
+import {useRouter} from 'next/router';
+import Link from 'next/link'; 
 import Router from 'next/router';
 import Header from './Header';
 import Topbar from './topbar';
+import {  FaUserMd } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { specialisttype_list,DeleteSpecialistDetails } from '../actions/SpeciaListTypeAction';
 
 const Specialties = () => {
-    const [msg, setMsg] = useState('')
+    const [msg, setMsg] = useState('');
+    const router = useRouter();
     const [values, setValues] = useState({ 
-       
         specialistList: []
     });
     const [menuVisible, setMenuVisible] = useState(null);
@@ -21,8 +23,10 @@ const Specialties = () => {
             Router.push('/login');
         } else {
             loadSpecialistType();
+           
+
         }
-    }, []);
+    },  [router.query.patientId]);
 
     const loadSpecialistType = () => {
         specialisttype_list().then(data => {
@@ -35,30 +39,63 @@ const Specialties = () => {
     };
 
     const handleEdit = (specialistTypeId) => {
-        
-                Router.push({
-                    pathname: '/AdminDemo/editspecialistTypes',
-                    query: {
-                        _id: specialistTypeId,
-                    }
-                });
-         
+        Router.push({
+            pathname: '/AdminDemo/editspecialistTypes',
+            query: {
+                _id: specialistTypeId,
+            }
+        });
     };
 
-    const handleView = (specialistTypeName) => {
-        
+    const handleView = (specialistTypeName, patientid) => {
         Router.push({
             pathname: '/ViewSpecialistPage',
             query: {
                 specialist_type_name: specialistTypeName,
+                patient_id: patientid
             }
         });
- 
-};
-    
+    };
 
     const handleDelete = (specialistTypeId) => {
         const admin_deleted_by_id = localStorage.getItem('id');
+
+        const confirmDelete = (proceed = false) => {
+            let query = { "_id": specialistTypeId, "admin_deleted_by_id": admin_deleted_by_id, "proceed": proceed };
+            DeleteSpecialistDetails(query).then(data => {
+                if (data.error) {
+                    console.log(data.error);
+                    setMsg(data.error);
+                } else if (data.warning) {
+                    Swal.fire({
+                        title: '<strong>Doctors are present under this specialist</strong>',
+                        html: '<p style="font-size: 16px;">Do you still want to proceed with deletion?</p>',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel',
+                        customClass: {
+                            title: 'custom-title-class',
+                            popup: 'custom-popup-class',
+                            confirmButton: 'custom-confirm-button-class',
+                            cancelButton: 'custom-cancel-button-class'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            confirmDelete(true);
+                        }
+                    });
+                } else {
+                    loadSpecialistType();
+                    setMsg(`Specialist type deleted successfully.`);
+                    setTimeout(() => {
+                        setMsg('');
+                    }, 2000);
+                }
+            });
+        };
 
         Swal.fire({
             title: '<strong>Are you absolutely sure?</strong>',
@@ -77,21 +114,10 @@ const Specialties = () => {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                let query = { "_id": specialistTypeId, "admin_deleted_by_id": admin_deleted_by_id };
-                DeleteSpecialistDetails(query).then(data => {
-                    if (data.error) {
-                        console.log(data.error);
-                    } else {
-                    loadSpecialistType();
-                    setMsg(`Specialist type deleted successfully.`);
-                    setTimeout(() => {
-                        setMsg('');
-                    }, 2000); 
-                }
-                });
+                confirmDelete();
             }
         });
-    }
+    };
 
     const toggleMenu = (index) => {
         setMenuVisible(menuVisible === index ? null : index);
@@ -110,6 +136,8 @@ const Specialties = () => {
         };
     }, []);
 
+
+
     return (
         <>
             <Head>
@@ -123,7 +151,10 @@ const Specialties = () => {
             <div className="container">
                 <center><h2 style={{ marginTop: '100px' }}><b>SPECIALIST</b></h2></center>
                 <Link href="/AdminDemo/addspecialistTypes">
-                    <a className="btn btn-success mb-3" style={{ background: "#3085d6", borderColor: "#0c9da8", width: '15%' }}>Add Specialist</a>
+                    <a className="btn-add-specialist">
+                        <FaUserMd style={{ marginRight: '8px' }} />
+                        Add Specialist
+                    </a>
                 </Link>
                 <div className="specialist-grid">
                     {values.specialistList.length > 0 ? (
@@ -144,7 +175,7 @@ const Specialties = () => {
                                             <div className="dropdown-menu" style={{
                                                 position: 'absolute',
                                                 top: '25px',
-                                              left:'-100px',
+                                                left:'-100px',
                                                 zIndex: '1',
                                                 minWidth: '100px',
                                                 boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
@@ -153,21 +184,17 @@ const Specialties = () => {
                                                 padding: '10px',
                                                 display: menuVisible === index ? 'block' : 'none'
                                             }}>
-                                               
-                                                    <a className="dropdown-item" onClick={() => handleView(specialist.specialist_type_name)} style={{
-                                                        padding: '5px 10px',
-                                                        cursor: 'pointer',
-                                                        borderBottom: '1px solid #ddd',
-                                                        fontSize: '12px'
-                                                    }}>View Doctors</a>
-                                                
-                                               
-                                                    <a className="dropdown-item" onClick={() => handleEdit(specialist._id)} style={{
-                                                        padding: '5px 10px',
-                                                        cursor: 'pointer',
-                                                        fontSize: '12px'
-                                                    }}>Edit</a>
-                                                
+                                                <a className="dropdown-item" onClick={() => handleView(`${specialist.specialist_type_name}`, `${router.query.patientId}`)} style={{
+                                                    padding: '5px 10px',
+                                                    cursor: 'pointer',
+                                                    borderBottom: '1px solid #ddd',
+                                                    fontSize: '12px'
+                                                }}>View Doctors</a>
+                                                <a className="dropdown-item" onClick={() => handleEdit(specialist._id)} style={{
+                                                    padding: '5px 10px',
+                                                    cursor: 'pointer',
+                                                    fontSize: '12px'
+                                                }}>Edit</a>
                                                 <a className="dropdown-item" onClick={() => handleDelete(specialist._id)} style={{
                                                     padding: '5px 10px',
                                                     cursor: 'pointer',
@@ -184,6 +211,7 @@ const Specialties = () => {
                     )}
                 </div>
             </div>
+
             <style jsx>{`
                 .specialist-grid {
                     display: flex;
@@ -191,11 +219,15 @@ const Specialties = () => {
                     gap: 20px;
                     justify-content: center;
                     margin-top: 20px;
+                    zIndex:-10;
+                    
+                   
                 }
                 .specialist-card {
                     width: calc(25% - 20px);
                     display: flex;
                     justify-content: center;
+                   
                 }
                 .specialist-card-content {
                     background-color: #FFFFFF;
@@ -203,15 +235,17 @@ const Specialties = () => {
                     width: 100%;
                     height: 200px;
                     border-radius: 10%;
-                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
                     text-align: center;
                     cursor: pointer;
                     transition: transform 0.2s;
                     display: flex;
+                    margin-left:30px;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
                     position: relative;
+                    
                 }
                 .specialist-card-content:hover {
                     transform: scale(1.05);
@@ -224,14 +258,17 @@ const Specialties = () => {
                 .specialist-card-image {
                     width: 50px;
                     height: 50px;
-                    border-radius: 50%;
+                    border-radius: 5%;
                     margin-bottom: 10px;
+                    object-fit: fill;
                 }
                 .dropdown-menu {
                     background: #fff;
                     border: 1px solid #ddd;
                     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                     border-radius: 20px;
+                    z-index: 10;
+
                 }
                 .dropdown-item {
                     padding: 8px 16px;
@@ -240,6 +277,60 @@ const Specialties = () => {
                 .dropdown-item:hover {
                     background-color: #f0f0f0;
                 }
+                .btn-add-specialist {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 10px 20px;
+                    font-size: 15px;
+                    background-color: white;
+                    border: 1px solid #9575CD;
+                    color: #6F42C1;
+                    border-radius: 10%;
+                    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+                    text-decoration: none;
+                    cursor: pointer;
+                    margin-left:50px
+                }
+                .btn-add-specialist:hover {
+                    background-color: #9575CD;
+                    border-color: #6F42C1;
+                    color: #fff;
+                }
+                    @media (max-width: 1200px) {
+        .specialist-card {
+            width: calc(33.33% - 20px);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .specialist-card {
+            width: calc(50% - 20px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .specialist-card {
+            width: calc(100% - 20px);
+        }
+        .btn-add-specialist {
+            margin-left: 0;
+            margin-bottom: 20px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .specialist-card-content {
+            height: auto;
+            padding: 10px;
+        }
+        .specialist-card-title {
+            font-size: 16px;
+        }
+        .specialist-card-image {
+            width: 40px;
+            height: 40px;
+        }
+    }
             `}</style>
         </>
     );

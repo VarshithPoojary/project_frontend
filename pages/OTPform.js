@@ -75,7 +75,7 @@ const OTPPage = () => {
               <div className="row justify-content-center">
                 <div className="col-lg-6">
                   <div className="my-card">
-                    <div className="my-card-header">One Time Password (OTP)</div>
+                    <div className="my-card-header" style={{background: "#D3C8F1" ,color:"black"}}>One Time Password (OTP)</div>
                     <div className="my-card-body">
                       <form onSubmit={handleVerifyOTP}>
                         <div className="mb-3">
@@ -90,7 +90,7 @@ const OTPPage = () => {
                           </div>
                         </div>
                         <div className="d-grid">
-                          <button className="my-btn-primary" type="submit">Submit</button>
+                          <button className="my-btn-primary" type="submit" style={{ backgroundColor: '#9370DB'}}>Submit</button>
                         </div>
                         <div className="mt-3 text-center">
                         <a href="#" onClick={handleResendOTP}>Resend OTP</a>

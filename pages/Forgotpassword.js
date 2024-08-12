@@ -51,7 +51,7 @@ const ForgotPasswordPage = () => {
       <div id="wrapper">
         
                   <div className="card mb-4" style={{ width: "900px", margin: "auto", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-                    <div className="card-header">Forgot Password</div>
+                    <div className="card-header" style={{background: "#D3C8F1" ,color:"black"}}>Forgot Password</div>
                     <div className="card-body" style={{ maxWidth: "1000px" }}>
                       <form onSubmit={handleGenerateOTP}>
                         <div className="row gx-3 mb-3">
@@ -71,7 +71,7 @@ const ForgotPasswordPage = () => {
                             />
                           </div>
                         </div>
-                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA", width: "30%" }}>Send OTP</button>
+                        <button className="btn btn-primary" type="submit" style={{ backgroundColor: '#9370DB', width: "30%" }}>Send OTP</button>
                         <div className="d-flex justify-content-between mt-4">
                         <Link href="/login">
                                     <a  className="">Login</a>

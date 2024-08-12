@@ -35,10 +35,10 @@ const PatientPasswordUpdate = () => {
         } else {
             loadPassword();
         }
-    }, [router.query._id]);
+    }, [router.query.patientId]);
 
     const loadPassword = () => {
-        patient_details_by_id(router.query._id)
+        patient_details_by_id(router.query.patientId)
             .then(data => {
                 if (data.error) {
                     setValues({ ...values, error: data.error, loading: false });
@@ -66,7 +66,7 @@ const PatientPasswordUpdate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = {};
-        var patient_id = router.query._id;
+        var patient_id = router.query.patientId;
     
         if (!patient_password && !confirmpassword) {
             setValues({ ...values, error: 'Enter Password and Confirm Password' });
@@ -91,7 +91,7 @@ const PatientPasswordUpdate = () => {
         const formData = new FormData();
         formData.append('patient_id', patient_id);
         formData.append('demoimg', values.patient_profile_image);
-        formData.append('patient_password', patient_password);
+        formData.append('password', patient_password);
     
         try {
             const response = await update_patient(formData);
@@ -113,6 +113,7 @@ const PatientPasswordUpdate = () => {
     const handleChange = (name) => (e) => {
         setValues({ ...values, [name]: e.target.value, error: '', successMessage: '' });
     };
+    
 
     const togglePasswordVisibility = () => {
         setValues({ ...values, showPassword: !showPassword });
@@ -147,7 +148,7 @@ const PatientPasswordUpdate = () => {
                 <form role="form" onSubmit={handleSubmit}>
                     <div className="card" style={{ marginTop: '100px', padding: '20px', marginLeft: '250px', width: '700px', height: '400px', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
                         <div className="card-body">
-                            <div className="card-header">Edit Patient Password Here</div>
+                            <div className="card-header" style={{background: "#D3C8F1" ,color:"black"}}>Edit Patient Password Here</div>
                             
                             <div className="form-group row">
                                 <label htmlFor="newpassword" className="col-sm-3 col-form-label">New Password:</label>
@@ -194,7 +195,7 @@ const PatientPasswordUpdate = () => {
                            
                             <div className="form-group row mt-3">
                                 <div className="col-sm-12 text-right">
-                                    <button type="submit" className="btn btn-primary mr-2" style={{  background: "#3085d6", borderColor: "#0c9da8" }}>Update</button>
+                                    <button type="submit" className="btn btn-primary mr-2" style={{  backgroundColor: '#9370DB' }}>Update</button>
                                     <button type="button" className="btn btn-secondary" onClick={Cancel}>Cancel</button>
                                 </div>
                             </div>

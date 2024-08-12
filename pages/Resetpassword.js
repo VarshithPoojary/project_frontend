@@ -67,7 +67,7 @@ const ResetPasswordPage = () => {
 
       <div id="wrapper">
         <div className="card mb-4" style={{ width: "500px", margin: "auto", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
-          <div className="card-header">Reset Password</div>
+          <div className="card-header" style={{background: "#D3C8F1" ,color:"black"}}>Reset Password</div>
           <div className="card-body">
             <form onSubmit={handleResetPassword}>
               <div className="mb-3">
@@ -97,7 +97,7 @@ const ResetPasswordPage = () => {
                 {errors.confirmPassword && <div className="error-message" style={{ color: 'red' }}>{errors.confirmPassword}</div>}
               </div>
 
-              <button className="btn btn-primary" type="submit" style={{ backgroundColor: "#87CEFA", borderColor: "#87CEFA" }}>Update</button>
+              <button className="btn btn-primary" type="submit" style={{ backgroundColor: '#9370DB' }}>Update</button>
             </form>
             <div className="mt-3 text-center">
               <Link href="/Patientlogin">Login</Link>

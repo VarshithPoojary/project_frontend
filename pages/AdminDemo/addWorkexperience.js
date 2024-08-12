@@ -68,7 +68,7 @@ const WorkexperienceAdd = () => {
                         <div className="row">
                             <div className="col-12">
                                 <div className="card mb-4" style={{ width: "600px", marginTop: "70px" }}>
-                                    <div className="card-header">Add Work Experience  here</div>
+                                    <div className="card-header" style={{ background: "#D3C8F1" ,color:"black"}}>Add Work Experience  here</div>
                                     <div className="card-body" style={{ maxWidth: "400px" }}>
                                         <form onSubmit={handleSubmit}>
                                             <div className="form-group row">
@@ -85,7 +85,7 @@ const WorkexperienceAdd = () => {
                                             </div> */}
                                            
                                             {/* {msg && <div className={`alert ${res.error ? 'alert-danger' : 'alert-success'}`}>{msg}</div>} */}
-                                            <button className="btn btn-primary" type="submit" style={{  background: "#3085d6", borderColor: "#0c9da8" }}>Submit</button>
+                                            <button className="btn btn-primary" type="submit" style={{  background: "#6F42C1", borderColor: "#9575CD" }}>Submit</button>
                                             {loading ? (<div className="alert alert-success margin-top-10">Added successfully</div>) : null}
                                             {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
                                         </form>
