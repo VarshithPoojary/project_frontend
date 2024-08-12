@@ -18,13 +18,16 @@ const YearOfPassingAdd = () => {
         admin_year_of_passing: ''
     });
 
+    const { admin_year_of_passing } = values;
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         const adminId = localStorage.getItem('id');
         try {
-            const data = { admin_created_by_id: adminId, admin_year_of_passing: values.admin_year_of_passing };
+            const data = { admin_created_by_id: adminId, admin_year_of_passing };
             const res = await add_yearOfPassing(data); 
             setLoading(false);
             if (res.msg) {
@@ -46,9 +49,10 @@ const YearOfPassingAdd = () => {
         }
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setValues({ ...values, [name]: value });
+ 
+    const handleChange = name => e => {
+        setValues({ ...values, [name]: e.target.value });
+        
     };
 
     return (

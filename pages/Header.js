@@ -12,8 +12,8 @@ import {
   SidebarContent,
 } from "react-pro-sidebar";
 import { FiHome, FiLogOut, FiMenu, FiUser, FiMapPin, FiSettings, FiUsers } from "react-icons/fi";
-import { FaRegImage, FaBriefcase, FaGraduationCap, FaUserMd } from 'react-icons/fa';
-import { BiCog, BiUser, BiBook, BiCalendar, BiMap, BiListCheck, BiClinic, BiUserPlus, BiBriefcase, BiCalendarPlus } from "react-icons/bi";
+import { FaHome,FaUser,FaClinicMedical,FaUserPlus,FaBuilding,FaCalendar,FaImage,FaUsers,FaMap,FaSignOutAlt,FaRegImage, FaBriefcase, FaGraduationCap, FaUserMd,FaFileInvoice } from 'react-icons/fa';
+import { BiCog, BiUser, BiBook, BiCalendar, BiMap, BiListCheck, BiClinic, BiUserPlus, BiBriefcase, BiCalendarPlus,BiBuilding } from "react-icons/bi";
 import "react-pro-sidebar/dist/css/styles.css";
 import { admin_details_by_id } from "../actions/adminprofileAction";
 
@@ -127,18 +127,18 @@ const Header = () => {
           <SidebarContent>
             <Scrollbars style={{ width: '100%', height: '100%' }}>
               <Menu iconShape="square">
-                <MenuItem icon={<FiHome />} title="Dashboard" onClick={handleDashboard}>
+                <MenuItem icon={<FaHome />} title="Dashboard" onClick={handleDashboard}>
                   <Link href='/dashboard'><span>Dashboard</span></Link>
                 </MenuItem>
-                <MenuItem icon={<BiUser />} title="Admin" onClick={handleAdmin}>
+                <MenuItem icon={<FaUser />} title="Admin" onClick={handleAdmin}>
                 <Link href='/Admin/viewAdminList'><span>Admin</span></Link>
                 </MenuItem>
-                <MenuItem icon={<BiClinic />} title="Doctor" onClick={handleDoctor}>
-                <Link href='/Doctor/ViewDoctorList'><span>Doctor</span></Link>
-                </MenuItem>
-
+                <MenuItem icon={<BiClinic />} title="Doctor">Doctor</MenuItem>
                 <MenuItem icon={<BiUserPlus />} title="Patient" onClick={handlePatient}>
                 <Link href='/Patient/ViewPatientList'><span>Patient</span></Link>
+                </MenuItem>
+                <MenuItem icon={<FaBuilding />} title="Department" onClick={handleDepartment}>
+                <Link href='/Department'><span>Department</span></Link> 
                 </MenuItem>
                 <MenuItem icon={<FaUserMd />} title="Department">Specialist</MenuItem>
                 <MenuItem icon={<BiCalendarPlus />} title="Appointment">Appointment</MenuItem>
@@ -155,10 +155,13 @@ const Header = () => {
                 <MenuItem icon={<FaGraduationCap  />} title="Year of Passing" onClick={handleYearOfPassing}>
                 <Link href='/AdminDemo/viewYearOfPassingList'><span>Year of Passing</span></Link>
                 </MenuItem>
-                <MenuItem icon={<FiUsers  />} title="Specialist Type" onClick={handleSpecialist}>
+                <MenuItem icon={<FaUsers  />} title="Specialist Type" onClick={handleSpecialist}>
                 <Link href='/AdminDemo/addspecialistTypes'><span>Specialist Type</span></Link>
                 </MenuItem>
-                <SubMenu title="Locations" icon={<FiMapPin />}  >
+                <MenuItem icon={<FaFileInvoice  />} title="Invoice" onClick={handleInvoice}>
+                <Link href='/Invoice'><span>Invoice</span></Link>
+                </MenuItem>
+                <SubMenu title="Locations" icon={<FaMap />}  >
                   <MenuItem title="Country" icon={<BiMap />} >
                   <Link href='/Location/viewCountry'><span >Country</span></Link></MenuItem>
                   <MenuItem title="State" icon={<BiMap />} >
@@ -176,7 +179,7 @@ const Header = () => {
           </SidebarContent>
           <SidebarFooter>
             <Menu iconShape="square">
-              <MenuItem icon={<FiLogOut />} title="Logout" onClick={handleLogout}> 
+              <MenuItem icon={<FaSignOutAlt />} title="Logout" onClick={handleLogout}> 
                 <span>Logout</span>
               </MenuItem>
             </Menu>
