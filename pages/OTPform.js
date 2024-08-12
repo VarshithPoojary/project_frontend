@@ -2,32 +2,63 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
-import { verifyOTP } from '../actions/forgotpasswordAction';
+import { verifyOTP,resendOTP } from '../actions/forgotpasswordAction';
 
 const OTPPage = () => {
-  const [otpDigits, setOtpDigits] = useState('');
+  const [admin_otp, setAdmin_otp] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [resendMessage, setResendMessage] = useState('');
 
-  const handleOtpChange = (e) => {
-    setOtpDigits(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleVerifyOTP = async (e) => {
     e.preventDefault();
-    console.log('Submitting form...');
+    const admin_email = localStorage.getItem('userEmail');
+
     try {
-      const response = await verifyOTP(otpDigits); 
-      setMessage(response.message);
-      setError('');
-      if (response.message === 'OTP verified successfully') {
-        Router.push('/Resetpassword');
+      const response = await verifyOTP({ admin_email, admin_otp });
+      if (response.error) {
+        setError(response.error);
+        setTimeout(() => {
+          setError('');
+        }, 1000);
+      } else {
+        setMessage("OTP verified successfully");
+        setTimeout(() => {
+          setMessage('');
+          Router.push('/Resetpassword');
+        }, 1000);
       }
     } catch (err) {
       setMessage('');
       setError('Failed to verify OTP');
     }
   };
+
+  const handleResendOTP = async (e) => {
+    e.preventDefault();
+    const admin_email = localStorage.getItem('userEmail');
+
+    try {
+      const response = await resendOTP({ admin_email });
+      if (response.error) {
+        setResendMessage('Failed to resend OTP');
+        setTimeout(() => {
+          setResendMessage('');
+        }, 2000);
+      } else {
+        setResendMessage('OTP sent to your email');
+        setTimeout(() => {
+          setResendMessage('');
+        }, 2000);
+      }
+    } catch (err) {
+      setResendMessage('Failed to resend OTP');
+      setTimeout(() => {
+        setResendMessage('');
+      }, 2000);
+    }
+  };
+
 
   return (
     <>
@@ -44,29 +75,30 @@ const OTPPage = () => {
               <div className="row justify-content-center">
                 <div className="col-lg-6">
                   <div className="my-card">
-                    <div className="my-card-header">One Time Password (OTP)</div>
+                    <div className="my-card-header" style={{background: "#D3C8F1" ,color:"black"}}>One Time Password (OTP)</div>
                     <div className="my-card-body">
-                      <form onSubmit={handleSubmit}>
+                      <form onSubmit={handleVerifyOTP}>
                         <div className="mb-3">
-                          <label htmlFor="admin_otp" className="form-label">Enter OTP sent to your Mobile</label>
+                          <label htmlFor="admin_otp" className="form-label">Enter OTP sent to your Email</label>
                           <div className="otp-container">
                             <input
                               className="otp-input"
                               type="text"
-                              value={otpDigits}
-                              onChange={handleOtpChange}
+                              value={admin_otp}
+                              onChange={(e) => setAdmin_otp(e.target.value)}
                             />
                           </div>
                         </div>
                         <div className="d-grid">
-                          <button className="my-btn-primary" type="button" onClick={handleSubmit}>Submit</button>
+                          <button className="my-btn-primary" type="submit" style={{ backgroundColor: '#9370DB'}}>Submit</button>
                         </div>
                         <div className="mt-3 text-center">
-                          <Link href="/ResendOTP">Resend OTP</Link>
+                        <a href="#" onClick={handleResendOTP}>Resend OTP</a>
                         </div>
                       </form>
                       {message && <div className="alert alert-success mt-3">{message}</div>}
                       {error && <div className="alert alert-danger mt-3">{error}</div>}
+                      {resendMessage && <div className="alert alert-info mt-3">{resendMessage}</div>}
                     </div>
                   </div>
                 </div>

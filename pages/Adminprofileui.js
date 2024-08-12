@@ -7,7 +7,7 @@ import Router from 'next/router';
 import Swal from 'sweetalert2';
 import { admin_details_by_id, DeleteAdminDetails } from '../actions/adminprofileAction';
 
-const AdminProfile = () => {
+const AdminProfileUpdate = () => {
   const defaultProfileImage = '/images/userLogo.png';
   const [values, setValues] = useState({
     admin_list: [],
@@ -20,17 +20,15 @@ const AdminProfile = () => {
     showForm: true
   });
 
-  const [bio, setBio] = useState('');
   const { admin_list, admin_profile_image, error, loading } = values;
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const user_id = localStorage.getItem('id');
-      if (user_id === "" || user_id === null || user_id === undefined) {
+      if (!user_id) {
         Router.push('/login');
       } else {
         loadUserDetails(user_id);
-        loadBio(user_id);
       }
     }
   }, []);
@@ -39,7 +37,6 @@ const AdminProfile = () => {
     admin_details_by_id(user_id)
       .then(data => {
         if (data.error) {
-          console.log(data.error);
           setValues({ ...values, error: data.error, loading: false });
         } else {
           const adminData = data.admin_list[0];
@@ -57,21 +54,10 @@ const AdminProfile = () => {
         }
       })
       .catch(error => {
-        console.error('Error:', error);
         setValues({ ...values, error: 'Error: Network request failed', loading: false });
       });
   };
 
-  const loadBio = (user_id) => {
-    const savedBio = localStorage.getItem(`adminBio_${user_id}`);
-    if (savedBio) {
-      setBio(savedBio);
-    }
-  };
-
-
-
- 
   const handleDelete = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -81,36 +67,35 @@ const AdminProfile = () => {
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
       confirmButtonText: 'Yes, delete it!'
-  }).then((result) => {
+    }).then((result) => {
       if (result.isConfirmed) {
-    const user_id = localStorage.getItem("id");
-    DeleteAdminDetails(user_id);
-    localStorage.removeItem('id');
-    Router.push('/login');
-
+        const user_id = localStorage.getItem("id");
+        DeleteAdminDetails(user_id);
+        localStorage.removeItem('id');
+        Router.push('/login');
+      }
+    });
   }
-});
-}
 
   return (
     <div>
       <Head>
-        <title>Admin Profile</title>
+        <title>Admin Profile Update</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="title" content='Admin_Profile' />
+        <meta name="title" content='Admin_Profile_Update' />
         <link rel="icon" href="/images/title_logo.png" />
       </Head>
 
       <Topbar />
       <Header />
 
-      <div className=" emp-profile">
+      <div className=" emp-profile" >
         <form method="post">
           <div className="row">
             <div className="col-md-4">
-              <div className="profile-img" style={{ width: '150px', height: '150px', borderRadius: '50%', overflow: 'hidden' }}>
+              <div className="profile-img" style={{ width: '150px', height: '150px', marginLeft: '100px', borderRadius: '10%', overflow: 'hidden' }}>
                 <label htmlFor="fileInput">
-                  <img src={admin_profile_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover'}}></img>
+                  <img src={admin_profile_image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}></img>
                 </label>
                 <input id="fileInput" name="file" style={{ display: 'none' }} />
               </div>
@@ -134,62 +119,53 @@ const AdminProfile = () => {
                 <input type="button" className="profile-edit-btn" name="btnAddMore" value="Edit Password" />
               </Link>
               <input type="button" className="profile-edit-btn" name="btnAddMore" value="Delete Profile" onClick={() => handleDelete()} />
-
             </div>
-
           </div>
           <div className="row">
             <div className="col-md-4">
-              <div className="col-md-8">
-                
-              </div>
+              <div className="col-md-8"></div>
             </div>
             <div className="col-md-8">
               <div className="tab-content profile-tab" id="myTabContent">
                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                   <div className="row">
-                    <div className="col-md-6" >
-                      <label style={{color:'gray'}}>First Name :</label>
+                    <div className="col-md-6">
+                      <label style={{ color: 'gray' }}>First Name :</label>
                     </div>
                     <div className="col-md-6 small-width-input">
-                    <label >{values.admin_firstname}</label>
-                      {/* <input type="text" className="form-control"  value={values.admin_firstname} readOnly /> */}
+                      <label>{values.admin_firstname}</label>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label style={{color:'gray'}}>Last Name :</label>
+                      <label style={{ color: 'gray' }}>Last Name :</label>
                     </div>
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
                       <label>{values.admin_lastname}</label>
-                      {/* <input type="text" className="form-control" value={values.admin_lastname} readOnly /> */}
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label style={{color:'gray'}}>Username :</label>
+                      <label style={{ color: 'gray' }}>Username :</label>
                     </div>
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label>{values.admin_username}</label>
-                      {/* <input type="text" className="form-control" value={values.admin_username} readOnly /> */}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                      <label style={{color:'gray'}}>Email :</label>
-                    </div>
-                    <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label>{values.admin_email}</label>
-                      {/* <input type="text" className="form-control" value={values.admin_email} readOnly /> */}
+                      <label>{values.admin_username}</label>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label style={{color:'gray'}}>Mobile Number:</label>
+                      <label style={{ color: 'gray' }}>Email :</label>
                     </div>
                     <div className="col-md-6" style={{ marginTop: '10px' }}>
-                    <label>{values.admin_mobile_no}</label>
-                      {/* <input type="text" className="form-control" value={values.admin_mobile_no} readOnly /> */}
+                      <label>{values.admin_email}</label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6" style={{ marginTop: '10px' }}>
+                      <label style={{ color: 'gray' }}>Mobile Number:</label>
+                    </div>
+                    <div className="col-md-6" style={{ marginTop: '10px' }}>
+                      <label>{values.admin_mobile_no}</label>
                     </div>
                   </div>
                 </div>
@@ -202,4 +178,4 @@ const AdminProfile = () => {
   );
 };
 
-export default AdminProfile;
+export default AdminProfileUpdate;

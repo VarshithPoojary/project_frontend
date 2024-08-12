@@ -40,7 +40,7 @@ const SpecialistTypeAdd = () => {
                 setMsg('Added Successfully');
                 setTimeout(() => {
                     setMsg('');
-                    Router.push(`/dashboard`);
+                    Router.push(`/SpecialistPage`);
                 }, 1000);
             }
         } catch (error) {
@@ -73,7 +73,7 @@ const SpecialistTypeAdd = () => {
             <div className="container-viewLocation">
                 <div className="center-table">
                     <div className="card mb-4">
-                        <div className="card-header"> Specialist Type here</div>
+                        <div className="card-header">Specialist Type here</div>
                         <div className="card-body">
                             <form onSubmit={handleSubmit}>
                                 <div className="form-group row">
@@ -110,7 +110,7 @@ const SpecialistTypeAdd = () => {
                                     </div>
                                 </div>
                                 <button className="btn-submit" type="submit">Submit</button>
-                                {loading && (<div className="alert alert-success margin-top-10">Added successfully</div>)}
+                                {loading && (<div className="alert alert-success margin-top-10">Adding...</div>)}
                                 {msg && (<div className="alert alert-success margin-top-10">{msg}</div>)}
                             </form>
                         </div>
@@ -119,11 +119,16 @@ const SpecialistTypeAdd = () => {
             </div>
 
             <style jsx>{`
+                #wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
+                }
                 .container-viewLocation {
+                    flex: 1;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    min-height: 100vh;
                     padding: 20px;
                 }
                 .center-table {

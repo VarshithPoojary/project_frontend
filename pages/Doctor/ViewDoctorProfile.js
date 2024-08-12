@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Header from '../Header';
 import Topbar from '../topbar';
+import { useRouter } from 'next/router';
 import Router from 'next/router';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,8 +13,7 @@ import { slot_listby_caretaker_id } from '../../actions/slotAction';
 
 const DoctorProfile = () => {
   const defaultProfileImage = '/images/userLogo.png';
-  const caretakerId = '669112917bff6b100a6c961f';
-
+  const router = useRouter();
   const [values, setValues] = useState({
     caretaker_firstname: '',
     caretaker_lastname: '',
@@ -43,6 +43,7 @@ const DoctorProfile = () => {
   const [bio, setBio] = useState('');
 
   useEffect(() => {
+    const caretakerId=router.query._id;
     loadCaretakerDetail(caretakerId);
     loadBio(caretakerId);
     loadSlotDetails(caretakerId);
@@ -121,7 +122,7 @@ const DoctorProfile = () => {
           const today = new Date();
           const timings = data.slot_list.reduce((acc, slot) => {
             const date = new Date(slot.slot_date);
-            if (date >= today) { // Filter only today and future dates
+            if (date >= today) { 
               const formattedDate = `${date.getDate()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
               const timeSlots = slot.slot_timings.map(timing => ({
                 slot_time: timing.slot_time,

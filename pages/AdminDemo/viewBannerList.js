@@ -62,6 +62,13 @@ const BannerList = () => {
         });
     }
 
+    function displayImage(cell, row)
+    {
+        return(
+            <img src={row.admin_banner_image_name} height="100px" width="300px"/>
+        )
+    }
+
     const actionFormatter = (cell, row) => {
         const buttonStyle = {
             width: '40px',
@@ -122,7 +129,7 @@ const BannerList = () => {
                     <div className="custom-table">
                         <BootstrapTable data={bannerDetails} search>
                             <TableHeaderColumn dataField="_id" isKey hidden>ID</TableHeaderColumn>
-                            <TableHeaderColumn dataField="admin_banner_image_name" dataAlign="center" dataSort>Banner Image Path</TableHeaderColumn>
+                            <TableHeaderColumn dataField='admin_banner_image_name' dataFormat={displayImage} dataAlign="center" dataSort>Banner Image Path</TableHeaderColumn>
                             <TableHeaderColumn dataField="actions" dataAlign="center" dataFormat={actionFormatter}>Actions</TableHeaderColumn>
                         </BootstrapTable>
                     </div>

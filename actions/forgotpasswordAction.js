@@ -1,13 +1,14 @@
-import { API } from '../config'; 
+import { API } from '../config';
+import fetch from 'isomorphic-fetch'; 
 
-export const generateOTP = adminMobileNumber => {
-  return fetch(`${API}/generate-otp`, {
+export const admin_forgot_Password_OTP = admin_email => {
+  return fetch(`${API}/admin_forgot_Password_OTP`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ admin_otp_mobile_no: adminMobileNumber })
+    body: JSON.stringify({admin_email })
   })
     .then(response => {
       return response.json();
@@ -15,49 +16,49 @@ export const generateOTP = adminMobileNumber => {
     .catch(err => console.log(err));
 };
 
-export const verifyOTP = (adminOTP) => {
-    return fetch(`${API}/verify-otp`, {
+export const verifyOTP = otpData => {
+  return fetch(`${API}/verifyOTP`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(otpData)
+  })
+    .then(response => response.json())
+    .catch(err => console.log(err));
+};
+
+export const resendOTP = admin_email => {
+  return fetch(`${API}/resendOTP`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({admin_email })
+  })
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err));
+};
+
+
+export const resetPassword = passwordData => {
+  return fetch(`${API}/resetPassword`, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ admin_otp: adminOTP })
-    })
+      body: JSON.stringify(passwordData)
+  })
       .then(response => {
-        return response.json();
+          return response.json();
       })
       .catch(err => console.log(err));
-  };
-
-export const resendOTP = adminMobileNumber => {
-  return fetch(`${API}/resend-otp`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ admin_otp_mobile_no: adminMobileNumber })
-  })
-    .then(response => {
-      return response.json();
-    })
-    .catch(err => console.log(err));
 };
 
-export const resetPassword =( admin_otp_mobile_no, admin_new_password, admin_confirm_password, admin_otp)=> {
-  return fetch(`${API}/reset-password`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ 
-      admin_otp_mobile_no,admin_new_password,admin_confirm_password,admin_otp}) 
-  })
-    .then(response => {
-      return response.json();
-    })
-    .catch(err => console.log(err));
-};
+
 

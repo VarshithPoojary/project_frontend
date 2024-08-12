@@ -1,249 +1,630 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
+import Modal from 'react-modal';
+import Router from 'next/router';
 import Cookies from 'universal-cookie';
 import Link from 'next/link';
-import { FaUser,FaUserInjured,FaMoneyBillAlt,FaTimesCircle,FaClinicMedical,FaUserPlus,FaCalendarCheck,FaHospitalUser,FaCalendar,FaCalendarAlt ,FaClock,FaUsers ,FaClipboardList,FaUserMd,FaStethoscope,FaDochub   } from "react-icons/fa";
-import { BiUser,BiSearch,BiPlusCircle} from "react-icons/bi";
+import { FaEye,FaEllipsisH,FaTrashAlt  } from 'react-icons/fa';
+import { patient_list } from '../actions/patientprofileAction';
+import { doctor_list } from '../actions/doctorprofileAction';
+import { appointment_list,delete_appointment } from '../actions/appointmentAction';
+import { Pie } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  Title
+} from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, Title);
 
 const cookies = new Cookies();
 
+const Menu = ({ onViewProfile, onMessage }) => (
+  <div className="horizontal-menu">
+    <button onClick={onViewProfile}>View Profile</button>
+    <button onClick={onMessage}>Message</button>
+    <style jsx>{`
+      .horizontal-menu {
+        display: flex;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        z-index: 1000;
+        top: 100%;
+        right: 0;
+      }
+      .horizontal-menu button {
+        display: block;
+        width: auto;
+        padding: 10px;
+       
+        border: none;
+    
+        background: none;
+        text-align: center;
+        cursor: pointer;
+      }
+      .horizontal-menu button:hover {
+        background-color: #f1f1f1;
+      }
+    `}</style>
+  </div>
+);
+
 const Users = () => {
-    const [values, setValues] = useState({
-        labCount: 0,
-        logsCount: 0,
-    });
-    const { labCount, logsCount } = values;
-    const token = cookies.get('admin_token');
+  const [values, setValues] = useState({
+    registeredPatients: 0,
+    registeredDoctors: 0,
+    totalDoctors: 0,
+    totalAppointments: 0,
+    slots: 0,
+    newDoctorRegistrations: 0
+  });
 
-    useEffect(() => {
-        loadUsers();
-    }, []);
+  const [doctors, setDoctors] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [appointments, setAppointments] = useState([]);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [todayAppointments, setTodayAppointments] = useState([]);
+  const [error, setError] = useState('');
+  const [showMenu, setShowMenu] = useState({ index: null, type: null });
 
-    const loadUsers = () => {
-        // Your data loading logic here
-    };
 
+  const { registeredPatients, registeredDoctors, totalDoctors,totalAppointments, slots, totalPatientVisits, newDoctorRegistrations } = values;
+  const token = cookies.get('admin_token');
+
+  useEffect(() => {
+    loadAllCount();
+    loadDoctorList();
+    loadPatientList();
+    loadAppointmentList();
+
+    const interval = setInterval(() => {
+      loadAppointmentList();
+    }, 24 * 60 * 60 * 1000); 
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const loadAllCount = async () => {
+    try {
+      const patientData = await patient_list();
+      const doctorData = await doctor_list();
+      const appointmentData = await appointment_list();
+
+      if (patientData.error || doctorData.error) {
+        setError('Failed to load data');
+        return;
+      }
+
+      // const approvedDoctors = doctorData.caretaker_list.filter(doctor => doctor.caretaker_approvedStatus === true).length;
+      // alert(JSON.stringify(approvedDoctors))
+
+      setValues({
+        registeredPatients: patientData.patient_list.length,
+        registeredDoctors: doctorData.caretaker_list.length,
+        totalDoctors: doctorData.caretaker_list.length,
+        totalAppointments: appointmentData.appointment_list.length || 0,
+        newDoctorRegistrations: doctorData.new_registrations?.length || 0,
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      setError('Error: Network request failed');
+    }
+  };
+
+
+  const loadDoctorList = async () => {
+    try {
+      const data = await doctor_list();
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        setDoctors(data.caretaker_list);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const loadPatientList = async () => {
+    try {
+      const data = await patient_list();
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        setPatients(data.patient_list);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const loadAppointmentList = async () => {
+    try {
+      const response = await appointment_list();
+      const allAppointments = response.appointment_list;
+      const today = moment().format('YYYY-MM-DD');
+      const todayAppointments = allAppointments.filter(appointment =>
+        moment(appointment.appointment_date).format('YYYY-MM-DD') === today && appointment.status === 'Accepted'
+      );
+      setTodayAppointments(todayAppointments);
+      setAppointments(todayAppointments);
+    } catch (err) {
+      setError(err.response ? err.response.data.msg : 'An error occurred.');
+    }
+  };
+
+  const handleBookAppointment = () => {
+    Router.push('/Patient/ViewPatientList');
+  };
+
+  const handleView = (appointment) => {
+    setSelectedAppointment(appointment);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleMenuToggle = (index) => {
+    setShowMenu({ ...showMenu, [index]: !showMenu[index] });
+  };
+
+  const handleViewProfile = (index) => {
     
-    const content = () => (
-       
-      <div className="container-fluid mt-3" style={{ overflow: 'auto', maxHeight: '100vh' }}>
-      <div className="row" style={{paddingLeft:'200px', marginTop:'50px',width:'100%',marginLeft:'10px'}}>
-        
-          <div className="col-md-3 mb-3" style={{  marginRight: '-100px'  }}>
-          <Link href="/Patient/TotalPatients">
-                <a style={{ textDecoration: 'none' }}>
-                    <div className="card-box tilebox-one" style={{ width:'70%',height: '128px',backgroundColor: '#87CEEB',color:'black'}}>
-                        <i className="float-right mr-2" style={{ color: '#888' }}><FaUser /></i>
-                        <h5 className="text-muted text-uppercase mb-3" >Registered Patients</h5>
-                        <h4 className="mb-3" data-plugin="">{labCount}</h4>
-                    </div>
-                    </a>
-            </Link>
-                </div>
-                
+    setShowMenu({ ...showMenu, [index]: false });
+  };
 
-                <div className="col-md-3 mb-3" style={{ marginRight: '-100px' }}>
-                {/* <Link href="/Patient/PatientVisit"> */}
-                {/* <a style={{ textDecoration: 'none' }}> */}
-                    <div className="card-box tilebox-one" style={{width:'70%', height: '128px', backgroundColor: '#87CEEB',color:'black'}}>
-                    <i className="float-right mr-2" style={{ color: '#888' }}><FaDochub  /></i>
-                        <h5 className="text-muted text-uppercase mb-3">Registered Doctors</h5>
-                        <h4 className="mb-3" data-plugin="">{labCount}</h4>
-                    </div>
-                    {/* </a> */}
-            {/* </Link> */}
-                </div>
-
-                <div className="col-md-3 mb-3" style={{ marginRight: '-70px' }}>
-                <Link href="/Patient/BillandPayments">
-                <a style={{ textDecoration: 'none' }}>
-                    <div className="card-box tilebox-one" style={{ width:'80%',height: '128px',backgroundColor: '#87CEEB', color:'black'}}>
-                    <i className="float-right mr-2" style={{ color: '#888' }}><FaCalendarCheck   /></i>
-                        <h5 className="text-muted text-uppercase mb-3" >Total Appointments</h5>
-                        <h4 className="mb-3" data-plugin="">{labCount}</h4>
-                    </div>
-                    </a>
-            </Link>
-                </div>
-                <div className="col-md-3 mb-3">
-                    <div className="card-box tilebox-one" style={{ width:'70%',height: '128px',backgroundColor: '#87CEEB', color:'black'}}>
-                    <i className="float-right mr-3" style={{ color: '#888' }}><FaClock    /></i>
-                        <h5 className="text-muted text-uppercase mb-4">Slot</h5>
-                        <h4 className="mb-3" data-plugin="">{labCount}</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div className="content-card" style={{
-    width: '80%', // Decreased card width
-    marginTop: '-25px', // Increased margin-top for lower positioning
-    backgroundColor: '#E6F7FF',// Card background color
-    padding: '10px', // Card padding
-    borderRadius: '5px', // Card border radius
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Card shadow
-    marginLeft: '15%', // Center the card horizontally
-    marginRight: 'auto', // Center the card horizontally
-}}>
-
-<div className="content-patient-card-header" style={{ fontSize: '18px',color:'black' }}>
-                <span>{<FaUser />} Patient</span>
-            </div>
-
-    <div className="row" style={{ marginTop:'20px', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div className="col-md-3 mb-1" style={{ marginLeft: '20px' }}>
-            <div className="card-box tilebox-one" style={{ height: '128px', color: 'black',backgroundColor: '#f5f5f5 ' }}>
-            <i className="float-right mr-4" style={{ color: '#888' }}><FaUsers   /></i>
-                <h5 className="text-muted text-uppercase mb-3">Total Patients</h5>
-                <h4 className="mb-3" data-plugin="">{labCount}</h4>
-            </div>
-        </div>
-        <div className="col-md-3 mb-1" style={{ marginLeft: '-90px' }}>
-            <div className="card-box tilebox-one" style={{ height: '128px', color: 'black',backgroundColor: '#f5f5f5 ' }}>
-            <i className="float-right mr-4" style={{ color: '#888' }}><FaCalendarAlt    /></i>
-                <h5 className="text-muted text-uppercase mb-3">Appointments</h5>
-                <h4 className="mb-3" data-plugin="">{labCount}</h4>
-            </div>
-        </div>
-        <div className="col-md-3 mb-1" style={{ marginLeft: '-90px' }}>
-            <div className="card-box tilebox-one" style={{ height: '128px', color: 'black',backgroundColor: ' #f5f5f5' }}>
-            <i className="float-right mr-4" style={{ color: '#888' }}><FaHospitalUser    /></i>
-                <h5 className="text-muted text-uppercase mb-3">Patient Visit</h5>
-                <h4 className="mb-3" data-plugin="">{labCount}</h4>
-            </div>
-        </div>
-        <div className="col-md-1 mb-3" style={{ marginLeft: '-90px' }}>
-            <button className="btn btn-primary">View</button>
-        </div>
-        <div className="col-md-1 mb-3" style={{ marginLeft: '-90px' }}>
-            <button className="btn btn-success">Add</button>
-        </div>
-    </div>
-</div>
-
-<div className="content-card" style={{
-    width: '80%', // Decreased card width
-    marginTop: '20px', // Increased margin-top for lower positioning
-    backgroundColor: '#E6F7FF',// Card background color
-    padding: '10px', // Card padding
-    borderRadius: '5px', // Card border radius
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Card shadow
-    marginLeft: '15%', // Center the card horizontally
-    marginRight: 'auto', // Center the card horizontally
-}}>
-
-<div className="content-patient-card-header" style={{ fontSize: '18px',color:'black' }}>
-                <span>{<FaUserMd  />} Doctor</span>
-            </div>
-
-    <div className="row" style={{ marginTop:'20px', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div className="col-md-3 mb-1" style={{ marginLeft: '20px' }}>
-            <div className="card-box tilebox-one" style={{ height: '128px', color: 'black',backgroundColor: ' #f5f5f5' }}>
-            <i className="float-right mr-4" style={{ color: '#888' }}><FaUserPlus /></i>
-                <h5 className="text-muted text-uppercase mb-3">Total Doctors</h5>
-                <h4 className="mb-3" data-plugin="">{labCount}</h4>
-            </div>
-        </div>
-        <div className="col-md-3 mb-1" style={{ marginLeft: '-90px' }}>
-            <div className="card-box tilebox-one" style={{ height: '128px', color: 'black',backgroundColor: ' #f5f5f5' }}>
-            <i className="float-right mr-4" style={{ color: '#888' }}><FaCalendar    /></i>
-                <h5 className="text-muted text-uppercase mb-3">Appointment Slots</h5>
-                <h4 className="mb-3" data-plugin="">{labCount}</h4>
-            </div>
-        </div>
-        <div className="col-md-3 mb-1" style={{ marginLeft: '-90px' }}>
-            <div className="card-box tilebox-one" style={{ height: '128px', color: 'black',backgroundColor: ' #f5f5f5' }}>
-            <i className="float-right mr-4" style={{ color: '#888' }}>< FaStethoscope  /></i>
-                <h5 className="text-muted text-uppercase mb-3">Specialist</h5>
-                <h4 className="mb-3" data-plugin="">{labCount}</h4>
-            </div>
-        </div>
-        <div className="col-md-1 mb-3" style={{ marginLeft: '-90px' }}>
-            <button className="btn btn-primary">View</button>
-        </div>
-        <div className="col-md-1 mb-3" style={{ marginLeft: '-90px' }}>
-            <button className="btn btn-success">Add</button>
-        </div>
-    </div>
-    <div className="row">
-    <div className="col-md-3 mb-3" style={{ marginLeft: '20px' }}>
-        <div className="vertical-card" style={{
-            width: '200px', // Decreased card width
-            backgroundColor: '#FFFFFF',// Card background color
-            padding: '10px', // Card padding
-            borderRadius: '5px', // Card border radius
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Card shadow
-        }}>
-            <img src="/images/doctor1 (2).jpg" alt="Doctor" style={{ width: '80%', height:'100px',marginLeft: '10%', marginBottom: '10px' }} />
-            <button className="btn btn-primary btn-block">View</button>
-            <button className="btn btn-danger btn-block">Delete</button>
-        </div>
-    </div>
-    <div className="col-md-3 mb-3">
-        <div className="vertical-card" style={{
-            width: '200px', 
-          marginLeft:'-50px',
-            backgroundColor: '#FFFFFF',// Card background color
-            padding: '10px', // Card padding
-            borderRadius: '5px', // Card border radius
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Card shadow
-        }}>
-            <img src="/images/doctor2 (2).jpg" alt="Doctor" style={{ width: '80%', height:'100px',marginLeft: '10%', marginBottom: '10px' }} />
-            <button className="btn btn-primary btn-block">View</button>
-            <button className="btn btn-danger btn-block">Delete</button>
-        </div>
-    </div>
-    <div className="col-md-3 mb-3">
-        <div className="vertical-card" style={{
-            width: '200px',
-            marginLeft:'-100px', // Decreased card width
-            backgroundColor: '#FFFFFF',// Card background color
-            padding: '10px', // Card padding
-            borderRadius: '5px', // Card border radius
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Card shadow
-        }}>
-            <img src="/images/doctor3 (2).jpg" alt="Doctor" style={{ width: '80%', height:'100px',marginLeft: '10%', marginBottom: '10px' }} />
-            <button className="btn btn-primary btn-block">View</button>
-            <button className="btn btn-danger btn-block">Delete</button>
-        </div>
-    </div>
-
-    <div className="col-md-3 mb-3">
-        <div className="vertical-card" style={{
-            width: '200px',
-            marginLeft:'770px',
-            marginTop:'-230px', // Decreased card width
-            backgroundColor: '#FFFFFF',// Card background color
-            padding: '10px', // Card padding
-            borderRadius: '5px', // Card border radius
-            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', // Card shadow
-        }}>
-            <img src="/images/doctor4.jpg" alt="Doctor" style={{ width: '80%', height:'100px',marginLeft: '10%', marginBottom: '10px' }} />
-            <button className="btn btn-primary btn-block">View</button>
-            <button className="btn btn-danger btn-block">Delete</button>
-        </div>
-    </div>
-
-
-    
-    
-
-    
-</div>
-</div>
-
-    
-
-
-
-
-
-        </div>
-
-        
+  const handleMessage = (index) => {
  
-       
-    );
+    setShowMenu({ ...showMenu, [index]: false });
+  };
 
-    return <React.Fragment>{content()}</React.Fragment>;
-}
+  const handleDelete = async (appointmentId) => {
+    // alert(JSON.stringify(appointmentId))
+    const patient_deleted_by_id = localStorage.getItem('id');
+    
+    
+    const cancelReason = prompt('Please provide a reason for canceling this appointment:');
+    if (cancelReason === null || cancelReason.trim() === "") {
+      alert('Cancel reason is required to delete the appointment.');
+      return;
+    }
+    
+    try {
+      const query = { 
+        "appointmentId": appointmentId, 
+        "user_id": patient_deleted_by_id,
+        "cancelReason": cancelReason,
+         "canceled_type": canceled_type
+      };
+      const response = await delete_appointment(query);
+  
+      console.log(response); 
+  
+   
+      await loadAppointmentList();
+      setMsg(`Appointment with ID "${appointmentId}" deleted successfully.`);
+      setTimeout(() => {
+        setMsg('');
+      }, 2000);
+  
+    } catch (error) {
+      console.error('Error deleting appointment:', error);
+    }
+  };
+
+ 
+  
+  
+
+  // const displayImage = (profileImage) => (
+  //   <img
+  //     src={profileImage || '/images/default-profile.jpg'}
+  //     alt="Profile Image"
+  //     height="50px"
+  //     width="50px"
+  //     style={{ borderRadius: "50%" }}
+  //   />
+  // );
+
+  const containerStyle = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: '20px',
+    marginBottom: '20px'
+  };
+
+  const customStyles = {
+    content: {
+      width: '400px',  
+      height: '300px',
+      margin:'auto',
+    marginTop:'350px',
+      padding: '20px',
+      borderRadius: '10px',
+    },
+  };
+  
+
+  const cardStyle = {
+    padding: '20px',
+    borderRadius: '10px',
+    backgroundColor: '#fff',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    textDecoration: 'none',
+      flex: '1'
+  };
+
+  const imgStyle = {
+    width: '100%',
+    maxWidth: '100px',
+    height: 'auto',
+    marginBottom: '10px',
+  };
+
+  const textStyle = {
+    margin: '10px 0',
+  };
+
+  const numberStyle = {
+    fontSize: '24px',
+    fontWeight: 'bold',
+  };
+
+  const doctorListCardStyle = {
+    padding: '10px',
+    borderRadius: '10px',
+    backgroundColor: '#fff',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    flex: '1',
+  };
+  const doctorPatientView = {
+    width: '100%',
+    display: 'flex',
+    gap: '15px',
+    marginBottom: '20px',
+  };
+
+  const doctorListHeaderStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px',
+  };
+
+  const doctorListStyle = {
+    listStyleType: 'none',
+    padding: '0',
+  };
+
+  const doctorItemStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '10px',
+    position: 'relative',
+  };
+
+  const doctorImageStyle = {
+    width: '50px',
+    height: '50px',
+    borderRadius: '50%',
+    marginRight: '10px',
+  };
+
+  const doctorInfoStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+  };
+
+  const doctorNameStyle = {
+    fontWeight: 'bold',
+  };
+
+  const doctorSpecialtyStyle = {
+    color: '#888',
+  };
+
+  const viewAllLinkStyle = {
+    textAlign: 'center',
+    display: 'block',
+    marginTop: '10px',
+    color: '#007bff',
+    textDecoration: 'none',
+  };
+
+  const viewAllLinkStyleAppointments = {
+    textAlign: 'center',
+    display: 'block',
+    marginTop: '10px',
+    color: '#007bff',
+    textDecoration: 'none',
+  };
+
+  const appointmentListCardStyle = {
+    padding: '20px',
+    borderRadius: '10px',
+    backgroundColor: '#fff',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    width: '100%',
+  };
+  
+
+  const bookAppointmentButtonStyle = {
+  backgroundColor: '#BBAFE1',
+  color: '#fff',
+  border: 'none',
+  marginLeft:'1000px',
+  padding: '10px 20px',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  alignSelf: 'center',
+};
+  const appointmentListHeaderStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '20px',
+  };
+
+ 
+
+  const verticalCardStyle = {
+    padding: '20px',
+    borderRadius: '10px',
+    backgroundColor: '#fff',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    textDecoration: 'none',
+    flex: '1',
+    margin: '15px',
+  };
+
+  const pieChartCardStyle = {
+    padding: '20px',
+    borderRadius: '10px',
+    backgroundColor: '#fff',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
+    textDecoration: 'none',
+    flex: '1',
+    height: '420px',
+  };
+
+  
+
+  const pieChartData = {
+    labels: ['Doctors', 'Patients', 'Appointments'],
+    datasets: [
+      {
+        data: [registeredDoctors, registeredPatients, totalAppointments],
+        backgroundColor: ['#7B61FF', '#FF61D1', '#FFC1E3'], 
+        hoverBackgroundColor: ['#9B81FF', '#FF81E1', '#FFD1F3'] 
+      },
+    ],
+  };
+
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <div style={containerStyle}>
+        <Link href="/Patient/ViewPatientList">
+          <a style={cardStyle}>
+            <img src="/images/dash1.jpg" alt="Patients" style={imgStyle} />
+            <div style={textStyle}>Total Patients</div>
+            <div style={numberStyle}>{registeredPatients}</div>
+          </a>
+        </Link>
+        <Link href="/Doctor/ViewDoctorList">
+          <a style={cardStyle}>
+            <img src="/images/dash2.jpg" alt="Doctors" style={imgStyle} />
+            <div style={textStyle}>Registered Doctors</div>
+            <div style={numberStyle}>{registeredDoctors}</div>
+          </a>
+        </Link>
+        <Link href="/ApprovedDoctors">
+          <a style={cardStyle}>
+            <img src="/images/dash20.png" alt="Doctors" style={imgStyle} />
+            <div style={textStyle}>Approved Doctors</div>
+            <div style={numberStyle}>{totalDoctors}</div>
+          </a>
+          </Link>
+        <Link href="/TotalAppointmentList">
+          <a style={cardStyle}>
+            <img src="/images/dash3.jpg" alt="Appointments" style={imgStyle} />
+            <div style={textStyle}>Total Appointments</div>
+            <div style={numberStyle}>{totalAppointments}</div>
+          </a>
+        </Link>
+       
+      </div>
+      <div style={doctorPatientView} >
+        <div style={doctorListCardStyle} className='col-md-11' >
+                <div style={doctorListHeaderStyle}>
+                    <h3>Doctor List</h3>
+                    {/* <span>Today</span> */}
+                </div>
+                <ul style={doctorListStyle}>
+                    {doctors.slice(0, 4).map((doctor, index) => (
+                        <li key={index} style={doctorItemStyle}>
+                            <img src={doctor.caretaker_profile_image || '/images/default-profile.jpg'} alt={`${doctor.caretaker_firstname} ${doctor.caretaker_lastname}`} style={doctorImageStyle} />
+                            <div style={doctorInfoStyle}>
+                                <span style={doctorNameStyle}>{`${doctor.caretaker_firstname} ${doctor.caretaker_lastname}`}</span>
+                                <span style={doctorSpecialtyStyle}>{doctor.caretaker_type}</span>
+                            </div>
+                            <FaEllipsisH onClick={() => handleMenuToggle(index)} style={{ cursor: 'pointer', marginLeft: 'auto' }} />
+                {showMenu[index] && (
+                  <Menu
+                    onViewProfile={() => handleViewProfile(index)}
+                    onMessage={() => handleMessage(index)}
+                  />
+                )}
+                        </li>
+                    ))}
+                </ul>
+                <Link href="/Doctor/ViewDoctorList">
+                    <a style={viewAllLinkStyle}>View All</a>
+                </Link>
+           
+            </div>
+            <div style={doctorListCardStyle} className='col-md-12'>
+                <div style={doctorListHeaderStyle}>
+                    <h3>Patient List</h3>
+                    {/* <span>Today</span> */}
+                </div>
+                <ul style={doctorListStyle}>
+                    {patients.slice(0, 4).map((patients, index) => (
+                        <li key={index} style={doctorItemStyle}>
+                            <img src={patients.patient_profile_image || '/images/default-profile.jpg'} alt={`${patients.patient_first_name} ${patients.patient_last_name}`} style={doctorImageStyle} />
+                            <div style={doctorInfoStyle}>
+                                <span style={doctorNameStyle}>{`${patients.patient_first_name} ${patients.patient_last_name}`}</span>
+                                <span style={doctorSpecialtyStyle}>{patients.caretaker_type}</span>
+                            </div>
+                            <FaEllipsisH onClick={() => handleMenuToggle(index)} style={{ cursor: 'pointer', marginLeft: 'auto' }} />
+                {showMenu[index] && (
+                  <Menu
+                    onViewProfile={() => handleViewProfile(index)}
+                    onMessage={() => handleMessage(index)}
+                  />
+                )}
+                        </li>
+                    ))}
+                </ul>
+                <Link href="/Patient/ViewPatientList">
+                    <a style={viewAllLinkStyle}>View All</a>
+                </Link>
+            </div>
+           
+        <div style={pieChartCardStyle}>
+          <h3>Statistics</h3>
+          <Pie data={pieChartData} />
+        </div>
+      </div>
+      <div style={appointmentListCardStyle}>
+          <div style={appointmentListHeaderStyle}>
+            <h4 style={{ fontWeight: 'bold' }}>Today's Appointments</h4>
+          </div>
+          <Link href="/Patient/ViewPatientList">
+              <a style={bookAppointmentButtonStyle}>Book Appointment</a>
+            </Link>
+          <div className="table-container">
+            {todayAppointments.length > 0 ? (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>View</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {todayAppointments.map((appointment, index) => (
+                    <tr key={index}>
+                      <td>
+                        {appointment.patient_profile_image}
+                        {appointment.patient_name}
+                      </td>
+                      <td>
+                        {appointment.caretaker_profile_image}
+                        {appointment.doctor_name}
+                      </td>
+                      <td>
+                    {moment(appointment.appointment_date).format('YYYY/MM/DD')}
+                  </td>
+                      <td>
+                        {moment(appointment.slot_timing, 'HH:mm').format('hh:mm A')}
+                      </td>
+                      <td>
+                          <FaEye className="view-icon" onClick={() => handleView(appointment)} />
+                          <FaTrashAlt
+                            className="delete-icon"
+                            style={{ color: 'red', cursor: 'pointer', marginLeft: ' 15px' }}
+                            onClick={() => handleDelete(appointment._id)}
+                          />
+                        </td>
+                        
+                     
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="no-appointments">No appointments for today</div>
+            )}
+          </div>
+          <Link href="/Appointment/ViewAppointments">
+            <a style={viewAllLinkStyleAppointments}>View All Appointments</a>
+          </Link>
+        </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Appointment Details"
+      >
+        {selectedAppointment && (
+          <div>
+            <h2>Appointment Details</h2>
+            <p><strong>Patient Name:</strong> {selectedAppointment.patient_name}</p>
+            <p><strong>Doctor Name:</strong> {selectedAppointment.doctor_name}</p>
+            <p><strong>Appointment Date:</strong> {moment(selectedAppointment.appointment_date).format('YYYY-MM-DD')}</p>
+            <p><strong>Appointment Time:</strong>  {moment(selectedAppointment.slot_timing, 'HH:mm').format('hh:mm A')}</p>
+            <button onClick={closeModal}
+            style={{
+              backgroundColor: '#9370DB',  
+              color: 'white',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '15px',
+              fontWeight: 'bold',
+              marginTop: '10px'
+            }}>Close</button>
+          </div>
+        )}
+      </Modal>
+      <style jsx>{`
+  @media (max-width: 768px) {
+    .horizontal-menu {
+      flex-direction: column;
+    }
+    .doctorListCardStyle, .appointmentListCardStyle, .pieChartCardStyle {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .containerStyle {
+      grid-template-columns: 1fr;
+    }
+    .bookAppointmentButtonStyle {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  @media (max-width: 480px) {
+    .imgStyle {
+      width: 50px;
+      height: 50px;
+    }
+    .numberStyle {
+      font-size: 18px;
+    }
+  }
+`}</style>
+
+    </div>
+  );
+};
 
 export default Users;

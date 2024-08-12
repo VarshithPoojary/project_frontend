@@ -20,7 +20,7 @@ export const add_specialistTypes = formData => {
         });
 };
 
-export const specialistType_list = () => {
+export const specialisttype_list = () => {
     return fetch(`${API}/specialistType_list`,{
         method: 'GET',
         headers: {
