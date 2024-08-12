@@ -65,7 +65,7 @@ const BannerList = () => {
     function displayImage(cell, row)
     {
         return(
-            <img src={row.admin_banner_image_name} height="100px" width="300px"/>
+            <img src={row.admin_banner_image_name} height="80px" width="200px"/>
         )
     }
 

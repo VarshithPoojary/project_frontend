@@ -58,49 +58,7 @@ const ContactUsView = () => {
         });
     }
 
-    const actionFormatter = (cell, row) => {
-        const editStyle = {
-            backgroundColor: 'rgba(160, 212, 104, 0.4)', 
-            color: '#000',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            display: 'inline-flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            border: 'none',
-            cursor: 'pointer',
-            marginLeft: '10px',
-            transition: 'background-color 0.3s'
-        };
-
-        const deleteStyle = {
-            backgroundColor: 'rgba(229, 115, 115, 0.5)', 
-            color: '#000',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            display: 'inline-flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            border: 'none',
-            cursor: 'pointer',
-            marginLeft: '10px',
-            transition: 'background-color 0.3s'
-        };
-
-        return (
-            <div>
-                <button style={editStyle} onClick={() => handleEdit(row)}>
-                    <FiEdit />
-                </button>
-                <button style={deleteStyle} onClick={() => handleDelete(row)}>
-                    <FiTrash2 />
-                </button>
-            </div>
-        );
-    }
-
+    
     return (
         <Fragment>
             <Head>
@@ -123,7 +81,7 @@ const ContactUsView = () => {
                             <TableHeaderColumn dataField="user_email" dataAlign="center" dataSort><b>Email</b></TableHeaderColumn>
                             <TableHeaderColumn dataField="user_phone" dataAlign="center" dataSort><b>Phone number</b></TableHeaderColumn>
                             <TableHeaderColumn dataField="user_message" dataAlign="center" dataSort dataFormat={cell => <div style={{ whiteSpace: 'normal', wordWrap: 'break-word', maxWidth: '200px' }}>{cell}</div>}><b>Message</b></TableHeaderColumn>
-                            <TableHeaderColumn dataFormat={actionFormatter} dataAlign="center"><b>Actions</b></TableHeaderColumn>
+                           
                         </BootstrapTable>
                     </div>
                 </div>
