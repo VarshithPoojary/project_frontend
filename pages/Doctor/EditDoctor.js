@@ -3,300 +3,220 @@ import Link from 'next/link';
 import Topbar from '../topbar';
 import Header from '../Header';
 import { useRouter } from 'next/router';
-import { FiCamera } from 'react-icons/fi'; 
+import { FiCamera } from 'react-icons/fi';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Head from 'next/head';
 import Router from 'next/router';
-import { doctor_details_by_id, update_doctor } from '../../actions/doctorprofileAction';
-import { CountryListById, update_country,country_list } from '../../actions/countryAction';
-import { state_list,StateListById,state_list_by_country_id } from '../../actions/stateAction';
-import { city_list, update_city,city_list_by_state_id } from '../../actions/cityAction';
+import {doctor_details_by_id,update_doctor} from '../../actions/doctorprofileAction';
+import {update_country,country_list,CountryListById} from '../../actions/countryAction';
+import {state_list,StateListById,state_list_by_country_id} from '../../actions/stateAction';
+import {city_list,update_city,city_list_by_state_id} from '../../actions/cityAction';
 import { YearOfPassing_List } from '../../actions/YearOfPassingAction';
 import { workExperience_list } from '../../actions/workexperienceAction';
 import { specialistType_list } from '../../actions/SpeciaListTypeAction';
 
-
-
-
-
 const DoctorProfileUpdate = () => {
-    const router = useRouter();
+  const router = useRouter();
+  const defaultProfileImage = '/images/userLogo.png';
 
-    const [profilePhoto, setProfilePhoto] = useState(null);
-    // const [countryList, setCountryList] = useState([]);
-    // const [stateDetail, setStateDetail]=useState([]);
-    const [state, setState] = useState('');
-    const defaultProfileImage = '/images/userLogo.png';
-    const [values, setValues] = useState({
-           
-        caretaker_firstname:'',
-        caretaker_lastname:'',
-        caretaker_phone_number:'',
-        caretaker_dob:'',
-        caretaker_gender:'',
-        caretaker_email:'',
-        caretaker_address:'',
-        caretaker_type:'',
-        caretaker_referralcode:'',
-        caretaker_country_id:'',
-        caretaker_state_id:'',
-        caretaker_city_id:'',
-            caretaker_pincode:'',
-            caretaker_year_of_passing:'',
-            caretaker_work_experience:'',
-            degree_name:'',
-            university_name:'',
-            caretaker_latitude:'',
-            caretaker_longitude:'',
-            emergency_name: '',
-            emergency_phone: '',
-            licenseexpirydate: '',
-            description: '',
-
-            caretaker_profile_image:'',
-            error: '',
-            loading: false,
-            countrydetail: [],
-        statedetail: [],
-        citydetail:[],
-        workdetail:[],
-        yeardetail:[],
-        typedetail:[]
-        
-        
-    });
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [msg, setMsg] = useState('');
+  const [values, setValues] = useState({
+    caretaker_firstname: '',
+    caretaker_lastname: '',
+    caretaker_phone_number: '',
+    caretaker_dob: '',
+    caretaker_gender: '',
+    caretaker_email: '',
+    caretaker_address: '',
+    caretaker_type: '',
+    caretaker_referralcode: '',
+    caretaker_country_id: '',
+    caretaker_state_id: '',
+    caretaker_city_id: '',
+    caretaker_pincode: '',
+    caretaker_year_of_passing: '',
+    caretaker_work_experience: '',
+    degree_name: '',
+    university_name: '',
+    caretaker_latitude: '',
+    caretaker_longitude: '',
+    emergency_name: '',
+    emergency_phone: '',
+    licenseexpirydate: '',
+    description: '',
+    caretaker_profile_image: '',
     
-    const { caretaker_firstname, caretaker_lastname,  caretaker_phone_number, caretaker_dob,caretaker_gender,caretaker_email,caretaker_address,caretaker_type,caretaker_referralcode,caretaker_country_id,caretaker_state_id,caretaker_city_id,caretaker_pincode, caretaker_year_of_passing,caretaker_work_experience,degree_name,university_name ,caretaker_latitude,caretaker_longitude,emergency_name,emergency_phone,licenseexpirydate,description,caretaker_profile_image,countrydetail,statedetail,citydetail, workdetail,yeardetail,typedetail,error, loading } = values;
-    const [msg, setMsg] = useState('');
- 
+    countrydetail: [],
+    statedetail: [],
+    citydetail: [],
+    workdetail: [],
+    yeardetail: [],
+    typedetail: [],
+    error: '',
+    loading: false
+  });
 
-    useEffect(() => {
-        const doc_id = localStorage.getItem('id');
-        if (!doc_id) {
-            Router.push('/login');
-        } else {
-            
-            loadDoctorDetails();
-    
-            
-        }
-    }, [router.query._id]);
+  const {
+    caretaker_firstname,
+    caretaker_lastname,
+    caretaker_phone_number,
+    caretaker_dob,
+    caretaker_gender,
+    caretaker_email,
+    caretaker_address,
+    caretaker_type,
+    caretaker_referralcode,
+    caretaker_country_id,
+    caretaker_state_id,
+    caretaker_city_id,
+    caretaker_pincode,
+    caretaker_year_of_passing,
+    caretaker_work_experience,
+    degree_name,
+    university_name,
+    caretaker_latitude,
+    caretaker_longitude,
+    emergency_name,
+    emergency_phone,
+    licenseexpirydate,
+    description,
+    caretaker_profile_image,
+    countrydetail,
+    statedetail,
+    citydetail,
+    workdetail,
+    yeardetail,
+    typedetail,
+    error,
+    loading
+  } = values;
 
-    const loadCountryDetails = () => {
-    CountryListById(router.query._id).then(country => {
-        if (country.error) {
-            console.log(country.error);
-        } else {
-            if (country.admin_country_list && country.admin_country_list.length > 0) {
-                setValues({
-                    ...values,
-                    doctor_country_id: country.admin_country_list[0].doctor_country_id
-                });
-            } else {
-                console.log('No country details found.');
-            }
-        }
-    });
-};
-
-    
-    const loadDoctorDetails = () => {
-        country_list().then(countrydata => {
-            if (countrydata.error) {
-                console.log(countrydata.error);
-            } else {
-                state_list().then(state => {
-                    if(state.error){
-                        console.log(state.error);
-                    }
-                   
-                     else {
-                        city_list().then(city => {
-                            if (city.error) {
-                                console.log(city.error);
-                            } 
-                            else {
-                                workExperience_list().then(work => {
-                                    if (work.error) {
-                                        console.log(work.error);
-                                    } 
-                                    else{
-                                        alert(JSON.stringify(work)) 
-                                        YearOfPassing_List().then(year => {
-                                            if (year.error) {
-                                                console.log(year.error);
-                                            } 
-                                            else{
-                                                specialistType_list().then(caretakertype => {
-                                                    if (caretakertype.error) {
-                                                        console.log(caretakertype.error);
-                                                    } 
-                                                 else{
-             doctor_details_by_id(router.query._id)
-            .then(data => {
-                if (data.error) {
-                    console.log(data.error);
-                    setValues({ ...values, error: data.error, loading: false });
-                } else {
-                    const doctorData = data.caretaker_list[0];
-                    setValues({
-                        ...values,
-                        caretaker_firstname: doctorData. caretaker_firstname,
-                        caretaker_lastname: doctorData. caretaker_lastname,
-                        caretaker_phone_number: doctorData. caretaker_phone_number,
-                        caretaker_dob: doctorData. caretaker_dob,
-                        caretaker_gender: doctorData. caretaker_gender,
-                        caretaker_email: doctorData. caretaker_email,
-                        caretaker_address: doctorData. caretaker_address,
-                        caretaker_type: doctorData. caretaker_type,
-                        caretaker_referralcode : doctorData. caretaker_referralcode,
-                        caretaker_country_id: doctorData. caretaker_country_id,
-                        caretaker_state_id: doctorData. caretaker_state_id,
-                        caretaker_city_id: doctorData. caretaker_city_id,
-                        caretaker_pincode: doctorData. caretaker_pincode,
-                        degree_name: doctorData. degree_name,
-                        university_name: doctorData. university_name,
-                        caretaker_latitude: doctorData. caretaker_latitude,
-                        caretaker_longitude: doctorData. caretaker_longitude,
-                        emergency_name: doctorData. emergency_name,
-                        emergency_phone: doctorData. emergency_phone,
-                        // Emgphone: doctorData. Emgphone,
-                        driving_license_expiry_date: doctorData. driving_license_expiry_date,
-                        description: doctorData. description,
-
-
-
-                        caretaker_profile_image: doctorData. caretaker_profile_image|| defaultProfileImage,
-                        countrydetail:countrydata.admin_country_list,
-                        statedetail:state.state_list,
-                        citydetail:city.city_list,
-                        workdetail:work.admin_workexperience_list,
-                        yeardetail:year.admin_yearofpassing_list,
-                        loading: false
-                        
-                    });   alert(JSON.stringify(workdetail))                
-
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                setValues({ ...values, error: 'Error: Network request failed', loading: false });
-
-            });
-        }
-        });
+  useEffect(() => {
+    const doc_id = localStorage.getItem('id');
+    if (!doc_id) {
+      Router.push('/login');
+    } else {
+      loadDoctorDetails();
     }
-});
-            }
-});
-    };
-});
-};
-});
-};
+  }, [router.query._id]);
 
-});
-};
- 
-    // const handleCountryChange = (caretaker_country_id) => {
-    //     // state_list_by_country_id(admin_country_id)
-    //     //     .then(response => {
-    //     //         setCountry(admin_country_id)
-    //     //         statedetail(response.state_list);
-    //     //     })
-    //     //     .catch(error => {
-    //     //         console.error('Error fetching state list:', error);
-    //     //     });
-    // };
+  const loadDoctorDetails = async () => {
+    try {
+      const countrydata = await country_list();
+      const state = await state_list();
+      const city = await city_list();
+      const work = await workExperience_list();
+      const year = await YearOfPassing_List();
+      const caretakertype = await specialistType_list();
+      const doctor = await doctor_details_by_id(router.query._id);
+
+      setValues({
+        ...values,
+        caretaker_firstname: doctor.caretaker_list[0].caretaker_firstname,
+        caretaker_lastname: doctor.caretaker_list[0].caretaker_lastname,
+        caretaker_phone_number: doctor.caretaker_list[0].caretaker_phone_number,
+        caretaker_dob: doctor.caretaker_list[0].caretaker_dob,
+        caretaker_gender: doctor.caretaker_list[0].caretaker_gender,
+        caretaker_email: doctor.caretaker_list[0].caretaker_email,
+        caretaker_address: doctor.caretaker_list[0].caretaker_address,
+        caretaker_type: doctor.caretaker_list[0].caretaker_type,
+        caretaker_referralcode: doctor.caretaker_list[0].caretaker_referralcode,
+        caretaker_country_id: doctor.caretaker_list[0].caretaker_country_id,
+        caretaker_state_id: doctor.caretaker_list[0].caretaker_state_id,
+        caretaker_city_id: doctor.caretaker_list[0].caretaker_city_id,
+        caretaker_pincode: doctor.caretaker_list[0].caretaker_pincode,
+        degree_name: doctor.caretaker_list[0].degree_name,
+        university_name: doctor.caretaker_list[0].university_name,
+        caretaker_latitude: doctor.caretaker_list[0].caretaker_latitude,
+        caretaker_longitude: doctor.caretaker_list[0].caretaker_longitude,
+        emergency_name: doctor.caretaker_list[0].emergency_name,
+        emergency_phone: doctor.caretaker_list[0].emergency_phone,
+        licenseexpirydate: doctor.caretaker_list[0].driving_license_expiry_date,
+        description: doctor.caretaker_list[0].description,
+        caretaker_profile_image: doctor.caretaker_list[0].caretaker_profile_image || defaultProfileImage,
+        countrydetail: countrydata.admin_country_list,
+        statedetail: state.state_list,
+        citydetail: city.city_list,
+        workdetail: work.admin_workexperience_list,
+        yeardetail: year.admin_yearofpassing_list,
+        typedetail: caretakertype.admin_specialist_type_list,
+        loading: false
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      setValues({ ...values, error: 'Error: Network request failed', loading: false });
+    }
+  };
+
+  const onFileChange = (e) => {
+    setProfilePhoto(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const caretaker_updated_by_id = localStorage.getItem('id');
+    const doctor_id = router.query._id;
+    const formData = new FormData();
+    formData.append('doctor_id', doctor_id);
+    formData.append('caretaker_profile_image', caretaker_profile_image);
+    formData.append('caretaker_firstname', caretaker_firstname);
+    formData.append('caretaker_lastname', caretaker_lastname);
+    formData.append('caretaker_phone_number', caretaker_phone_number);
+    formData.append('caretaker_dob', caretaker_dob);
+    formData.append('caretaker_gender', caretaker_gender);
+    formData.append('caretaker_email', caretaker_email);
+    formData.append('caretaker_address', caretaker_address);
+    formData.append('caretaker_type', caretaker_type);
+    formData.append('caretaker_referralcode', caretaker_referralcode);
+    formData.append('caretaker_country_id', caretaker_country_id);
+    formData.append('caretaker_state_id', caretaker_state_id);
+    formData.append('caretaker_city_id', caretaker_city_id);
+    formData.append('caretaker_pincode', caretaker_pincode);
+    formData.append('degree_name', degree_name);
+    formData.append('university_name', university_name);
+    formData.append('caretaker_latitude', caretaker_latitude);
+    formData.append('caretaker_longitude', caretaker_longitude);
+    formData.append('emergency_name', emergency_name);
+    formData.append('emergency_phone', emergency_phone);
+    formData.append('driving_license_expiry_date', licenseexpirydate);
+    formData.append('description', description);
+    formData.append('demoimg', profilePhoto);
+    formData.append('caretaker_updated_by_id', caretaker_updated_by_id);
+
+    try {
+      const response = await update_doctor(formData);
+      if (response.error) {
+        setValues({ ...values, error: response.error });
+      } else {
+        const countryData = {
+          country_id: doctor_id,
+          caretaker_country_id,
+          caretaker_updated_by_id
+        };
+        const countryRes = await update_country(countryData);
+        if (countryRes.error) {
+          setValues({ ...values, error: countryRes.error });
+        } else {
+          setMsg('Edited Successfully');
+          setTimeout(() => {
+            setMsg('');
+            Router.push(`/Doctor/ViewDoctorList`);
+          }, 2000);
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setValues({ ...values, error: 'Error updating profile', loading: false });
+    }
+  };
+
+  const handleChange = (name) => (e) => {
+    setValues({ ...values, [name]: e.target.value });
+  };
+
   
-    // const handleStateChange = (caretaker_state_id) => {
-    //     // city_list_by_state_id(admin_state_id)
-    //     //     .then(response => {
-    //     //         setState(admin_state_id)
-    //     //         setCityList(response.city_list);
-    //     //     })
-    //     //     .catch(error => {
-    //     //         console.error('Error fetching city list:', error);
-    //     //     });
-    // };
-    
 
-    const onFileChange = (e) => {
-        setProfilePhoto(e.target.files[0]);
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const caretaker_updated_by_id = localStorage.getItem('id');
-        var doctor_id = router.query._id;
-        const formData = new FormData();
-        formData.append('doctor_id', doctor_id);
-        formData.append('caretaker_profile_image', caretaker_profile_image);
-        formData.append('caretaker_firstname', caretaker_firstname);
-            formData.append('caretaker_lastname', caretaker_lastname);
-            formData.append('caretaker_phone_number', caretaker_phone_number);
-            formData.append('caretaker_dob', caretaker_dob);
-            formData.append('caretaker_gender', caretaker_gender);
-            formData.append('caretaker_email', caretaker_email);
-            formData.append('caretaker_address', caretaker_address);
-            formData.append('caretaker_type', caretaker_type);
-
-            formData.append('caretaker_referralcode', caretaker_referralcode);
-            formData.append('caretaker_country_id', caretaker_country_id);
-            formData.append('caretaker_state_id', caretaker_state_id);
-            formData.append('caretaker_city_id', caretaker_city_id);
-            formData.append('caretaker_pincode', caretaker_pincode);
-            formData.append('degree_name', degree_name);
-            formData.append('university_name', university_name);
-            formData.append('caretaker_latitude', caretaker_latitude);
-            formData.append('caretaker_longitude', caretaker_longitude);
-            formData.append('emergency_name',emergency_name);
-            formData.append('emergency_phone',emergency_phone);
-            // formData.append('demo',licenceimage);
-            formData.append('driving_license_expiry_date',licenseexpirydate);
-            formData.append('description',description);
-           
-
-
-
-            formData.append('demoimg', profilePhoto);
-            formData.append('caretaker_updated_by_id', caretaker_updated_by_id);
-
-            try {
-
-                const response = await update_doctor(formData); 
-                if (response.error) {
-                    setValues({ ...values, error: response.error });
-                } else {
-                    const countryData = {
-                        country_id: doctor_id,
-                        caretaker_country_id,
-                        caretaker_updated_by_id:caretaker_updated_by_id,
-                    };
-                    const countryRes = await update_country(countryData);
-                    if (countryRes.error) {
-                        setValues({ ...values, error: countryRes.error });
-                    } else {
-                        setMsg('Edited Successfully');
-                        setTimeout(() => {
-                            setMsg('');
-                            Router.push(`/Doctor/ViewDoctorList`);
-                        }, 2000);
-                    }
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                setValues({ ...values, error: 'Error updating profile', loading: false });
-            }
-        };
-    
-        const handleChange = name => e => {
-            setValues({ ...values, [name]: e.target.value });
-        };
-    
-        const Cancel = () => {
-            loadUserDetails();
-        };
     
         return (
             <div>
@@ -312,14 +232,14 @@ const DoctorProfileUpdate = () => {
                 <div className="content">
                   <div className="container-fluid">
                     <div className="card mb-4" style={{ width: "1400px", marginTop: "40px" }}>
-                      <div className="card-header"><b>DOCTOR Profile</b></div>
+                      <div className="card-header"><b>Edit Doctor Profile</b></div>
                       <Scrollbars style={{ height: 500, maxHeight: 600 }}>
                         <div className="card-body" style={{ maxWidth: "1300px" }}>
                           <form role="form" onSubmit={handleSubmit}>
                             <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
                               <label htmlFor="fileInput">
                                 <div className="user-avatar mt-4" style={{ position: 'relative', display: 'inline-block' }}>
-                                  <img src={values.caretaker_profile_image} alt="caretaker_profile" style={{ width: '100px', height: '100px', borderRadius: '50%', cursor: 'pointer' }} />
+                                  <img src={values.caretaker_profile_image} alt="caretaker_profile" style={{ width: '130px', height: '130px', borderRadius: '50%', cursor: 'pointer' }} />
                                   <div style={{ position: 'absolute', bottom: '0', left: '0', zIndex: '1' }}>
                                     <span style={{ color: 'black', cursor: 'pointer', width: '100%' }}><FiCamera /></span>
                                   </div>
@@ -381,7 +301,7 @@ const DoctorProfileUpdate = () => {
                                     <select className="form-control" id="doctorType" value={caretaker_type} onChange={handleChange('caretaker_type')}>
                                       {typedetail.map(caretakertype => (
                                         <option key={caretakertype._id} value={caretakertype._id}>
-                                          {caretakertype.admin_specialist_type_name}
+                                          {caretakertype.specialist_type_name}
                                         </option>
                                       ))}
                                     </select>
@@ -423,7 +343,7 @@ const DoctorProfileUpdate = () => {
                                     <select className="form-control" id="city" value={caretaker_city_id} onChange={handleChange('caretaker_city_id')}>
                                       {citydetail.map(city => (
                                         <option key={city._id} value={city._id}>
-                                          {city.admin_city_name}
+                                          {city.city_name}
                                         </option>
                                       ))}
                                     </select>
@@ -441,7 +361,7 @@ const DoctorProfileUpdate = () => {
                                     <select className="form-control" id="workExperience" value={caretaker_work_experience} onChange={handleChange('caretaker_work_experience')}>
                                       {workdetail.map(workexperience => (
                                         <option key={workexperience._id} value={workexperience._id}>
-                                          {workexperience.admin_work_experience_in_year}
+                                          {workexperience.admin_work_experience}
                                         </option>
                                       ))}
                                     </select>
@@ -511,7 +431,7 @@ const DoctorProfileUpdate = () => {
                               <div className="row gutters">
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                   <div className="text-right mt-4">
-                                    <button type="button" className="btn btn-secondary" onClick={Cancel}>Cancel</button>
+                                    
                                     <button type="submit" className="btn btn-primary">Update</button>
                                   </div>
                                   {msg ? <p>{msg}</p> : null}

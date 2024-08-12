@@ -6,12 +6,13 @@ import Topbar from '../topbar';
 import Router from 'next/router';
 import Swal from 'sweetalert2';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ReactStars from 'react-stars';
 import { doctor_details_by_id, DeleteDoctorDetails } from '../../actions/doctorprofileAction';
 import { slot_listby_caretaker_id } from '../../actions/slotAction';
 
 const DoctorProfile = () => {
   const defaultProfileImage = '/images/userLogo.png';
-  const caretakerId = '66791a77c1a2b276f5f3b109';
+  const caretakerId = '669112917bff6b100a6c961f';
 
   const [values, setValues] = useState({
     caretaker_firstname: '',
@@ -27,6 +28,7 @@ const DoctorProfile = () => {
     caretaker_work_experience: '',
     caretaker_year_of_passing: '',
     degree_name: '',
+    caretaker_rating:'',
     university_name: '',
     caretaker_longitude: '',
     caretaker_latitude: '',
@@ -73,6 +75,7 @@ const DoctorProfile = () => {
             caretaker_work_experience: doctorData.caretaker_work_experience,
             caretaker_year_of_passing: doctorData.caretaker_year_of_passing,
             degree_name: doctorData.degree_name,
+            caretaker_rating: doctorData.caretaker_rating,
             university_name: doctorData.university_name,
             caretaker_longitude: doctorData.caretaker_longitude,
             caretaker_latitude: doctorData.caretaker_latitude,
@@ -115,17 +118,20 @@ const DoctorProfile = () => {
     slot_listby_caretaker_id(caretakerId)
       .then(data => {
         if (!data.error && data.slot_list.length > 0) {
+          const today = new Date();
           const timings = data.slot_list.reduce((acc, slot) => {
             const date = new Date(slot.slot_date);
-            const formattedDate = `${date.getDate()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
-            const timeSlots = slot.slot_timings.map(timing => ({
-              slot_time: timing.slot_time,
-              slot_timing_id: timing._id,
-            }));
-            if (!acc[formattedDate]) {
-              acc[formattedDate] = [];
+            if (date >= today) { // Filter only today and future dates
+              const formattedDate = `${date.getDate()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
+              const timeSlots = slot.slot_timings.map(timing => ({
+                slot_time: timing.slot_time,
+                slot_timing_id: timing._id,
+              }));
+              if (!acc[formattedDate]) {
+                acc[formattedDate] = [];
+              }
+              acc[formattedDate] = acc[formattedDate].concat(timeSlots);
             }
-            acc[formattedDate] = acc[formattedDate].concat(timeSlots);
             return acc;
           }, {});
           setSlotTiming(Object.entries(timings));
@@ -153,6 +159,7 @@ const DoctorProfile = () => {
     university_name,
     caretaker_longitude,
     caretaker_latitude,
+    caretaker_rating,
     caretaker_profile_image,
     error,
     loading,
@@ -171,7 +178,7 @@ const DoctorProfile = () => {
       <Header />
 
       <div className="container mt-5 d-flex justify-content-center">
-        <div className="card shadow" style={{ maxWidth: '800px' }}>
+        <div className="card shadow" style={{ maxWidth: '800px', height: '80vh', overflowY: 'scroll' }}>
           <div className="card-header text-center">
             <h4>Doctor Profile</h4>
           </div>
@@ -183,6 +190,15 @@ const DoctorProfile = () => {
               <input id="fileInput" name="file" style={{ display: 'none' }} />
             </div>
             <h3>{`${caretaker_firstname} ${caretaker_lastname}`}</h3>
+            <div className="rating mt-3">
+              <ReactStars
+                count={5}
+                value={caretaker_rating}
+                size={24}
+                color2={'#f5bf4b'}
+                edit={false}
+              />
+            </div>
           </div>
           <div className="card-body">
             <div className="row">
@@ -219,16 +235,31 @@ const DoctorProfile = () => {
                     </div>
                   ))
                 ) : (
-                  <p>No Slots</p>
+                  <p style={{ color: 'red' }}>Currently, this doctor has no available appointment slots.</p>
                 )}
               </div>
             </div>
             <div className="text-center">
-              {/* <button className="btn btn-danger mt-3" onClick={handleDelete}>Delete</button> */}
+              <button className="btn btn-danger mt-4" onClick={handleDelete}>
+                Delete
+              </button>
             </div>
           </div>
         </div>
       </div>
+      <style jsx>{`
+        .rating {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .card-body {
+          padding: 1rem;
+        }
+        .card {
+          overflow-y: auto;
+        }
+      `}</style>
     </div>
   );
 };

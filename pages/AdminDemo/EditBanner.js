@@ -97,20 +97,6 @@ const EditBanner = () => {
                                     <div className="card-header">Edit Banner</div>
                                     <div className="card-body" style={{ maxWidth: "400px" }}>
                                         <form onSubmit={handleSubmit}>
-                                            {/* <div className="form-group row">
-                                                <label htmlFor="banner_title" className="col-sm-3 col-form-label">Banner Title</label>
-                                                <div className="col-sm-9">
-                                                    <input 
-                                                        type="text" 
-                                                        className="form-control" 
-                                                        id="banner_title" 
-                                                        name="banner_title" 
-                                                        value={bannerDetails.banner_image} 
-                                                        onChange={handleChange} 
-                                                        required 
-                                                    />
-                                                </div>
-                                            </div> */}
                                             <div className="form-group row">
                                                 <label htmlFor="banner_image" className="col-sm-3 col-form-label">Select Image</label>
                                                 <div className="col-sm-9">

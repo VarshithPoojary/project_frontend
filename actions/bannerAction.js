@@ -32,23 +32,6 @@ export const banner_list = () => {
         .catch(err => console.log(err));
 };
 
-// export const banner_list_by_id = careType => {
-//     var id={"_id":careType};
-//     return fetch(`${API}/banner_list_by_id`, {
-//         method: 'POST',
-//         headers: {
-//             Accept: 'application/json',
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(id)
-//     })
-//         .then(response => {
-//             return response.json();
-//         })
-//         .catch(err => console.log(err));
-// };
-
-
 export const banner_list_by_id = () => {
     return fetch(`${API}/banner_list_by_id`,{
         method: 'POST',

@@ -81,6 +81,9 @@ const Header = () => {
   const handleWorkExperience = () => {
     Router.push('/AdminDemo/viewWorkexperienceList');
   };
+  const handlePayment = () => {
+    Router.push('/payment/ViewPayment');
+  };
 
 
   const handleLogout = () => {
@@ -163,7 +166,12 @@ const Header = () => {
                   <MenuItem title="City" icon={<BiMap />} >
                   <Link href='/Location/viewCity'><span>City</span></Link></MenuItem>
                 </SubMenu>
+                <MenuItem icon={< FaGraduationCap />} title="Payment" onClick={handlePayment}>
+                <Link href='/payment/ViewPayment'><span>Payment</span></Link>
+                </MenuItem>
+
               </Menu>
+              
             </Scrollbars>
           </SidebarContent>
           <SidebarFooter>

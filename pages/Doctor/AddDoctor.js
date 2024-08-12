@@ -16,32 +16,19 @@ import { specialistType_list } from '../../actions/SpeciaListTypeAction';
 
 const AddDoctor = () => {
     const defaultProfileImage = '/images/userLogo.jpeg';
-    // const [countryList, setCountryList] = useState([]);
-    // const [stateDetail, setStateDetail] = useState([]);
-    // const [cityList, setCityList] = useState([]);
-    
-    // const [work_list, setWorkList] = useState([]);
-    // const [yearOfPassing_list, setyearOfPassinglist] = useState([]);
+   
     const [countryList, setCountryList] = useState([]);
     const [workList, setWorkList] = useState([]);
     const [yearOfPassingList, setYearOfPassingList] = useState([]);
     const [stateDetail, setStateDetail] = useState([]);
     const [cityList, setCityList] = useState([]);
     const [caretakerList, setcaretakerList] = useState([]);
-
-    // const [state, setState] = useState('');
-    // const [country, setCountry] = useState('');
-   
-  
-
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [referralCode, setreferralCode] = useState('');
     const [DoctorType, setDoctorType] = useState('');
     const [countryCode, setCountryCode] = useState('91'); 
     const [status, setStatus] = useState('true'); 
-
-    
     const [phoneNumber, setPhoneNumber] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [gender, setGender] = useState('');
@@ -118,87 +105,6 @@ const AddDoctor = () => {
       length: false,
   });
 
-//     useEffect(() => {
-//       loadCountryDetail();  
-//      loadWorkExperienceList(); 
-//      loadYearOfPassingList(); 
-//     // loadDetail();  
-      
-//   }, []);
- 
-
-
-//   const loadCountryDetail = () => {
-//       country_list()
-//           .then(response => {
-//               if (response.error) {
-//                   console.log(response.error);
-//               } else {
-//                   setCountryList(response.admin_country_list);
-//               }
-//           })
-//           .catch(error => console.error(error));
-//   };
-
-//   const handleCountryChange = (admin_country_id) => {
-//       state_list_by_country_id(admin_country_id)
-//           .then(response => {
-//               setCountry(admin_country_id)
-//               setStateDetail(response.state_list);
-//           })
-//           .catch(error => {
-//               console.error('Error fetching state list:', error);
-//           });
-//   };
-
-//   const handleStateChange = (admin_state_id) => {
-//       city_list_by_state_id(admin_state_id)
-//           .then(response => {
-//               setState(admin_state_id)
-//               setCityList(response.city_list);
-//           })
-//           .catch(error => {
-//               console.error('Error fetching city list:', error);
-//           });
-//   };
-
-
-  
-//   const loadWorkExperienceList = () => {
-//     workExperience_list()
-//         .then(response => {
-//             console.log("Work Experience List:", response); 
-//             if (response.error) {
-//                 console.log(response.error);
-//             } else {
-//               setWorkList(response);
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error fetching work experience list:', error);
-//         });
-// };
-
-
-// const handleWorkExperienceChange = (e) => {
-  
-// };
-
-
-// const loadYearOfPassingList = () => {
-//   YearOfPassing_List()
-//       .then(response => {
-//           console.log("Year Of Passing List:", response); 
-//           if (response.error) {
-//               console.log(response.error);
-//           } else {
-//             setyearOfPassinglist(response);
-//           }
-//       })
-//       .catch(error => {
-//           console.error('Error fetching work experience list:', error);
-//       });
-// };
 
 
 useEffect(() => {
@@ -268,27 +174,6 @@ const handleStateChange = (admin_state_id) => {
       console.error('Error fetching city list:', error);
     });
 };
-
-
-// const handleWorkExperienceChange = () => {
-//   setWorkExperience(value);
-// };
-
-
-
-// const handleYearOfPassingChange = (value) => {
-//   setYearOfPassingList(value);
-// };
-
-// const handleWorkExperienceChange = e => {
-//   setWorkExperience(e.target.value);
-// };
-
-// const handleYearOfPassingChange = e => {
-//   setYearOfPassing(e.target.value);
-// };
-
-
 
     const onFileChange = (e) => {
       setProfileImage(e.target.files[0]);
