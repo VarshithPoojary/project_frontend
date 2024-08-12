@@ -97,6 +97,10 @@ const Header = () => {
     Router.push('/Appointments');
   };
 
+  const handleContactUs = () => {
+    Router.push('/contactus/ViewContactUs');
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('id');
     Router.push('/login');
@@ -209,6 +213,10 @@ const Header = () => {
                 </SubMenu>
                 <MenuItem icon={< FaGraduationCap />} title="Payment" onClick={handlePayment}>
                 <Link href='/payment/ViewPayment'><span>Payment</span></Link>
+                </MenuItem>
+
+                <MenuItem icon={< FaUserMd />} title="Contact Us" onClick={handleContactUs}>
+                <Link href='/contactus/ViewContactUs'><span>Contact Us</span></Link>
                 </MenuItem>
 
               </Menu>
