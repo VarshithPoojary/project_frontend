@@ -14,6 +14,7 @@ import {city_list,update_city,city_list_by_state_id} from '../../actions/cityAct
 import { YearOfPassing_List } from '../../actions/YearOfPassingAction';
 import { workExperience_list } from '../../actions/workexperienceAction';
 import { specialistType_list } from '../../actions/SpeciaListTypeAction';
+import { FaJournalWhills } from 'react-icons/fa';
 
 const DoctorProfileUpdate = () => {
   const router = useRouter();
@@ -110,6 +111,8 @@ const DoctorProfileUpdate = () => {
       const year = await YearOfPassing_List();
       const caretakertype = await specialistType_list();
       const doctor = await doctor_details_by_id(router.query._id);
+     // alert(JSON.stringify(doctor))
+     console.log(doctor.res);
 
       setValues({
         ...values,

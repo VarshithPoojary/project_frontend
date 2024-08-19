@@ -33,6 +33,22 @@ export const doctor_list = () => {
         .catch(err => console.log(err));
 };
 
+// export const doctor_details_by_id = doctorData => {
+//     var id={"_id":doctorData};
+//     return fetch(`${API}/caretaker_list_by_id`, {
+//         method: 'POST',
+//         headers: {
+//             Accept: 'application/json',
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(id)
+//     })
+//         .then(response => {
+//             return response.json();
+//         })
+//         .catch(err => console.log(err));
+// };
+
 export const doctor_details_by_id = doctorData => {
     var id={"_id":doctorData};
     return fetch(`${API}/caretaker_list_by_id`, {
@@ -48,7 +64,6 @@ export const doctor_details_by_id = doctorData => {
         })
         .catch(err => console.log(err));
 };
-
 
 
 

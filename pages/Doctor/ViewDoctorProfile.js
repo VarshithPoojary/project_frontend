@@ -57,6 +57,7 @@ const DoctorProfile = () => {
           setValues({ ...values, error: data.error, loading: false });
         } else {
           const doctorData = data.caretaker_list[0];
+          alert(JSON.stringify(doctorData));
           const dob = new Date(doctorData.caretaker_dob);
           const day = dob.getDate();
           const month = dob.toLocaleString('default', { month: 'long' });
