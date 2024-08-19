@@ -563,7 +563,7 @@ const Users = () => {
               <div className="no-appointments">No appointments for today</div>
             )}
           </div>
-          <Link href="/Appointment/ViewAppointments">
+          <Link href="/TotalAppointmentList">
             <a style={viewAllLinkStyleAppointments}>View All Appointments</a>
           </Link>
         </div>

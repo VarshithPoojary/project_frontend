@@ -55,35 +55,39 @@ const DoctorProfile = () => {
       .then(data => {
         if (data.error) {
           setValues({ ...values, error: data.error, loading: false });
-        } else {
+        } else if (data.caretaker_list && data.caretaker_list.length > 0) {
           const doctorData = data.caretaker_list[0];
           alert(JSON.stringify(doctorData));
-          const dob = new Date(doctorData.caretaker_dob);
-          const day = dob.getDate();
-          const month = dob.toLocaleString('default', { month: 'long' });
-          const year = dob.getFullYear();
+          
+          const dob = doctorData.caretaker_dob ? new Date(doctorData.caretaker_dob) : null;
+          const day = dob ? dob.getDate() : '';
+          const month = dob ? dob.toLocaleString('default', { month: 'long' }) : '';
+          const year = dob ? dob.getFullYear() : '';
+          
           setValues({
             ...values,
-            caretaker_firstname: doctorData.caretaker_firstname,
-            caretaker_lastname: doctorData.caretaker_lastname,
-            caretaker_phone_number: doctorData.caretaker_phone_number,
-            caretaker_email: doctorData.caretaker_email,
-            caretaker_referralcode: doctorData.caretaker_referralcode,
-            caretaker_type: doctorData.caretaker_type,
-            caretaker_dob: `${day} ${month} ${year}`,
-            caretaker_gender: doctorData.caretaker_gender,
-            caretaker_address: doctorData.caretaker_address,
-            caretaker_apt_number: doctorData.caretaker_apt_number,
-            caretaker_work_experience: doctorData.caretaker_work_experience,
-            caretaker_year_of_passing: doctorData.caretaker_year_of_passing,
-            degree_name: doctorData.degree_name,
-            caretaker_rating: doctorData.caretaker_rating,
-            university_name: doctorData.university_name,
-            caretaker_longitude: doctorData.caretaker_longitude,
-            caretaker_latitude: doctorData.caretaker_latitude,
-            caretaker_profile_image: doctorData.caretaker_profile_image || defaultProfileImage,
+            caretaker_firstname: doctorData?.caretaker_firstname || '',
+            caretaker_lastname: doctorData?.caretaker_lastname || '',
+            caretaker_phone_number: doctorData?.caretaker_phone_number || '',
+            caretaker_email: doctorData?.caretaker_email || '',
+            caretaker_referralcode: doctorData?.caretaker_referralcode || '',
+            caretaker_type: doctorData?.caretaker_type || '',
+            caretaker_dob: dob ? `${day} ${month} ${year}` : '',
+            caretaker_gender: doctorData?.caretaker_gender || '',
+            caretaker_address: doctorData?.caretaker_address || '',
+            caretaker_apt_number: doctorData?.caretaker_apt_number || '',
+            caretaker_work_experience: doctorData?.caretaker_work_experience || '',
+            caretaker_year_of_passing: doctorData?.caretaker_year_of_passing || '',
+            degree_name: doctorData?.degree_name || '',
+            caretaker_rating: doctorData?.caretaker_rating || '',
+            university_name: doctorData?.university_name || '',
+            caretaker_longitude: doctorData?.caretaker_longitude || '',
+            caretaker_latitude: doctorData?.caretaker_latitude || '',
+            caretaker_profile_image: doctorData?.caretaker_profile_image || defaultProfileImage,
             loading: false,
           });
+        } else {
+          setValues({ ...values, error: 'No caretaker details found', loading: false });
         }
       })
       .catch(error => {
@@ -91,6 +95,7 @@ const DoctorProfile = () => {
       });
   };
 
+  
   const loadBio = (caretakerId) => {
     const savedBio = localStorage.getItem(`doctorBio_${caretakerId}`);
     if (savedBio) {
@@ -180,7 +185,7 @@ const DoctorProfile = () => {
       <Header />
 
       <div className="container mt-5 d-flex justify-content-center">
-        <div className="card shadow" style={{ maxWidth: '800px', height: '80vh', overflowY: 'scroll' }}>
+        <div className="card shadow" style={{ maxWidth: '800px', height: '80vh', overflowY: 'scroll', marginTop:'60px' }}>
           <div className="card-header text-center">
             <h4>Doctor Profile</h4>
           </div>

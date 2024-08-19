@@ -13,7 +13,7 @@ import {state_list,StateListById,state_list_by_country_id} from '../../actions/s
 import {city_list,update_city,city_list_by_state_id} from '../../actions/cityAction';
 import { YearOfPassing_List } from '../../actions/YearOfPassingAction';
 import { workExperience_list } from '../../actions/workexperienceAction';
-import { specialistType_list } from '../../actions/SpeciaListTypeAction';
+import { specialisttype_list } from '../../actions/SpeciaListTypeAction';
 import { FaJournalWhills } from 'react-icons/fa';
 
 const DoctorProfileUpdate = () => {
@@ -104,14 +104,14 @@ const DoctorProfileUpdate = () => {
 
   const loadDoctorDetails = async () => {
     try {
+      const doctor = await doctor_details_by_id(router.query._id);
+           alert(JSON.stringify(doctor))
       const countrydata = await country_list();
       const state = await state_list();
       const city = await city_list();
       const work = await workExperience_list();
       const year = await YearOfPassing_List();
-      const caretakertype = await specialistType_list();
-      const doctor = await doctor_details_by_id(router.query._id);
-     // alert(JSON.stringify(doctor))
+      const caretakertype = await specialisttype_list();
      console.log(doctor.res);
 
       setValues({
