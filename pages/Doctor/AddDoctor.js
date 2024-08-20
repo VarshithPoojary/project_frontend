@@ -12,7 +12,7 @@ import { state_list_by_country_id } from '../../actions/stateAction';
 import { city_list_by_state_id } from '../../actions/cityAction';
 import {YearOfPassing_List} from  '../../actions/YearOfPassingAction';
 import { workExperience_list } from '../../actions/workexperienceAction';
-import { specialistType_list } from '../../actions/SpeciaListTypeAction';
+import { specialisttype_list } from '../../actions/SpeciaListTypeAction';
 
 const AddDoctor = () => {
     const defaultProfileImage = '/images/userLogo.jpeg';
@@ -134,7 +134,7 @@ useEffect(() => {
       }
       setYearOfPassingList(yearOfPassingResponse.admin_yearofpassing_list);
 
-      const specialistTypeResponse = await specialistType_list();
+      const specialistTypeResponse = await specialisttype_list();
       console.log("specialist Type  List:", specialistTypeResponse);
       if (specialistTypeResponse.error) {
         console.error(specialistTypeResponse.error);

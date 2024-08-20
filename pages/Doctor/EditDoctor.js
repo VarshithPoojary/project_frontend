@@ -418,12 +418,7 @@ const DoctorProfileUpdate = () => {
                                     <input type="text" className="form-control" id="emergencyContactPhone" placeholder="Enter emergency contact phone" value={emergency_phone} onChange={handleChange('emergency_phone')} />
                                   </div>
                                 </div>
-                                <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                  <div className="doctor-profile-form-group mt-2">
-                                    <label htmlFor="licenseExpiryDate" className="small mb-1">License Expiry Date</label>
-                                    <input type="date" className="form-control" id="licenseExpiryDate" value={licenseexpirydate} onChange={handleChange('licenseexpirydate')} />
-                                  </div>
-                                </div>
+                                
                                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                   <div className="doctor-profile-form-group mt-2">
                                     <label htmlFor="description" className="small mb-1">Description</label>

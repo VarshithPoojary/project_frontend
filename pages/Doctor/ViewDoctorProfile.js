@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactStars from 'react-stars';
 import { doctor_details_by_id, DeleteDoctorDetails } from '../../actions/doctorprofileAction';
 import { slot_listby_caretaker_id } from '../../actions/slotAction';
+import LoadingBar from 'react-top-loading-bar'; 
 
 const DoctorProfile = () => {
   const defaultProfileImage = '/images/userLogo.png';
@@ -28,7 +29,7 @@ const DoctorProfile = () => {
     caretaker_work_experience: '',
     caretaker_year_of_passing: '',
     degree_name: '',
-    caretaker_rating:'',
+    caretaker_rating: '',
     university_name: '',
     caretaker_longitude: '',
     caretaker_latitude: '',
@@ -41,15 +42,17 @@ const DoctorProfile = () => {
 
   const [slotTiming, setSlotTiming] = useState([]);
   const [bio, setBio] = useState('');
+  const [progress, setProgress] = useState(0); 
 
   useEffect(() => {
-    const caretakerId=router.query._id;
+    const caretakerId = router.query._id;
     loadCaretakerDetail(caretakerId);
     loadBio(caretakerId);
     loadSlotDetails(caretakerId);
-  }, []);
+  }, [router.query._id]);
 
   const loadCaretakerDetail = (_id) => {
+    setProgress(30); 
     setValues({ ...values, loading: true });
     doctor_details_by_id(_id)
       .then(data => {
@@ -57,7 +60,6 @@ const DoctorProfile = () => {
           setValues({ ...values, error: data.error, loading: false });
         } else if (data.caretaker_list && data.caretaker_list.length > 0) {
           const doctorData = data.caretaker_list[0];
-          alert(JSON.stringify(doctorData));
           
           const dob = doctorData.caretaker_dob ? new Date(doctorData.caretaker_dob) : null;
           const day = dob ? dob.getDate() : '';
@@ -86,16 +88,18 @@ const DoctorProfile = () => {
             caretaker_profile_image: doctorData?.caretaker_profile_image || defaultProfileImage,
             loading: false,
           });
+          setProgress(100); 
         } else {
           setValues({ ...values, error: 'No caretaker details found', loading: false });
+          setProgress(100); 
         }
       })
       .catch(error => {
         setValues({ ...values, error: 'Error: Network request failed', loading: false });
+        setProgress(100); 
       });
   };
 
-  
   const loadBio = (caretakerId) => {
     const savedBio = localStorage.getItem(`doctorBio_${caretakerId}`);
     if (savedBio) {
@@ -114,6 +118,7 @@ const DoctorProfile = () => {
       confirmButtonText: 'Yes, delete it!',
     }).then(result => {
       if (result.isConfirmed) {
+        const caretakerId = router.query._id;
         DeleteDoctorDetails(caretakerId).then(() => {
           Router.push('/login');
         });
@@ -122,13 +127,14 @@ const DoctorProfile = () => {
   };
 
   const loadSlotDetails = (caretakerId) => {
+    setProgress(50); 
     slot_listby_caretaker_id(caretakerId)
       .then(data => {
         if (!data.error && data.slot_list.length > 0) {
           const today = new Date();
           const timings = data.slot_list.reduce((acc, slot) => {
             const date = new Date(slot.slot_date);
-            if (date >= today) { 
+            if (date >= today) {
               const formattedDate = `${date.getDate()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()}`;
               const timeSlots = slot.slot_timings.map(timing => ({
                 slot_time: timing.slot_time,
@@ -143,9 +149,11 @@ const DoctorProfile = () => {
           }, {});
           setSlotTiming(Object.entries(timings));
         }
+        setProgress(100); 
       })
       .catch(error => {
         console.log(error);
+        setProgress(100); 
       });
   };
 
@@ -184,8 +192,14 @@ const DoctorProfile = () => {
       <Topbar />
       <Header />
 
+      <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
+
       <div className="container mt-5 d-flex justify-content-center">
-        <div className="card shadow" style={{ maxWidth: '800px', height: '80vh', overflowY: 'scroll', marginTop:'60px' }}>
+        <div className="card shadow" style={{ maxWidth: '850px', height: '80vh', overflowY: 'scroll', marginTop: '60px' }}>
           <div className="card-header text-center">
             <h4>Doctor Profile</h4>
           </div>

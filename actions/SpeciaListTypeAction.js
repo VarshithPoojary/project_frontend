@@ -37,6 +37,9 @@ export const specialisttype_list = () => {
         .catch(err => console.log(err));
 };
 
+
+
+
 export const specialistType_list_by_id = careType => {
     var id={"_id":careType};
     return fetch(`${API}/specialistType_list_by_id`, {
